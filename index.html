@@ -1384,6 +1384,7 @@
       </div>
     </div>
     <div class="top-actions">
+      <button class="btn-icon" onclick="openTaskModal()" style="border-color: rgba(2, 132, 199, 0.4); color: var(--c-blue); font-weight: 700;">🎫 開工單</button>
       <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️ 亮色</button>
       <button class="btn-icon" onclick="cycleGlassPreset()" id="glassBtn" title="切換玻璃質感 (水漾高透 / 標準液態 / 重度磨砂)">🌊 液態</button>
       <button class="btn-icon" onclick="refreshCurrentView()" id="refreshBtn">🔄 刷新</button>
@@ -1480,6 +1481,153 @@
         <div class="empty-state">
           <p>請點選上方週次載入歷史存檔。</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standard Task Dispatcher Modal -->
+  <div id="taskModal" class="modal-overlay" style="display: none;" onclick="if(event.target === this) closeTaskModal()">
+    <div class="modal-box" style="max-width: 540px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">🎫</span>
+          <div class="modal-title" style="margin-bottom: 0;">開立標準工單 (Task Dispatcher)</div>
+        </div>
+        <button class="btn-icon" onclick="closeTaskModal()" style="padding: 4px 8px; font-size: 13px;">✕</button>
+      </div>
+      <div class="modal-desc" style="margin-bottom: 14px;">
+        神聖三段式標準語法：<code>- [ ] [色球] `ID` 【科目-字第-章節】 具體描述 [xC] @地點</code>
+      </div>
+
+      <!-- Live Syntax Preview -->
+      <div style="background: rgba(2, 132, 199, 0.06); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 16px;">
+        <div style="font-size: 11px; font-weight: 700; color: var(--c-blue); margin-bottom: 4px;">⚡ 即時語法預覽 (Live Preview)：</div>
+        <div id="taskModalPreviewCode" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: var(--text-normal); word-break: break-all; background: var(--bg-card); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);"></div>
+      </div>
+
+      <!-- Form Grid -->
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px;">
+        <!-- Row 1: Subject & Auto-ID -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📚 1. 作戰科目</label>
+            <select id="taskModalSubject" class="input-field" onchange="onTaskModalSubjectChange()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+              <option value="ACC" data-color="🔵" data-name="會計">🔵 ACC · 會計學</option>
+              <option value="EE" data-color="🟢" data-name="電工">🟢 EE · 電工學</option>
+              <option value="MATH" data-color="🟡" data-name="工數">🟡 MATH · 工程數學</option>
+              <option value="TH" data-color="🟢" data-name="熱力">🟢 TH · 熱力學</option>
+              <option value="DYN" data-color="🟢" data-name="應力">🟢 DYN · 應用力學</option>
+              <option value="STAT" data-color="🟣" data-name="機統">🟣 STAT · 跨領域統計</option>
+              <option value="LOGIC" data-color="🔵" data-name="邏輯">🔵 LOGIC · 邏輯與通識</option>
+              <option value="PJ" data-color="🛠️" data-name="專案">🛠️ PJ · 專案工程</option>
+              <option value="REV" data-color="⚪" data-name="全科">⚪ REV · 綜合複習</option>
+              <option value="FLEX" data-color="⚪" data-name="彈性">⚪ FLEX · 彈性機動</option>
+            </select>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label style="font-size: 11.5px; font-weight: 700;">🏷️ 2. 工單編號 (Auto ID)</label>
+              <a onclick="updateTaskModalAutoId()" style="font-size: 10.5px; color: var(--c-blue); cursor: pointer; text-decoration: underline;">🔄 重新計算</a>
+            </div>
+            <input id="taskModalId" class="input-field" type="text" oninput="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+          </div>
+        </div>
+
+        <!-- Row 2: Deliverable Type & Scope -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">⚙️ 3. 交付字第 (Type Enum)</label>
+            <select id="taskModalType" class="input-field" onchange="onTaskModalTypeChange()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+              <optgroup label="── 日常 Core 4 (佔85%) ──">
+                <option value="LEC">LEC · 正課聽研 (影片/研讀)</option>
+                <option value="EXE" selected>EXE · 習題演練 (母題手算)</option>
+                <option value="HW">HW · 作業繳交 (正式作業)</option>
+                <option value="QUIZ">QUIZ · 平時小考 (隨堂測驗)</option>
+              </optgroup>
+              <optgroup label="── 考前攻堅 (D-7~D-0) ──">
+                <option value="MOCK">MOCK · 盲推模考 (閉卷通關)</option>
+                <option value="EXAM">EXAM · 實體大考 (期中期末)</option>
+                <option value="ERR">ERR · 錯題收斂 (盲點歸因)</option>
+              </optgroup>
+              <optgroup label="── 費曼自製 OCW ──">
+                <option value="PREP">PREP · 費曼備課 (提綱板書)</option>
+                <option value="REC">REC · 費曼錄影 (盲講教學)</option>
+                <option value="EDIT">EDIT · 費曼後製 (剪輯時間軸)</option>
+                <option value="PUB">PUB · 費曼上傳 (發布歸檔)</option>
+                <option value="OCW">OCW · 自製 OCW 綜合</option>
+              </optgroup>
+              <optgroup label="── 輔助低頻 ──">
+                <option value="PRE">PRE · 課前預習 (骨架預建)</option>
+                <option value="NOTE">NOTE · 筆記提煉 (公式卡)</option>
+                <option value="QA">QA · 疑難答疑 (助教答疑)</option>
+                <option value="AAR">AAR · 戰略覆盤 (閉環覆盤)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📖 4. 章節/編號 (Scope)</label>
+            <input id="taskModalScope" class="input-field" type="text" value="Ch3" placeholder="例: Ch3, Ch3~4, Ch2, W03, 1" oninput="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+            <div style="display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap;">
+              <span class="badge-item" onclick="setTaskModalScope('Ch1')" style="cursor: pointer; font-size: 9.5px;">Ch1</span>
+              <span class="badge-item" onclick="setTaskModalScope('Ch2')" style="cursor: pointer; font-size: 9.5px;">Ch2</span>
+              <span class="badge-item" onclick="setTaskModalScope('Ch3')" style="cursor: pointer; font-size: 9.5px;">Ch3</span>
+              <span class="badge-item" onclick="setTaskModalScope('Ch4')" style="cursor: pointer; font-size: 9.5px;">Ch4</span>
+              <span class="badge-item" onclick="setTaskModalScope('Ch3~4')" style="cursor: pointer; font-size: 9.5px;">Ch3~4</span>
+              <span class="badge-item" onclick="setTaskModalScope('W03')" style="cursor: pointer; font-size: 9.5px;">W03</span>
+              <span class="badge-item" onclick="setTaskModalScope('1')" style="cursor: pointer; font-size: 9.5px;">1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Task Description -->
+        <div>
+          <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">✍️ 5. 具體任務描述</label>
+          <input id="taskModalDesc" class="input-field" type="text" placeholder="例: §3.1~3.3 調整分錄母題手算 / 線上影片消化" oninput="updateTaskModalPreview()" style="width: 100%; padding: 7px 10px; border-radius: 8px; font-size: 13px;">
+        </div>
+
+        <!-- Row 4: Size & Location -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">⏱️ 6. 車廂容量 (Size)</label>
+            <select id="taskModalSize" class="input-field" onchange="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+              <option value="[3C]" selected>[3C] (1.5h · 標準攻堅槽/深度題庫)</option>
+              <option value="[2C]">[2C] (1.0h · 中型任務/單節演算)</option>
+              <option value="[1C]">[1C] (0.5h · 輕量任務/速查卡)</option>
+              <option value="[4C]">[4C] (2.0h · 深度通關/全卷盲推)</option>
+              <option value="[6C]">[6C] (3.0h · 主力特急班次)</option>
+              <option value="[8C]">[8C] (4.0h · 週末旗艦大特急)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📍 7. 執行地點 (@Location)</label>
+            <select id="taskModalLoc" class="input-field" onchange="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+              <option value="@Desk" selected>@Desk (書桌工作站)</option>
+              <option value="@知207">@知207 (工學院教室)</option>
+              <option value="@共同205">@共同205 (共同教室)</option>
+              <option value="@生機101">@生機101 (生機館)</option>
+              <option value="@管二102">@管二102 (管二講堂)</option>
+              <option value="@博雅">@博雅 (博雅教學館)</option>
+              <option value="@Home">@Home (家中/宿舍)</option>
+              <option value="@Mac">@Mac (筆電機動)</option>
+              <option value="@CEO">@CEO (肉身決策)</option>
+              <option value="@AGY">@AGY (AI 工班代理)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 5: Target Day in PIPELINE -->
+        <div>
+          <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📅 8. 派發至 PIPELINE.md 作戰日</label>
+          <select id="taskModalDay" class="input-field" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+          </select>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; justify-content: flex-end; gap: 8px; border-top: 1px dashed var(--border); padding-top: 14px;">
+        <button class="btn-icon" onclick="closeTaskModal()" style="padding: 7px 14px;">取消</button>
+        <button class="btn-icon" onclick="copyTaskModalSyntax()" style="padding: 7px 14px;">📋 複製語法</button>
+        <button class="btn-cta" onclick="dispatchTaskModalCommit()" style="padding: 7px 18px; font-weight: 700;">🚀 立即派發 (Dispatch)</button>
       </div>
     </div>
   </div>
@@ -2074,6 +2222,237 @@
       } else {
         if (archiveLoadedWeek) loadArchiveWeek(archiveLoadedWeek, true);
       }
+    }
+
+    // === Task Modal Dispatcher System ===
+    function openTaskModal() {
+      const modal = document.getElementById('taskModal');
+      modal.style.display = 'flex';
+      void modal.offsetWidth;
+      modal.classList.add('open');
+
+      populateTaskModalDays();
+      updateTaskModalAutoId();
+      updateTaskModalPreview();
+    }
+
+    function closeTaskModal() {
+      const modal = document.getElementById('taskModal');
+      modal.classList.remove('open');
+      setTimeout(() => {
+        if (!modal.classList.contains('open')) {
+          modal.style.display = 'none';
+        }
+      }, 260);
+    }
+
+    function populateTaskModalDays() {
+      const daySelect = document.getElementById('taskModalDay');
+      daySelect.innerHTML = '';
+      if (!pipelineDays || pipelineDays.length === 0) {
+        daySelect.innerHTML = '<option value="">(無可用章節)</option>';
+        return;
+      }
+      pipelineDays.forEach((d) => {
+        const opt = document.createElement('option');
+        opt.value = d.title;
+        opt.textContent = d.title;
+        if (d.isToday) opt.selected = true;
+        daySelect.appendChild(opt);
+      });
+    }
+
+    function updateTaskModalAutoId() {
+      const subjSelect = document.getElementById('taskModalSubject');
+      const subj = subjSelect.value;
+      let maxNum = 0;
+      const regex = new RegExp(`${subj}-(\\d{3})`, 'g');
+
+      if (rawPipelineMarkdown) {
+        let m;
+        while ((m = regex.exec(rawPipelineMarkdown)) !== null) {
+          const num = parseInt(m[1], 10);
+          if (num > maxNum) maxNum = num;
+        }
+      }
+
+      if (typeof allSubjectTasks !== 'undefined' && allSubjectTasks && allSubjectTasks.length > 0) {
+        allSubjectTasks.forEach(t => {
+          if (t.id && t.id.startsWith(subj + '-')) {
+            const m = t.id.match(new RegExp(`${subj}-(\\d{3})`));
+            if (m) {
+              const num = parseInt(m[1], 10);
+              if (num > maxNum) maxNum = num;
+            }
+          }
+        });
+      }
+
+      const nextId = `${subj}-${String(maxNum + 1).padStart(3, '0')}`;
+      document.getElementById('taskModalId').value = nextId;
+      updateTaskModalPreview();
+    }
+
+    function onTaskModalSubjectChange() {
+      updateTaskModalAutoId();
+      updateTaskModalPreview();
+    }
+
+    function onTaskModalTypeChange() {
+      updateTaskModalPreview();
+    }
+
+    function setTaskModalScope(scope) {
+      document.getElementById('taskModalScope').value = scope;
+      updateTaskModalPreview();
+    }
+
+    function buildTaskModalMarkdown() {
+      const subjSelect = document.getElementById('taskModalSubject');
+      const selectedOption = subjSelect.options[subjSelect.selectedIndex];
+      const color = selectedOption.getAttribute('data-color') || '🔵';
+      const subjName = selectedOption.getAttribute('data-name') || subjSelect.value;
+      const id = document.getElementById('taskModalId').value.trim() || 'TASK-001';
+      const type = document.getElementById('taskModalType').value;
+      const scope = document.getElementById('taskModalScope').value.trim();
+      const scopeStr = scope ? `-${scope}` : '';
+      const bracket = `【${subjName}-${type}${scopeStr}】`;
+      const desc = document.getElementById('taskModalDesc').value.trim() || '待補充任務內容';
+      const size = document.getElementById('taskModalSize').value;
+      const loc = document.getElementById('taskModalLoc').value;
+
+      let displayColor = color;
+      if (type === 'QUIZ' || type === 'EXAM') {
+        displayColor = '🔴';
+      }
+
+      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}`;
+    }
+
+    function updateTaskModalPreview() {
+      const previewEl = document.getElementById('taskModalPreviewCode');
+      if (previewEl) {
+        previewEl.textContent = buildTaskModalMarkdown();
+      }
+    }
+
+    function copyTaskModalSyntax() {
+      const line = buildTaskModalMarkdown();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(line);
+      }
+      showToast(`📋 已複製工單語法：${line}`, '📋');
+    }
+
+    async function dispatchTaskModalCommit() {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+      const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
+      const targetDayTitle = document.getElementById('taskModalDay').value;
+      const taskLine = buildTaskModalMarkdown();
+
+      if (!token) {
+        copyTaskModalSyntax();
+        showToast('⚠️ 未設定 GitHub Token，已複製語法至剪貼簿', '📋');
+        closeTaskModal();
+        return;
+      }
+
+      showToast('🚀 正在派發工單並回寫 GitHub...', '⏳');
+
+      const lines = rawPipelineMarkdown.split('\n');
+      let targetIndex = -1;
+
+      if (targetDayTitle) {
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('### ') && lines[i].includes(targetDayTitle.substring(0, 5))) {
+            targetIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (targetIndex === -1) {
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].startsWith('### ') && lines[i].includes('今日作戰')) {
+            targetIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (targetIndex === -1) {
+        lines.push(taskLine);
+      } else {
+        let nextSectionIndex = -1;
+        for (let i = targetIndex + 1; i < lines.length; i++) {
+          if (lines[i].trim() === '---' || lines[i].startsWith('### ') || lines[i].startsWith('## ')) {
+            nextSectionIndex = i;
+            break;
+          }
+        }
+        if (nextSectionIndex === -1) nextSectionIndex = lines.length;
+        let insertAt = nextSectionIndex;
+        while (insertAt > targetIndex + 1 && lines[insertAt - 1].trim() === '') {
+          insertAt--;
+        }
+
+        const prevLine = lines[insertAt - 1] || '';
+        let finalTaskLine = taskLine;
+        if (prevLine.trim().startsWith('- **🚂') || prevLine.startsWith('  - [')) {
+          finalTaskLine = '  ' + taskLine;
+        }
+        lines.splice(insertAt, 0, finalTaskLine);
+      }
+
+      const newContent = lines.join('\n');
+      rawPipelineMarkdown = newContent;
+
+      // Optimistic update UI
+      parsePipeline(newContent);
+      renderActiveView();
+      if (currentActiveView === 'subjects') {
+        buildSubjectRegistry();
+        renderSubjectsView();
+      }
+
+      try {
+        const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/PIPELINE.md`, {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        if (!getRes.ok) throw new Error('Failed to fetch SHA');
+        const data = await getRes.json();
+        const sha = data.sha;
+
+        const utf8Bytes = new TextEncoder().encode(newContent);
+        let binaryStr = '';
+        for (let i = 0; i < utf8Bytes.length; i++) {
+          binaryStr += String.fromCharCode(utf8Bytes[i]);
+        }
+        const b64 = btoa(binaryStr);
+
+        const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/PIPELINE.md`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `feat(dispatch): add task ${document.getElementById('taskModalId').value.trim()}`,
+            content: b64,
+            sha: sha
+          })
+        });
+
+        if (putRes.ok) {
+          showToast('✅ 工單已成功派發並寫入 PIPELINE.md！', '🚀');
+        } else {
+          showToast('⚠️ GitHub 回寫逾時，本地已完成更新', '⚠️');
+        }
+      } catch (err) {
+        showToast('⚠️ 雲端同步失敗，已保留本地變更', '⚠️');
+      }
+
+      closeTaskModal();
     }
 
     function openTokenModal() {
