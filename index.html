@@ -575,12 +575,12 @@
   <!-- View 2: Archive Container -->
   <div id="archiveViewContainer" style="display: none;">
     <div class="archive-controls">
-      <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">快速切換週次 (09/01 學期啟動至今)：</div>
+      <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">快速切換週次 (09/07 開學正式啟動至今)：</div>
       <div class="chip-group" id="weekChipGroup">
-        <button class="chip-item" onclick="loadArchiveWeek('W36')">W36 (08/31~09/06)</button>
-        <button class="chip-item" onclick="loadArchiveWeek('W37')">W37 (09/07~09/13)</button>
-        <button class="chip-item" onclick="loadArchiveWeek('W38')">W38 (09/14~09/20)</button>
-        <button class="chip-item active" onclick="loadArchiveWeek('W39_past')">W39 前期歷史</button>
+        <button class="chip-item" onclick="loadArchiveWeek('W37')">W37 (09/07~09/13 · 開學第1週)</button>
+        <button class="chip-item" onclick="loadArchiveWeek('W38')">W38 (09/14~09/20 · 開學第2週)</button>
+        <button class="chip-item active" onclick="loadArchiveWeek('W39_past')">W39 前期歷史 (09/21~09/23)</button>
+        <button class="chip-item" onclick="loadArchiveWeek('W36')">W36 (開學前備戰)</button>
       </div>
       <input type="text" id="archiveSearchInput" class="search-input" placeholder="🔍 搜尋歷史工單關鍵字 (例如: 電工, 會計, HW)..." oninput="filterArchiveSearch()" />
     </div>
@@ -843,12 +843,17 @@
       let location = null;
       let isExam = false;
 
+      // 1. 徹底去除所有反引號 `
+      cleanText = cleanText.replace(/`/g, '');
+
+      // 2. 抓取車廂容量 [xC]
       const carriageMatch = cleanText.match(/\[([0-9]+C)\]/);
       if (carriageMatch) {
         carriage = carriageMatch[1];
         cleanText = cleanText.replace(/\[[0-9]+C\]/, '');
       }
 
+      // 3. 抓取地點標籤 (@Desk, @CEO, @知207, @生機101 等)
       const locMatch = cleanText.match(/@([a-zA-Z0-9_\u4e00-\u9fa5]+)/);
       if (locMatch) {
         const rawLoc = locMatch[1];
@@ -866,7 +871,7 @@
         isExam = true;
       }
 
-      cleanText = cleanText.replace(/#(S|M|L|XL)/g, '').replace(/⏫/g, '').trim();
+      cleanText = cleanText.replace(/#(S|M|L|XL)/g, '').replace(/⏫/g, '').replace(/\s+/g, ' ').trim();
 
       return {
         rawLine: rawLine,
@@ -1118,7 +1123,7 @@
       lines.forEach((line, idx) => {
         if (line.match(/^\s*-\s*\[([ xX])\]/)) {
           const isDone = line.match(/^\s*-\s*\[([xX])\]/) !== null;
-          const rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
+          let rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').replace(/`/g, '').trim();
           tasks.push({
             cleanTitle: rawTask,
             isDone: isDone,
