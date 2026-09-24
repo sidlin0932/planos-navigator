@@ -31,6 +31,56 @@
       --c-red: #f87171;
     }
 
+    body.light-theme {
+      --bg-base: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-inset: #f1f5f9;
+      --border: #e2e8f0;
+      --border-accent: #0284c7;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      
+      --c-blue: #0284c7;
+      --c-green: #059669;
+      --c-yellow: #d97706;
+      --c-purple: #7c3aed;
+      --c-silver: #64748b;
+      --c-orange: #ea580c;
+      --c-red: #dc2626;
+    }
+    body.light-theme .top-bar { border-bottom-color: var(--border); }
+    body.light-theme .nav-tabs { background: #e2e8f0; border-color: #cbd5e1; }
+    body.light-theme .tab-btn.active {
+      background: #ffffff;
+      color: var(--c-blue);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border-color: rgba(2, 132, 199, 0.2);
+    }
+    body.light-theme .train-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    body.light-theme .train-header { border-bottom-color: rgba(0, 0, 0, 0.08); }
+    body.light-theme .task-item { background: #f8fafc; border-color: #e2e8f0; }
+    body.light-theme .task-item:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    body.light-theme .checkbox-box { background: #ffffff; border-color: #cbd5e1; }
+    body.light-theme .task-item.done .checkbox-box { background: var(--c-blue); border-color: var(--c-blue); }
+    body.light-theme .checkbox-tick { color: #ffffff; }
+    body.light-theme .badge-item { background: rgba(0, 0, 0, 0.05); color: var(--text-muted); }
+    body.light-theme .badge-carriage { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+    body.light-theme .badge-location { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+    body.light-theme .badge-origin-date { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    body.light-theme .overdue-container { background: #fef2f2; border-color: #fecaca; }
+    body.light-theme .rest-card { background: #f0fdf4; border-color: #bbf7d0; }
+    body.light-theme .day-section.today-active { background: rgba(2, 132, 199, 0.04); border-color: rgba(2, 132, 199, 0.3); }
+    body.light-theme .status-pill { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
+    body.light-theme .archive-controls { background: #ffffff; border-color: #e2e8f0; }
+    body.light-theme .chip-item { background: #f1f5f9; border-color: #e2e8f0; }
+    body.light-theme .chip-item.active { background: var(--c-blue); color: #ffffff; border-color: var(--c-blue); }
+    body.light-theme .search-input { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .modal-box { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .input-field { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .toast { background: #0f172a; color: #f8fafc; }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -533,6 +583,7 @@
       </div>
     </div>
     <div class="top-actions">
+      <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️ 亮色</button>
       <button class="btn-icon" onclick="refreshCurrentView()" id="refreshBtn">🔄 刷新</button>
       <button class="btn-icon" onclick="openTokenModal()">🔑 設定</button>
     </div>
@@ -541,7 +592,7 @@
   <!-- Segmented Tabs -->
   <div class="nav-tabs">
     <button class="tab-btn active" id="tabActiveBtn" onclick="switchView('active')">⚡ 前線作戰 (今日起算)</button>
-    <button class="tab-btn" id="tabArchiveBtn" onclick="switchView('archive')">📜 歷史封存 (9/1 起全量)</button>
+    <button class="tab-btn" id="tabArchiveBtn" onclick="switchView('archive')">📜 歷史封存 (09/07 開學至今)</button>
   </div>
 
   <!-- Status Bar -->
@@ -620,6 +671,7 @@
   <script>
     const STORAGE_KEY_TOKEN = 'planos_gh_token';
     const STORAGE_KEY_REPO = 'planos_gh_repo';
+    const STORAGE_KEY_THEME = 'planos_theme';
     const PIPELINE_PATH = 'PIPELINE.md';
 
     let currentFileSha = null;
@@ -638,6 +690,7 @@
     const todayFullNum = parseInt(`${curMonth}${curDay}`, 10);
 
     window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
       document.getElementById('todayIndicator').textContent = `基準日期: ${todayMMDD}`;
 
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
@@ -651,6 +704,32 @@
         openTokenModal();
       }
     });
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) || 'dark';
+      applyTheme(savedTheme);
+    }
+
+    function toggleTheme() {
+      const isLight = document.body.classList.contains('light-theme');
+      const nextTheme = isLight ? 'dark' : 'light';
+      localStorage.setItem(STORAGE_KEY_THEME, nextTheme);
+      applyTheme(nextTheme);
+    }
+
+    function applyTheme(theme) {
+      const themeBtn = document.getElementById('themeBtn');
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+        if (themeBtn) themeBtn.textContent = '🌙 暗色';
+        if (metaTheme) metaTheme.setAttribute('content', '#f8fafc');
+      } else {
+        document.body.classList.remove('light-theme');
+        if (themeBtn) themeBtn.textContent = '☀️ 亮色';
+        if (metaTheme) metaTheme.setAttribute('content', '#090b10');
+      }
+    }
 
     function switchView(view) {
       currentActiveView = view;
