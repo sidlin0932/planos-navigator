@@ -513,6 +513,39 @@
       font-size: 11px;
     }
 
+    /* Past Completed Days Collapsible Pill */
+    .past-toggle-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+    .past-toggle-pill:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      border-color: var(--c-blue);
+    }
+    body.light-theme .past-toggle-pill {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: #cbd5e1;
+      color: #64748b;
+    }
+    body.light-theme .past-toggle-pill:hover {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #0284c7;
+    }
+
     /* Day Section */
     .day-section {
       margin-bottom: 24px;
@@ -1355,6 +1388,13 @@
     let overdueTasks = [];
     let pastCompletedDays = [];
     let currentActiveView = 'active';
+    let recentlyCheckedIndices = new Set();
+    let showPastCompletedDays = false;
+
+    function togglePastDays() {
+      showPastCompletedDays = !showPastCompletedDays;
+      renderActiveView();
+    }
 
     // 獲取當前真實日期 (格式: MM/DD)
     const now = new Date();
@@ -1915,8 +1955,11 @@
           const taskObj = extractTaskMeta(rawTask, line, i, isDone, currentDay.dateStr);
 
           // 核心分流：若日期在今天之前且「尚未打勾」➔ 自動升級歸入 P0 Overdue Queue！
-          if (currentDay.dayNum > 0 && currentDay.dayNum < todayFullNum && !isDone) {
-            overdueTasks.push(taskObj);
+          // 關鍵防呆：若此前逾期但本會話剛打勾，依然保留在 Overdue 清單供檢視或反悔取消，絕不憑空消失！
+          if (currentDay.dayNum > 0 && currentDay.dayNum < todayFullNum) {
+            if (!isDone || recentlyCheckedIndices.has(i)) {
+              overdueTasks.push(taskObj);
+            }
           }
 
           if (currentTrain) {
@@ -2020,7 +2063,7 @@
       };
     }
 
-    // 渲染前線作戰視圖 (今日 09/24 起算 ＋ P0 逾期隊列)
+    // 渲染前線作戰視圖 (今日 09/24 起算 ＋ P0 逾期隊列 ＋ 活躍日程完整呈現)
     function renderActiveView() {
       const overdueBox = document.getElementById('overdueBox');
       const overdueList = document.getElementById('overdueTasksList');
@@ -2030,7 +2073,9 @@
       // 1. 渲染 P0 Overdue Queue
       if (overdueTasks.length > 0) {
         overdueBox.style.display = 'block';
-        overdueCountEl.textContent = `${overdueTasks.length} 項逾期滯留`;
+        const pendingCount = overdueTasks.filter(t => !t.isDone).length;
+        const doneCount = overdueTasks.length - pendingCount;
+        overdueCountEl.textContent = `${pendingCount} 項待補${doneCount > 0 ? ` · ${doneCount} 項本次已補齊` : ''}`;
         let ovHtml = '';
         overdueTasks.forEach(task => {
           ovHtml += renderTaskItem(task, true);
@@ -2040,75 +2085,118 @@
         overdueBox.style.display = 'none';
       }
 
-      // 2. 渲染前線日程 (以「今天 09/24」為起點往後排！)
-      // 過去已經完全結束的日程，直接不在此處出來！
-      let html = '';
-      let renderedDaysCount = 0;
+      // 2. 渲染前線日程：
+      // 分流「過往早已全數結案之日程 (如 09/21)」與「當前活躍日程 (含 09/22, 09/23 含待辦者、09/24 今日、未來日程)」
+      let pastFullyDoneDays = [];
+      let activeDays = [];
 
       parsedDays.forEach(day => {
         const isPast = day.dayNum > 0 && day.dayNum < todayFullNum;
         const isToday = day.dayNum === todayFullNum;
 
-        // 若是過去的日期，且所有任務都已打勾（或無任務）➔ 徹底不顯示在主戰線！
-        if (isPast) {
-          pastCompletedDays.push(day);
-          return; // 跳過過去已結束的日程！
+        // 計算該日所有任務
+        const allTasks = [
+          ...(day.trains ? day.trains.flatMap(tr => tr.tasks) : []),
+          ...(day.standaloneTasks || [])
+        ];
+        const hasTasks = allTasks.length > 0;
+        // 是否全部任務都已結案（排除本會話剛打勾的保護期，確保剛打勾絕不瞬間消失）
+        const allDone = hasTasks && allTasks.every(t => t.isDone && !recentlyCheckedIndices.has(t.lineIndex));
+
+        // 唯有「該日已完全過去」且「所有任務此前早已全數結案」的日程，才收納入折疊專區
+        if (isPast && allDone) {
+          pastFullyDoneDays.push(day);
+        } else {
+          // 包含今日、未來日程，以及過去尚有未結案/剛結案工單之日程，一律在前線完整呈現！
+          activeDays.push({ day, isPast, isToday });
         }
+      });
 
-        renderedDaysCount++;
-        const isTodayClass = isToday ? 'today-active' : '';
+      let html = '';
 
+      // 過去已完結日程折疊區 (若有 09/21 等已全數結案的日程)
+      if (pastFullyDoneDays.length > 0) {
+        const summaryText = pastFullyDoneDays.map(d => d.dateStr).join(', ');
         html += `
-          <div class="day-section ${isTodayClass}">
-            <div class="day-header">
-              <div class="day-title">
-                📅 ${escapeHtml(day.rawTitle)}
-                ${isToday ? '<span class="today-badge">⚡ TODAY 今日</span>' : ''}
-              </div>
-            </div>
+          <div class="past-toggle-pill" onclick="togglePastDays()" title="點擊切換過往已完結日程">
+            <span>📜 本週過往已結案日程 (${summaryText} · 共 ${pastFullyDoneDays.length} 天已全數結案)</span>
+            <span style="font-weight: 700; color: var(--c-blue);">${showPastCompletedDays ? '收合 ▲' : '點擊展開 ▼'}</span>
+          </div>
         `;
 
-        if (day.isRestDay) {
-          html += `
-            <div class="rest-card">
-              🏖️ ${escapeHtml(day.restNote || '週末充電公約：全面休整放空、零課業負擔')}
-            </div>
-          `;
-        }
-
-        if (day.trains && day.trains.length > 0) {
-          day.trains.forEach(train => {
-            html += `
-              <div class="train-card">
-                <div class="train-header">
-                  <div class="train-code-title">${formatTrainTitle(train.title)}</div>
-                </div>
-                <div class="train-tasks">
-            `;
-            train.tasks.forEach(task => {
-              html += renderTaskItem(task, false);
-            });
-            html += `</div></div>`;
+        if (showPastCompletedDays) {
+          pastFullyDoneDays.forEach(day => {
+            html += renderDaySectionHtml(day, true, false);
           });
         }
+      }
 
-        if (day.standaloneTasks && day.standaloneTasks.length > 0) {
-          html += `<div class="train-card"><div class="train-tasks">`;
-          day.standaloneTasks.forEach(task => {
-            html += renderTaskItem(task, false);
-          });
-          html += `</div></div>`;
-        }
-
-        html += `</div>`;
+      // 渲染活躍作戰日程 (含 09/22, 09/23, 09/24 今日, 09/25~09/27, W40)
+      activeDays.forEach(({ day, isPast, isToday }) => {
+        html += renderDaySectionHtml(day, isPast, isToday);
       });
 
       container.innerHTML = html || '<div class="empty-state"><p>前線日程皆已結案！請切換「歷史封存」檢視過往紀錄。</p></div>';
     }
 
+    function renderDaySectionHtml(day, isPast, isToday) {
+      const isTodayClass = isToday ? 'today-active' : '';
+      let badgeHtml = '';
+      if (isToday) {
+        badgeHtml = '<span class="today-badge">⚡ TODAY 今日</span>';
+      } else if (isPast) {
+        badgeHtml = '<span class="badge-item badge-origin-date">⚠️ 含未結案工單</span>';
+      }
+
+      let dayHtml = `
+        <div class="day-section ${isTodayClass}">
+          <div class="day-header">
+            <div class="day-title">
+              📅 ${escapeHtml(day.rawTitle)}
+              ${badgeHtml}
+            </div>
+          </div>
+      `;
+
+      if (day.isRestDay) {
+        dayHtml += `
+          <div class="rest-card">
+            🏖️ ${escapeHtml(day.restNote || '週末充電公約：全面休整放空、零課業負擔')}
+          </div>
+        `;
+      }
+
+      if (day.trains && day.trains.length > 0) {
+        day.trains.forEach(train => {
+          dayHtml += `
+            <div class="train-card">
+              <div class="train-header">
+                <div class="train-code-title">${formatTrainTitle(train.title)}</div>
+              </div>
+              <div class="train-tasks">
+          `;
+          train.tasks.forEach(task => {
+            dayHtml += renderTaskItem(task, false);
+          });
+          dayHtml += `</div></div>`;
+        });
+      }
+
+      if (day.standaloneTasks && day.standaloneTasks.length > 0) {
+        dayHtml += `<div class="train-card"><div class="train-tasks">`;
+        day.standaloneTasks.forEach(task => {
+          dayHtml += renderTaskItem(task, false);
+        });
+        dayHtml += `</div></div>`;
+      }
+
+      dayHtml += `</div>`;
+      return dayHtml;
+    }
+
     function renderTaskItem(task, isOverdueItem = false) {
       return `
-        <div class="task-item ${task.isDone ? 'done' : ''}" onclick="toggleTask(${task.lineIndex})">
+        <div class="task-item ${task.isDone ? 'done' : ''}" onclick="toggleTask(${task.lineIndex})" title="${task.isDone ? '點擊取消打勾' : '點擊打勾完成'}">
           <div class="checkbox-box">
             <span class="checkbox-tick">✓</span>
           </div>
@@ -2116,6 +2204,7 @@
             <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
             <div class="task-badges">
               ${isOverdueItem && task.originDate ? `<span class="badge-item badge-origin-date">逾期自 ${task.originDate}</span>` : ''}
+              ${isOverdueItem && task.isDone ? `<span class="badge-item" style="background: rgba(52, 211, 153, 0.15); color: var(--c-green); border: 1px solid rgba(52, 211, 153, 0.3);">✅ 今日已補齊</span>` : ''}
               ${task.carriage ? `<span class="badge-item badge-carriage">${task.carriage}</span>` : ''}
               ${task.location ? `<span class="badge-item badge-location">${task.location}</span>` : ''}
             </div>
@@ -2142,6 +2231,13 @@
       const newLine = isDone ? targetLine.replace(/- \[[xX]\]/, '- [ ]') : targetLine.replace(/- \[ \]/, '- [x]');
       lines[lineIndex] = newLine;
 
+      // 關鍵防呆：記錄當前會話點擊狀態，打勾後 100% 保持在眼前，絕不憑空消失！
+      if (!isDone) {
+        recentlyCheckedIndices.add(lineIndex);
+      } else {
+        recentlyCheckedIndices.delete(lineIndex);
+      }
+
       const newContent = lines.join('\n');
       rawPipelineMarkdown = newContent;
 
@@ -2152,7 +2248,7 @@
         buildSubjectRegistry();
         renderSubjectsView();
       }
-      showToast(isDone ? '已取消勾選' : '✅ 打勾完成！正在同步推向 GitHub...', isDone ? '↩️' : '⚡');
+      showToast(isDone ? '已取消勾選' : '✅ 打勾完成！(項目保持可見，該日過後才會封存)', isDone ? '↩️' : '⚡');
 
       // 背景發送 API 回寫私有庫
       try {
