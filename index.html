@@ -9,7 +9,7 @@
   <title>PlanOS 戰情儀表板</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-base: #090b10;
@@ -69,6 +69,7 @@
     body.light-theme .badge-carriage { background: #fef3c7; color: #b45309; border-color: #fde68a; }
     body.light-theme .badge-location { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
     body.light-theme .badge-origin-date { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    body.light-theme .md-code-pill { background: #f1f3f5; color: #1e293b; border-color: rgba(0, 0, 0, 0.06); }
     body.light-theme .overdue-container { background: #fef2f2; border-color: #fecaca; }
     body.light-theme .rest-card { background: #f0fdf4; border-color: #bbf7d0; }
     body.light-theme .day-section.today-active { background: rgba(2, 132, 199, 0.04); border-color: rgba(2, 132, 199, 0.3); }
@@ -385,6 +386,25 @@
       color: var(--text-main);
       word-break: break-word;
       line-height: 1.4;
+    }
+    .md-code-pill {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 1.5px 6.5px;
+      margin: 0 4px 0 2px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1.35;
+      letter-spacing: -0.2px;
+      font-feature-settings: "zero" 1;
+    }
+    .task-item.done .md-code-pill {
+      opacity: 0.6;
     }
     .task-badges {
       display: flex;
@@ -915,6 +935,22 @@
       }
     }
 
+    // 格式化工單標題：將反引號 `code` 或標準 ID (如 MATH-005, EE-011, MATH-HW) 轉為 Obsidian 原生灰底等寬字型藥丸
+    function formatTaskTitle(text) {
+      if (!text) return '';
+      // 1. 先做 HTML 轉義防止 XSS
+      let escaped = escapeHtml(text);
+
+      // 2. 將 Markdown 原生反引號 `code` 轉換為灰底等寬藥丸 (無 literal 反引號，呈現原生 MD code badge)
+      escaped = escaped.replace(/`([^`]+)`/g, '<code class="md-code-pill">$1</code>');
+
+      // 3. 容錯：若文本中含有未包裹反引號的標準工單 ID (如 MATH-005, EE-011, MATH-HW, ACC-004, TH-002, DYN-002)
+      // 只要其前面是開頭、空白或顏色標記 (🔴🔵🟢🟡🟣⚪🟠)，且後面是空白、【 或結尾
+      escaped = escaped.replace(/(^|[\s🔴🔵🟢🟡🟣⚪🟠])([A-Z]{2,5}-[A-Z0-9]+)(?=[\s【]|$)/g, '$1<code class="md-code-pill">$2</code>');
+
+      return escaped;
+    }
+
     // 解析文字標籤 (清洗 @Desk，萃取車廂容量)
     function extractTaskMeta(rawText, rawLine, lineIndex, isDone, originDate) {
       let cleanText = rawText;
@@ -922,17 +958,14 @@
       let location = null;
       let isExam = false;
 
-      // 1. 徹底去除所有反引號 `
-      cleanText = cleanText.replace(/`/g, '');
-
-      // 2. 抓取車廂容量 [xC]
+      // 1. 抓取車廂容量 [xC]
       const carriageMatch = cleanText.match(/\[([0-9]+C)\]/);
       if (carriageMatch) {
         carriage = carriageMatch[1];
         cleanText = cleanText.replace(/\[[0-9]+C\]/, '');
       }
 
-      // 3. 抓取地點標籤 (@Desk, @CEO, @知207, @生機101 等)
+      // 2. 抓取地點標籤 (@Desk, @CEO, @知207, @生機101 等)
       const locMatch = cleanText.match(/@([a-zA-Z0-9_\u4e00-\u9fa5]+)/);
       if (locMatch) {
         const rawLoc = locMatch[1];
@@ -952,11 +985,14 @@
 
       cleanText = cleanText.replace(/#(S|M|L|XL)/g, '').replace(/⏫/g, '').replace(/\s+/g, ' ').trim();
 
+      const formattedTitle = formatTaskTitle(cleanText);
+
       return {
         rawLine: rawLine,
         lineIndex: lineIndex,
         isDone: isDone,
         cleanTitle: cleanText,
+        formattedTitle: formattedTitle,
         carriage: carriage,
         location: location,
         isExam: isExam,
@@ -1057,7 +1093,7 @@
             <span class="checkbox-tick">✓</span>
           </div>
           <div class="task-content">
-            <div class="task-clean-title">${escapeHtml(task.cleanTitle)}</div>
+            <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
             <div class="task-badges">
               ${isOverdueItem && task.originDate ? `<span class="badge-item badge-origin-date">逾期自 ${task.originDate}</span>` : ''}
               ${task.carriage ? `<span class="badge-item badge-carriage">${task.carriage}</span>` : ''}
@@ -1202,9 +1238,10 @@
       lines.forEach((line, idx) => {
         if (line.match(/^\s*-\s*\[([ xX])\]/)) {
           const isDone = line.match(/^\s*-\s*\[([xX])\]/) !== null;
-          let rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').replace(/`/g, '').trim();
+          let rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
           tasks.push({
             cleanTitle: rawTask,
+            formattedTitle: formatTaskTitle(rawTask),
             isDone: isDone,
             lineIndex: idx
           });
@@ -1228,7 +1265,7 @@
               <span class="checkbox-tick" style="display:${task.isDone ? 'block' : 'none'};">✓</span>
             </div>
             <div class="task-content">
-              <div class="task-clean-title">${escapeHtml(task.cleanTitle)}</div>
+              <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
             </div>
           </div>
         `;
