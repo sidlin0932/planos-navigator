@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#090b10" />
+  <title>PlanOS 雲端作戰儀表板</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #090b10;
+      --bg-card: #12151f;
+      --bg-card-hover: #181d2a;
+      --bg-inset: #0c0f17;
+      --border: #232a3b;
+      --border-accent: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --c-blue: #38bdf8;
+      --c-green: #34d399;
+      --c-yellow: #fbbf24;
+      --c-purple: #c084fc;
+      --c-silver: #94a3b8;
+      --c-orange: #fb923c;
+      --c-red: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 20px 16px 80px 16px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo {
+      font-size: 24px;
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .top-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-icon {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+    }
+
+    /* Status Pill */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--c-blue);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--c-blue);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Day Section */
+    .day-section {
+      margin-bottom: 28px;
+    }
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .day-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .day-badge {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--bg-inset);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* Train Box */
+    .train-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+    .train-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .train-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+    .train-code-title {
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .train-capacity {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--bg-inset);
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: var(--c-yellow);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+
+    /* Task Item */
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      background: var(--bg-inset);
+      border: 1px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+    .task-item:last-child {
+      margin-bottom: 0;
+    }
+    .task-item:hover {
+      background: #151a24;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .task-item.done {
+      opacity: 0.45;
+    }
+    .task-item.done .task-text {
+      text-decoration: line-through;
+    }
+
+    /* Custom Checkbox */
+    .checkbox-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      background: var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.2s;
+    }
+    .task-item:hover .checkbox-box {
+      border-color: var(--c-blue);
+    }
+    .task-item.done .checkbox-box {
+      background: var(--c-blue);
+      border-color: var(--c-blue);
+    }
+    .checkbox-tick {
+      display: none;
+      color: #090b10;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .task-item.done .checkbox-tick {
+      display: block;
+    }
+
+    .task-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .task-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      word-break: break-word;
+      line-height: 1.45;
+    }
+    .task-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+    .meta-tag {
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Token Config Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .modal-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .input-field {
+      width: 100%;
+      background: var(--bg-inset);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: var(--border-accent);
+    }
+    .btn-primary {
+      width: 100%;
+      background: var(--c-blue);
+      color: #090b10;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 2000;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <div class="top-bar">
+    <div class="brand">
+      <span class="brand-logo">🚂</span>
+      <div>
+        <div class="brand-title">PlanOS Navigator</div>
+        <div class="brand-sub">Serverless Realtime Sandbox</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-icon" onclick="fetchPipeline(true)" id="refreshBtn">🔄 重新整理</button>
+      <button class="btn-icon" onclick="openTokenModal()">🔑 設定</button>
+    </div>
+  </div>
+
+  <div id="statusContainer">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span id="syncStatus">正在連線至 GitHub 倉庫...</span>
+    </div>
+  </div>
+
+  <!-- Main Pipeline Content -->
+  <main id="pipelineContainer">
+    <div class="empty-state">
+      <p>⏳ 載入 PIPELINE.md 中...</p>
+    </div>
+  </main>
+
+  <!-- GitHub Token Setup Modal -->
+  <div id="tokenModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+      <div class="modal-title">🔑 綁定 GitHub 個人存取權杖</div>
+      <div class="modal-desc">
+        本儀表板為 100% 純前端無伺服器架構。金鑰將<strong>僅儲存於您本機瀏覽器 (localStorage)</strong>，用於直接向 GitHub API 讀寫 <code>PIPELINE.md</code>，絕無任何中間伺服器介入。
+      </div>
+      <div class="input-group">
+        <label class="input-label">GitHub Fine-grained PAT / Classic Token</label>
+        <input type="password" id="patInput" class="input-field" placeholder="github_pat_xxxx 或 ghp_xxxx" />
+      </div>
+      <div class="input-group">
+        <label class="input-label">倉庫路徑 (Owner/Repo)</label>
+        <input type="text" id="repoInput" class="input-field" value="sidlin0932/PlanOS_v2" />
+      </div>
+      <button class="btn-primary" onclick="saveSettings()">儲存並連線</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastIcon">✅</span>
+    <span id="toastMsg">已即時寫入 GitHub!</span>
+  </div>
+
+  <script>
+    const STORAGE_KEY_TOKEN = 'planos_gh_token';
+    const STORAGE_KEY_REPO = 'planos_gh_repo';
+    const FILE_PATH = 'PIPELINE.md';
+
+    let currentFileSha = null;
+    let rawMarkdownContent = '';
+    let parsedDays = [];
+
+    // 初始化載入
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+      const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
+      
+      document.getElementById('repoInput').value = repo;
+      if (token) {
+        document.getElementById('patInput').value = token;
+        fetchPipeline();
+      } else {
+        openTokenModal();
+      }
+    });
+
+    function openTokenModal() {
+      document.getElementById('tokenModal').style.display = 'flex';
+    }
+
+    function closeTokenModal() {
+      document.getElementById('tokenModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+      const token = document.getElementById('patInput').value.trim();
+      const repo = document.getElementById('repoInput').value.trim() || 'sidlin0932/PlanOS_v2';
+
+      if (!token) {
+        showToast('❌ 請輸入有效的 GitHub Token', '❌');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY_TOKEN, token);
+      localStorage.setItem(STORAGE_KEY_REPO, repo);
+      closeTokenModal();
+      showToast('🔑 金鑰已儲存於本機', '🔑');
+      fetchPipeline(true);
+    }
+
+    // 抓取 GitHub 檔案
+    async function fetchPipeline(isManual = false) {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+      const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
+      const statusEl = document.getElementById('syncStatus');
+
+      if (!token) {
+        openTokenModal();
+        return;
+      }
+
+      statusEl.textContent = '正在從 GitHub 同步 PIPELINE.md...';
+      const refreshBtn = document.getElementById('refreshBtn');
+      if (refreshBtn) refreshBtn.textContent = '⏳ 同步中...';
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${FILE_PATH}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 404) {
+            throw new Error(`存取失敗 (${res.status})：請檢查 Token 權限或倉庫名稱。`);
+          }
+          throw new Error(`GitHub API 回傳錯誤: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        currentFileSha = data.sha;
+        
+        // Base64 解碼 (支援 UTF-8)
+        const binaryStr = atob(data.content.replace(/\s/g, ''));
+        const bytes = Uint8Array.from(binaryStr, c => c.charCodeAt(0));
+        rawMarkdownContent = new TextDecoder('utf-8').decode(bytes);
+
+        parseMarkdownPipeline(rawMarkdownContent);
+        renderPipeline();
+
+        statusEl.textContent = `已對齊 GitHub SSOT (SHA: ${currentFileSha.slice(0,7)})`;
+        if (isManual) showToast('已成功獲取最新戰情！', '🔄');
+      } catch (err) {
+        statusEl.textContent = `同步失敗: ${err.message}`;
+        showToast(err.message, '⚠️');
+      } finally {
+        if (refreshBtn) refreshBtn.textContent = '🔄 重新整理';
+      }
+    }
+
+    // 解析 PIPELINE.md
+    function parseMarkdownPipeline(md) {
+      const lines = md.split('\n');
+      parsedDays = [];
+      let currentDay = null;
+      let currentTrain = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // 偵測日期標題 (### 週X MM/DD)
+        if (line.startsWith('### 週')) {
+          currentDay = {
+            title: line.replace('###', '').trim(),
+            lineIndex: i,
+            trains: []
+          };
+          parsedDays.push(currentDay);
+          currentTrain = null;
+          continue;
+        }
+
+        // 偵測列車標題 (- **🚂 ...**)
+        if (line.trim().startsWith('- **🚂') && currentDay) {
+          currentTrain = {
+            title: line.replace(/^- \*\*/, '').replace(/\*\*：?$/, '').trim(),
+            lineIndex: i,
+            tasks: []
+          };
+          currentDay.trains.push(currentTrain);
+          continue;
+        }
+
+        // 偵測非列車單項任務 (- [ ] 或 - [x])
+        if (line.match(/^\s*-\s*\[([ xX])\]/) && currentDay) {
+          const isDone = line.match(/^\s*-\s*\[([xX])\]/) !== null;
+          const taskText = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
+
+          const taskObj = {
+            rawLine: line,
+            lineIndex: i,
+            isDone: isDone,
+            text: taskText
+          };
+
+          if (currentTrain) {
+            currentTrain.tasks.push(taskObj);
+          } else {
+            // 掛在日層級的獨立任務
+            if (!currentDay.standaloneTasks) currentDay.standaloneTasks = [];
+            currentDay.standaloneTasks.push(taskObj);
+          }
+        }
+      }
+    }
+
+    // 渲染前端 DOM
+    function renderPipeline() {
+      const container = document.getElementById('pipelineContainer');
+      if (parsedDays.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>未解析到週排程資料。</p></div>';
+        return;
+      }
+
+      let html = '';
+      parsedDays.forEach(day => {
+        html += `
+          <div class="day-section">
+            <div class="day-header">
+              <div class="day-title">📅 ${escapeHtml(day.title)}</div>
+            </div>
+        `;
+
+        // 渲染列車
+        if (day.trains && day.trains.length > 0) {
+          day.trains.forEach(train => {
+            html += `
+              <div class="train-card">
+                <div class="train-header">
+                  <div class="train-code-title">${escapeHtml(train.title)}</div>
+                </div>
+                <div class="train-tasks">
+            `;
+
+            train.tasks.forEach(task => {
+              html += renderTaskItem(task);
+            });
+
+            html += `
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        // 渲染獨立任務 (若有)
+        if (day.standaloneTasks && day.standaloneTasks.length > 0) {
+          html += `<div class="train-card"><div class="train-tasks">`;
+          day.standaloneTasks.forEach(task => {
+            html += renderTaskItem(task);
+          });
+          html += `</div></div>`;
+        }
+
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderTaskItem(task) {
+      return `
+        <div class="task-item ${task.isDone ? 'done' : ''}" onclick="toggleTask(${task.lineIndex})">
+          <div class="checkbox-box">
+            <span class="checkbox-tick">✓</span>
+          </div>
+          <div class="task-content">
+            <div class="task-text">${escapeHtml(task.text)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 即時打勾並回寫 GitHub
+    async function toggleTask(lineIndex) {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+      const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
+
+      if (!token) {
+        openTokenModal();
+        return;
+      }
+
+      const lines = rawMarkdownContent.split('\n');
+      const targetLine = lines[lineIndex];
+
+      if (!targetLine) return;
+
+      const isDone = targetLine.includes('- [x]') || targetLine.includes('- [X]');
+      const newLine = isDone ? targetLine.replace(/- \[[xX]\]/, '- [ ]') : targetLine.replace(/- \[ \]/, '- [x]');
+      lines[lineIndex] = newLine;
+
+      const newContent = lines.join('\n');
+      rawMarkdownContent = newContent;
+
+      // 樂觀更新 UI (不用等 API 完成)
+      parseMarkdownPipeline(newContent);
+      renderPipeline();
+      showToast(isDone ? '已取消勾選' : '✅ 已完成打勾！正在推向 GitHub...', isDone ? '↩️' : '⚡');
+
+      // 背景發送 API 回寫
+      try {
+        const utf8Bytes = new TextEncoder().encode(newContent);
+        let binaryStr = '';
+        for (let i = 0; i < utf8Bytes.length; i++) {
+          binaryStr += String.fromCharCode(utf8Bytes[i]);
+        }
+        const base64Content = btoa(binaryStr);
+
+        const taskCleanName = targetLine.replace(/.*-\s*\[[ xX]\]\s*/, '').slice(0, 30);
+        const commitMsg = `${isDone ? 'uncheck' : 'check'}(task): ${taskCleanName} via PlanOS Web`;
+
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${FILE_PATH}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: commitMsg,
+            content: base64Content,
+            sha: currentFileSha
+          })
+        });
+
+        if (!res.ok) {
+          if (res.status === 409) {
+            // SHA Conflict: 自動拉最新重試
+            showToast('偵測到遠端新版本，正在自動合併...', '🔄');
+            await fetchPipeline();
+            return;
+          }
+          throw new Error(`回寫失敗 (${res.status})`);
+        }
+
+        const resData = await res.json();
+        currentFileSha = resData.content.sha;
+        showToast('🎉 GitHub 倉庫已同步更新！', '✅');
+        document.getElementById('syncStatus').textContent = `已對齊 GitHub SSOT (SHA: ${currentFileSha.slice(0,7)})`;
+      } catch (err) {
+        showToast(`寫入失敗: ${err.message}`, '❌');
+        // 失敗時重新獲取保證一致
+        fetchPipeline();
+      }
+    }
+
+    function showToast(msg, icon = '✅') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
