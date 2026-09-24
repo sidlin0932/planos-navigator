@@ -1454,6 +1454,9 @@
         </div>
       </div>
 
+      <!-- Strategic Academic Radar & Max ID Dashboard -->
+      <div id="subjectStrategicRadarContainer" style="margin-bottom: 20px;"></div>
+
       <div id="subjectContentContainer">
         <div class="empty-state">
           <p>⏳ 整理各科學科工單中...</p>
@@ -3060,11 +3063,104 @@
       renderSubjectsView();
     }
 
+    function renderStrategicRadar() {
+      const container = document.getElementById('subjectStrategicRadarContainer');
+      if (!container) return;
+
+      const subjects = [
+        { code: 'ACC', name: '會計學', prefix: '會計', color: '🔵', currentProgress: '§3.1~3.3 調整分錄手算 (Ch3~4 正課消化)', nextDeadline: '【會計-Quiz-2】 (09/28 12:20)', dDay: 'D-3', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' },
+        { code: 'EE', name: '電工學', prefix: '電工', color: '🟢', currentProgress: 'W03 非同步影片研讀 (Ch4 暫態分析)', nextDeadline: '【電工-隨堂考-3】 (09/28 09:10)', dDay: 'D-3', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' },
+        { code: 'MATH', name: '工程數學', prefix: '工數', color: '🟡', currentProgress: 'HW2 二階 ODE 題目演算 (進度 33% ➔ 66%)', nextDeadline: '【工數-Quiz-1】 (09/27 09:10)', dDay: 'D-2', status: '🟡 緊迫攻堅 (D-2 警戒)', statusColor: 'var(--c-yellow)' },
+        { code: 'TH', name: '熱力學', prefix: '熱力', color: '🟢', currentProgress: 'Ch2 狀態方程盲推通關 (已結案)', nextDeadline: '【熱力-Ch-3】 (09/26 23:00)', dDay: 'D-1', status: '⚡ 戰略超前 (Ch2盲推結案)', statusColor: 'var(--c-cyan)' },
+        { code: 'DYN', name: '應用力學', prefix: '應力', color: '🟢', currentProgress: 'Ch12 質點運動學公式推導 (進度 50%)', nextDeadline: '【應力-Ch-13】 (09/30 23:00)', dDay: 'D-5', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'STAT', name: '跨領域統計', prefix: '統', color: '🟣', currentProgress: 'Project 1 Python 數據清洗實作', nextDeadline: '【機統-Quiz-1】 (10/06 13:20)', dDay: 'D-11', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'LOGIC', name: '邏輯通識', prefix: '邏輯', color: '🔵', currentProgress: 'HW1 題目演練與作業撰寫', nextDeadline: '【邏輯-HW-2】 (10/08 13:20)', dDay: 'D-13', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' }
+      ];
+
+      const maxMap = { ACC: 0, EE: 0, MATH: 0, TH: 0, DYN: 0, STAT: 0, LOGIC: 0 };
+      const regexScan = /([A-Z]+)-(\d{3})/g;
+      if (rawPipelineMarkdown) {
+        let m;
+        while ((m = regexScan.exec(rawPipelineMarkdown)) !== null) {
+          const code = m[1];
+          const num = parseInt(m[2], 10);
+          if (maxMap[code] !== undefined && num > maxMap[code]) maxMap[code] = num;
+        }
+      }
+      if (subjectRegistryTasks) {
+        subjectRegistryTasks.forEach(t => {
+          if (t.id) {
+            const m = t.id.match(/^([A-Z]+)-(\d{3})/);
+            if (m) {
+              const code = m[1];
+              const num = parseInt(m[2], 10);
+              if (maxMap[code] !== undefined && num > maxMap[code]) maxMap[code] = num;
+            }
+          }
+        });
+      }
+
+      let rowsHtml = subjects.map(s => {
+        const maxN = maxMap[s.code] || 0;
+        const maxIdStr = maxN > 0 ? `${s.code}-${String(maxN).padStart(3, '0')}` : '—';
+        const nextIdStr = `${s.code}-${String(maxN + 1).padStart(3, '0')}`;
+
+        return `
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 10px 12px; font-weight: 700; white-space: nowrap;">${s.color} ${s.name}</td>
+            <td style="padding: 10px 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+              <span style="color: var(--text-normal); font-weight: 700;">${maxIdStr}</span>
+              <span style="color: var(--text-muted); font-size: 11px;"> (下號: ${nextIdStr})</span>
+            </td>
+            <td style="padding: 10px 12px; font-size: 12.5px; color: var(--text-muted);">${s.currentProgress}</td>
+            <td style="padding: 10px 12px; font-size: 12.5px; font-weight: 600;">${s.nextDeadline}</td>
+            <td style="padding: 10px 12px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--c-blue); white-space: nowrap;">${s.dDay}</td>
+            <td style="padding: 10px 12px; white-space: nowrap;">
+              <span style="display: inline-block; font-size: 11.5px; font-weight: 700; color: ${s.statusColor}; background: rgba(0,0,0,0.05); padding: 3px 8px; border-radius: 6px; border: 1px solid ${s.statusColor};">${s.status}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="day-card" style="margin-bottom: 16px; border-left: 4px solid var(--c-blue);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 18px;">🔭</span>
+              <div style="font-size: 15px; font-weight: 700;">學科戰略雷達與最大流水號看板 (Strategic Radar)</div>
+            </div>
+            <button class="btn-icon" onclick="openTaskModal()" style="font-size: 11.5px; padding: 4px 10px; color: var(--c-blue); border-color: rgba(2,132,199,0.3); font-weight: 700;">🎫 派發新工單</button>
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5;">
+            ⚖️ <strong>戰略裁決原則</strong>：比較基準為<strong>實體死線 (Deadlines)</strong>，而非工單排程。只要在 <strong>D-7 (盲推通關)</strong> 與 <strong>D-2 (封箱結案)</strong> 前完成攻堅，戰略上即為 100% 達標！
+          </div>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+              <thead>
+                <tr style="border-bottom: 1.5px solid var(--border); color: var(--text-muted); font-size: 11.5px;">
+                  <th style="padding: 8px 12px;">📚 科目</th>
+                  <th style="padding: 8px 12px;">🏷️ 最新最大流水號</th>
+                  <th style="padding: 8px 12px;">📖 當前實質研讀進度</th>
+                  <th style="padding: 8px 12px;">🎯 下一戰略死線 (Deadline)</th>
+                  <th style="padding: 8px 12px;">⏳ 倒數</th>
+                  <th style="padding: 8px 12px;">⚖️ 戰略態勢 (死線裁決)</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
     function filterSubjectSearch() {
       renderSubjectsView();
     }
 
     function renderSubjectsView() {
+      renderStrategicRadar();
       const container = document.getElementById('subjectContentContainer');
       const statsEl = document.getElementById('subjectSummaryStats');
       const searchVal = (document.getElementById('subjectSearchInput')?.value || '').trim().toLowerCase();
