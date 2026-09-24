@@ -2569,6 +2569,17 @@
         return;
       }
 
+      const subjectMeta = {
+        MATH: { name: '🟡 工數 (MATH)', color: 'var(--c-yellow)', pillBg: 'rgba(251, 191, 36, 0.15)', pillBorder: 'rgba(251, 191, 36, 0.35)' },
+        EE: { name: '🟢 電工 (EE)', color: 'var(--c-green)', pillBg: 'rgba(52, 211, 153, 0.15)', pillBorder: 'rgba(52, 211, 153, 0.35)' },
+        ACC: { name: '🔵 會計 (ACC)', color: 'var(--c-blue)', pillBg: 'rgba(56, 189, 248, 0.15)', pillBorder: 'rgba(56, 189, 248, 0.35)' },
+        TH: { name: '🟢 熱力 (TH)', color: 'var(--c-green)', pillBg: 'rgba(52, 211, 153, 0.15)', pillBorder: 'rgba(52, 211, 153, 0.35)' },
+        DYN: { name: '🟢 應力 (DYN)', color: 'var(--c-green)', pillBg: 'rgba(52, 211, 153, 0.15)', pillBorder: 'rgba(52, 211, 153, 0.35)' },
+        STAT: { name: '🟣 統計 (STAT)', color: 'var(--c-purple)', pillBg: 'rgba(192, 132, 252, 0.15)', pillBorder: 'rgba(192, 132, 252, 0.35)' },
+        CAL: { name: '🛠️ 系統 (CAL)', color: 'var(--c-cyan)', pillBg: 'rgba(56, 189, 248, 0.15)', pillBorder: 'rgba(56, 189, 248, 0.35)' },
+        OTHER: { name: '⚪ 彈性/複習 (OTHER)', color: 'var(--text-muted)', pillBg: 'rgba(255, 255, 255, 0.1)', pillBorder: 'rgba(255, 255, 255, 0.2)' }
+      };
+
       // 提取排序權重：學科代碼與流水號數字 (例如 MATH-001 -> 1, EE-011 -> 11)
       function getTaskNumericIndex(task) {
         const id = task.id || '';
@@ -2590,24 +2601,12 @@
         return { subj, num };
       }
 
-      // CEO 核心排程法則：未完成正序排列 (001 ➔ N)，已完成倒序排列 (N ➔ 001)
-      const pendingTasks = filtered.filter(t => !t.isDone);
-      const doneTasks = filtered.filter(t => t.isDone);
-
-      // 1. 還沒完成的 ➔ 正序排列 (Ascending)
-      pendingTasks.sort((a, b) => {
+      // CEO 絕對鐵律：任何打勾不管在哪裡都不能隨便跑到已完成！全期工單一律按課綱流水號 001 ➔ N 天然正序排列！
+      filtered.sort((a, b) => {
         const ka = getTaskNumericIndex(a);
         const kb = getTaskNumericIndex(b);
         if (ka.subj !== kb.subj) return ka.subj.localeCompare(kb.subj);
         return ka.num - kb.num;
-      });
-
-      // 2. 完成的 ➔ 倒序排列 (Descending: 最近結案置頂)
-      doneTasks.sort((a, b) => {
-        const ka = getTaskNumericIndex(a);
-        const kb = getTaskNumericIndex(b);
-        if (ka.subj !== kb.subj) return ka.subj.localeCompare(kb.subj);
-        return kb.num - ka.num;
       });
 
       function renderSingleSubjectCard(task) {
@@ -2645,41 +2644,46 @@
 
       let html = '';
 
-      // 區塊 1: 還沒完成的工單 (正序排列 001 ➔ N)
-      html += `
-        <div class="train-card" style="margin-bottom: 16px;">
-          <div class="train-header">
-            <div class="train-code-title">
-              <span class="train-badge-pill" style="background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.35); color: var(--c-yellow);">⚡ 待攻堅 / 進行中工單</span>
-              <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(${pendingTasks.length} 項 · 正序上膛 001 ➔ N)</span>
-            </div>
-          </div>
-          <div class="train-tasks">
-      `;
-      if (pendingTasks.length === 0) {
-        html += '<div class="empty-state" style="padding: 20px;"><p>🎉 太棒了！該類別所有工單皆已攻堅完畢！</p></div>';
-      } else {
-        pendingTasks.forEach(task => { html += renderSingleSubjectCard(task); });
-      }
-      html += '</div></div>';
+      if (currentSubjectFilter === 'ALL' && !searchVal) {
+        // 全覽模式：依各學科獨立成卡片，每張卡片內工單 100% 保持 001 ➔ N 天然正序，打勾原位恆定不移
+        const subjectOrder = ['MATH', 'EE', 'ACC', 'TH', 'DYN', 'STAT', 'CAL', 'OTHER'];
+        subjectOrder.forEach(subjKey => {
+          const subjTasks = filtered.filter(t => t.subject === subjKey);
+          if (subjTasks.length === 0) return;
+          const meta = subjectMeta[subjKey] || { name: subjKey, color: 'var(--text-main)', pillBg: 'rgba(255,255,255,0.1)', pillBorder: 'rgba(255,255,255,0.2)' };
+          const subjDoneCount = subjTasks.filter(t => t.isDone).length;
 
-      // 區塊 2: 完成的工單 (倒序排列 N ➔ 001)
-      html += `
-        <div class="train-card" style="margin-bottom: 20px;">
-          <div class="train-header">
-            <div class="train-code-title">
-              <span class="train-badge-pill" style="background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.35); color: var(--c-green);">✅ 已完成 / 歷史結案工單</span>
-              <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(${doneTasks.length} 項 · 倒序歸檔 N ➔ 001)</span>
-            </div>
-          </div>
-          <div class="train-tasks">
-      `;
-      if (doneTasks.length === 0) {
-        html += '<div class="empty-state" style="padding: 20px;"><p>尚無已結案工單紀錄。</p></div>';
+          html += `
+            <div class="train-card" style="margin-bottom: 18px;">
+              <div class="train-header">
+                <div class="train-code-title">
+                  <span class="train-badge-pill" style="background: ${meta.pillBg}; border-color: ${meta.pillBorder}; color: ${meta.color};">${meta.name}</span>
+                  <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(共 ${subjTasks.length} 項 · ✅ ${subjDoneCount} 結案 · 001 ➔ N 天然正序 · 原位不移)</span>
+                </div>
+              </div>
+              <div class="train-tasks">
+          `;
+          subjTasks.forEach(task => { html += renderSingleSubjectCard(task); });
+          html += '</div></div>';
+        });
       } else {
-        doneTasks.forEach(task => { html += renderSingleSubjectCard(task); });
+        // 單一學科篩選或搜尋模式：單一完整卡片，100% 保持 001 ➔ N 天然正序，打勾原位恆定不移
+        const subjKey = currentSubjectFilter;
+        const meta = subjectMeta[subjKey] || { name: subjKey === 'ALL' ? '🔍 搜尋結果全覽' : subjKey, color: 'var(--c-blue)', pillBg: 'rgba(56, 189, 248, 0.15)', pillBorder: 'rgba(56, 189, 248, 0.35)' };
+
+        html += `
+          <div class="train-card" style="margin-bottom: 20px;">
+            <div class="train-header">
+              <div class="train-code-title">
+                <span class="train-badge-pill" style="background: ${meta.pillBg}; border-color: ${meta.pillBorder}; color: ${meta.color};">${meta.name}</span>
+                <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(共 ${filtered.length} 項 · ✅ ${totalDone} 結案 · 001 ➔ N 天然正序 · 原位不移)</span>
+              </div>
+            </div>
+            <div class="train-tasks">
+        `;
+        filtered.forEach(task => { html += renderSingleSubjectCard(task); });
+        html += '</div></div>';
       }
-      html += '</div></div>';
 
       container.innerHTML = html;
     }
@@ -2766,66 +2770,32 @@
         return;
       }
 
-      const pendingTasks = taskList.filter(t => !t.isDone);
-      const doneTasks = taskList.filter(t => t.isDone);
+      const totalDone = taskList.filter(t => t.isDone).length;
+      let html = `
+        <div class="train-card" style="margin-bottom: 20px;">
+          <div class="train-header">
+            <div class="train-code-title">
+              <span class="train-badge-pill" style="background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); color: var(--c-blue);">📜 週度歷史工單總表</span>
+              <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(共 ${taskList.length} 項 · ✅ ${totalDone} 結案 · 保持文件天然原始順序)</span>
+            </div>
+          </div>
+          <div class="train-tasks">
+      `;
 
-      // 已完成工單倒序排列 (最新完成置頂)
-      const reversedDone = [...doneTasks].reverse();
-
-      let html = '';
-
-      if (pendingTasks.length > 0) {
+      taskList.forEach(task => {
         html += `
-          <div class="train-card" style="margin-bottom: 16px;">
-            <div class="train-header">
-              <div class="train-code-title">
-                <span class="train-badge-pill" style="background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.35); color: var(--c-yellow);">⚡ 該週未結案工單</span>
-                <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(${pendingTasks.length} 項 · 正序)</span>
-              </div>
+          <div class="task-item ${task.isDone ? 'done' : ''}" style="cursor: default;">
+            <div class="checkbox-box">
+              <span class="checkbox-tick" style="display: ${task.isDone ? 'block' : 'none'};">✓</span>
             </div>
-            <div class="train-tasks">
+            <div class="task-content">
+              <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
+            </div>
+          </div>
         `;
-        pendingTasks.forEach(task => {
-          html += `
-            <div class="task-item" style="cursor: default;">
-              <div class="checkbox-box">
-                <span class="checkbox-tick" style="display:none;">✓</span>
-              </div>
-              <div class="task-content">
-                <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
-              </div>
-            </div>
-          `;
-        });
-        html += `</div></div>`;
-      }
+      });
 
-      if (reversedDone.length > 0) {
-        html += `
-          <div class="train-card" style="margin-bottom: 20px;">
-            <div class="train-header">
-              <div class="train-code-title">
-                <span class="train-badge-pill" style="background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.35); color: var(--c-green);">✅ 該週已結案工單</span>
-                <span class="train-topic-badge" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(${reversedDone.length} 項 · 倒序歸檔)</span>
-              </div>
-            </div>
-            <div class="train-tasks">
-        `;
-        reversedDone.forEach(task => {
-          html += `
-            <div class="task-item done" style="cursor: default;">
-              <div class="checkbox-box">
-                <span class="checkbox-tick" style="display:block;">✓</span>
-              </div>
-              <div class="task-content">
-                <div class="task-clean-title">${task.formattedTitle || formatTaskTitle(task.cleanTitle)}</div>
-              </div>
-            </div>
-          `;
-        });
-        html += `</div></div>`;
-      }
-
+      html += `</div></div>`;
       container.innerHTML = html;
     }
 
