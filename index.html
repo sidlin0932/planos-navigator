@@ -325,11 +325,11 @@
       position: relative;
     }
 
-    /* Top Navigation - Liquid Glass Sticky Bar */
+    /* Top Navigation - Liquid Glass Bar */
     .top-bar {
-      position: sticky;
-      top: 10px;
-      z-index: 100;
+      position: relative;
+      top: 0;
+      z-index: 10;
       backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
       -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(var(--glass-saturate));
       background: var(--glass-surface);
@@ -654,12 +654,17 @@
     .today-badge {
       font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
       background: rgba(56, 189, 248, 0.2);
       border: 1px solid var(--c-blue);
       color: var(--c-blue);
       font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* Train Box - Liquid Glass Card */
@@ -1141,48 +1146,84 @@
         padding: 8px 10px max(80px, calc(env(safe-area-inset-bottom, 20px) + 60px)) 10px;
       }
       .top-bar {
-        top: max(6px, env(safe-area-inset-top, 6px));
+        position: relative;
+        top: 0;
         padding: 8px 10px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         border-radius: 14px;
       }
+      .brand {
+        gap: 6px;
+      }
+      .brand-logo {
+        font-size: 20px;
+      }
       .brand-title {
-        font-size: 15px;
+        font-size: 14px;
+        white-space: nowrap;
       }
       .brand-sub {
         display: none; /* Hide subtitle to preserve vital horizontal space */
       }
       .top-actions {
-        gap: 5px;
+        gap: 4px;
+        flex-shrink: 0;
       }
       .btn-icon {
-        padding: 5px 8px;
+        padding: 4px 6px;
         font-size: 11px;
         border-radius: 7px;
-        gap: 4px;
+        gap: 3px;
+        white-space: nowrap;
       }
       .nav-tabs {
-        padding: 3px;
+        padding: 3px 4px;
         margin-bottom: 12px;
-        border-radius: 12px;
+        border-radius: 9999px;
       }
       .tab-btn {
         padding: 7px 4px;
         font-size: 12px;
+        white-space: nowrap;
       }
       .day-section {
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
       .day-section.today-active {
         padding: 10px 8px;
         border-radius: 14px;
       }
       .day-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
         margin-bottom: 8px;
-        padding: 0 4px;
+        padding: 0 2px;
       }
       .day-title {
-        font-size: 14px;
+        font-size: 13.5px;
+        line-height: 1.4;
+        padding: 4px 8px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        min-width: 0;
+        word-break: break-word;
+      }
+      .today-badge,
+      .badge-origin-date,
+      .day-header .badge-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin: 0;
+      }
+      .today-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+        line-height: 1.2;
       }
       .train-card {
         padding: 12px 10px;
@@ -1196,6 +1237,7 @@
       .train-badge-pill {
         font-size: 12px;
         padding: 2px 7px;
+        white-space: nowrap;
       }
       .train-topic-badge {
         font-size: 13px;
@@ -1216,6 +1258,7 @@
       .task-clean-title {
         font-size: 13.5px;
         line-height: 1.45;
+        word-break: break-word;
       }
       .checkbox-box {
         width: 22px;
@@ -1223,6 +1266,7 @@
         min-width: 22px;
         margin-top: 1px;
         border-radius: 6px;
+        flex-shrink: 0;
       }
       .checkbox-tick {
         font-size: 13px;
@@ -1230,10 +1274,12 @@
       .task-badges {
         margin-top: 4px;
         gap: 4px;
+        flex-wrap: wrap;
       }
       .badge-item {
         font-size: 10px;
         padding: 1px 5px;
+        white-space: nowrap;
       }
       .md-code-pill {
         padding: 1px 5px;
@@ -2282,8 +2328,8 @@
           <div class="day-header">
             <div class="day-title">
               📅 ${escapeHtml(day.rawTitle)}
-              ${badgeHtml}
             </div>
+            ${badgeHtml}
           </div>
       `;
 
