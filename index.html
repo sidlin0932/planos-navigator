@@ -50,18 +50,49 @@
       --c-orange: #ea580c;
       --c-red: #dc2626;
     }
-    body.light-theme .top-bar { border-bottom-color: var(--border); }
-    body.light-theme .nav-tabs { background: #e2e8f0; border-color: #cbd5e1; }
+    body.light-theme {
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(2, 132, 199, 0.06) 0px, transparent 45%),
+        radial-gradient(at 90% 20%, rgba(147, 51, 234, 0.05) 0px, transparent 40%),
+        radial-gradient(at 50% 80%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+    body.light-theme .top-bar {
+      background: rgba(255, 255, 255, 0.82);
+      border-color: rgba(0, 0, 0, 0.08);
+      border-top-color: rgba(255, 255, 255, 0.95);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8), 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+    }
+    body.light-theme .nav-tabs {
+      background: rgba(241, 245, 249, 0.78);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
     body.light-theme .tab-btn.active {
       background: #ffffff;
       color: var(--c-blue);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      border-color: rgba(2, 132, 199, 0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-color: rgba(2, 132, 199, 0.25);
+      border-top-color: rgba(255, 255, 255, 0.9);
     }
-    body.light-theme .train-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    body.light-theme .train-card {
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(0, 0, 0, 0.07);
+      border-top-color: rgba(255, 255, 255, 0.95);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), 0 8px 24px 0 rgba(0, 0, 0, 0.04);
+    }
+    body.light-theme .train-card:hover {
+      border-color: rgba(2, 132, 199, 0.4);
+      box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.9), 0 12px 30px 0 rgba(0, 0, 0, 0.07);
+    }
     body.light-theme .train-header { border-bottom-color: rgba(0, 0, 0, 0.08); }
-    body.light-theme .task-item { background: #f8fafc; border-color: #e2e8f0; }
-    body.light-theme .task-item:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    body.light-theme .task-item {
+      background: rgba(248, 250, 252, 0.75);
+      border-color: rgba(0, 0, 0, 0.05);
+    }
+    body.light-theme .task-item:hover {
+      background: rgba(241, 245, 249, 0.95);
+      border-color: rgba(0, 0, 0, 0.1);
+    }
     body.light-theme .checkbox-box { background: #ffffff; border-color: #cbd5e1; }
     body.light-theme .task-item.done .checkbox-box { background: var(--c-blue); border-color: var(--c-blue); }
     body.light-theme .checkbox-tick { color: #ffffff; }
@@ -70,15 +101,35 @@
     body.light-theme .badge-location { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
     body.light-theme .badge-origin-date { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
     body.light-theme .md-code-pill { background: #f1f3f5; color: #1e293b; border-color: rgba(0, 0, 0, 0.06); }
-    body.light-theme .overdue-container { background: #fef2f2; border-color: #fecaca; }
-    body.light-theme .rest-card { background: #f0fdf4; border-color: #bbf7d0; }
+    body.light-theme .md-code-pill.is-candidate { background: #fef3c7; color: #b45309; border: 1px dashed #f59e0b; }
+    body.light-theme .candidate-badge { background: #fde68a; color: #92400e; }
+    body.light-theme .overdue-container {
+      background: rgba(254, 242, 242, 0.85);
+      border-color: rgba(248, 113, 113, 0.35);
+      border-top-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.06);
+    }
+    body.light-theme .rest-card { background: rgba(240, 253, 244, 0.8); border-color: #bbf7d0; }
     body.light-theme .day-section.today-active { background: rgba(2, 132, 199, 0.04); border-color: rgba(2, 132, 199, 0.3); }
-    body.light-theme .status-pill { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
-    body.light-theme .archive-controls { background: #ffffff; border-color: #e2e8f0; }
-    body.light-theme .chip-item { background: #f1f5f9; border-color: #e2e8f0; }
+    body.light-theme .status-pill {
+      background: rgba(224, 242, 254, 0.85);
+      border-color: #bae6fd;
+      color: #0369a1;
+    }
+    body.light-theme .archive-controls {
+      background: rgba(255, 255, 255, 0.78);
+      border-color: rgba(0, 0, 0, 0.08);
+      border-top-color: rgba(255, 255, 255, 0.95);
+    }
+    body.light-theme .chip-item { background: rgba(241, 245, 249, 0.8); border-color: #e2e8f0; }
     body.light-theme .chip-item.active { background: var(--c-blue); color: #ffffff; border-color: var(--c-blue); }
-    body.light-theme .search-input { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
-    body.light-theme .modal-box { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .search-input { background: rgba(248, 250, 252, 0.85); border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .modal-box {
+      background: rgba(255, 255, 255, 0.92);
+      border-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+      color: #0f172a;
+    }
     body.light-theme .input-field { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
     body.light-theme .toast { background: #0f172a; color: #f8fafc; }
 
@@ -91,24 +142,39 @@
 
     body {
       background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
+        radial-gradient(at 90% 20%, rgba(192, 132, 252, 0.07) 0px, transparent 40%),
+        radial-gradient(at 50% 80%, rgba(52, 211, 153, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
       color: var(--text-main);
       font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 15px;
       line-height: 1.5;
       min-height: 100vh;
-      padding: 20px 16px 80px 16px;
-      max-width: 680px;
+      padding: 16px 16px 80px 16px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
-    /* Top Navigation */
+    /* Top Navigation - Liquid Glass Sticky Bar */
     .top-bar {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(14, 17, 26, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
     }
     .brand {
       display: flex;
@@ -133,8 +199,10 @@
       gap: 8px;
     }
     .btn-icon {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-main);
       border-radius: 8px;
       padding: 7px 11px;
@@ -147,26 +215,37 @@
       transition: all 0.2s;
     }
     .btn-icon:hover {
-      background: var(--bg-card-hover);
+      background: rgba(255, 255, 255, 0.12);
       border-color: var(--border-accent);
     }
+    body.light-theme .btn-icon {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    body.light-theme .btn-icon:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
 
-    /* View Segmented Control */
+    /* View Segmented Control - Liquid Glass Tabs */
     .nav-tabs {
       display: flex;
-      background: var(--bg-inset);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 3px;
+      background: rgba(12, 15, 23, 0.65);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 4px;
       margin-bottom: 16px;
       gap: 4px;
     }
     .tab-btn {
       flex: 1;
       text-align: center;
-      padding: 8px 12px;
-      border-radius: 7px;
-      border: none;
+      padding: 8px 8px;
+      border-radius: 8px;
+      border: 1px solid transparent;
       background: transparent;
       color: var(--text-muted);
       font-size: 13px;
@@ -176,10 +255,13 @@
       font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif;
     }
     .tab-btn.active {
-      background: var(--bg-card);
+      background: rgba(24, 29, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: var(--c-blue);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 14px rgba(0,0,0,0.3);
     }
 
     /* Status Bar */
@@ -215,19 +297,23 @@
       50% { opacity: 0.4; }
     }
 
-    /* P0 Overdue Box */
+    /* P0 Overdue Box - Liquid Red Crystal */
     .overdue-container {
-      background: rgba(248, 113, 113, 0.06);
-      border: 1px solid rgba(248, 113, 113, 0.35);
-      border-radius: 12px;
-      padding: 14px;
+      background: rgba(248, 113, 113, 0.08);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-top: 1px solid rgba(248, 113, 113, 0.55);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 30px rgba(248, 113, 113, 0.12);
+      border-radius: 14px;
+      padding: 16px;
       margin-bottom: 22px;
     }
     .overdue-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: var(--c-red);
       font-weight: 700;
       font-size: 13px;
@@ -243,19 +329,21 @@
 
     /* Day Section */
     .day-section {
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
     .day-section.today-active {
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      border-radius: 14px;
-      padding: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-top: 1px solid rgba(56, 189, 248, 0.6);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 32px rgba(56, 189, 248, 0.08);
+      border-radius: 16px;
+      padding: 14px;
       background: rgba(56, 189, 248, 0.03);
     }
     .day-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .day-title {
       font-size: 15px;
@@ -276,24 +364,30 @@
       font-weight: 700;
     }
 
-    /* Train Box */
+    /* Train Box - Liquid Glass Card */
     .train-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 12px;
-      transition: border-color 0.2s;
+      background: rgba(18, 21, 31, 0.65);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08), 0 8px 30px 0 rgba(0, 0, 0, 0.32);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      transition: all 0.25s ease;
     }
     .train-card:hover {
       border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.12), 0 12px 36px 0 rgba(0, 0, 0, 0.4);
+      transform: translateY(-1px);
     }
     .train-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
     }
     .train-code-title {
@@ -306,27 +400,29 @@
 
     /* Rest Day Card */
     .rest-card {
-      background: rgba(52, 211, 153, 0.05);
-      border: 1px dashed rgba(52, 211, 153, 0.25);
-      border-radius: 10px;
+      background: rgba(52, 211, 153, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px dashed rgba(52, 211, 153, 0.35);
+      border-radius: 12px;
       padding: 14px;
       text-align: center;
       color: var(--c-green);
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    /* Task Item */
+    /* Task Item - Liquid Translucent */
     .task-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
       padding: 10px 12px;
       margin-bottom: 8px;
-      border-radius: 8px;
-      background: var(--bg-inset);
-      border: 1px solid transparent;
+      border-radius: 9px;
+      background: rgba(12, 15, 23, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.04);
       cursor: pointer;
       user-select: none;
       transition: all 0.2s;
@@ -335,8 +431,8 @@
       margin-bottom: 0;
     }
     .task-item:hover {
-      background: #151a24;
-      border-color: rgba(255, 255, 255, 0.1);
+      background: rgba(24, 29, 42, 0.7);
+      border-color: rgba(255, 255, 255, 0.12);
     }
     .task-item.done {
       opacity: 0.35;
@@ -403,8 +499,78 @@
       letter-spacing: -0.2px;
       font-feature-settings: "zero" 1;
     }
+    .md-code-pill.is-candidate {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+      border: 1px dashed rgba(251, 191, 36, 0.5);
+      font-weight: 600;
+    }
+    .candidate-badge {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(251, 191, 36, 0.22);
+      color: #fbbf24;
+      margin-left: 4px;
+      font-weight: 700;
+      vertical-align: baseline;
+      display: inline-block;
+    }
     .task-item.done .md-code-pill {
       opacity: 0.6;
+    }
+
+    /* Subject Registry Badges */
+    .status-tag {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag-done {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--c-green);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+    .tag-active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--c-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .tag-planned {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-muted);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .tag-candidate {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--c-yellow);
+      border: 1px dashed rgba(251, 191, 36, 0.4);
+    }
+    body.light-theme .tag-done {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #bbf7d0;
+    }
+    body.light-theme .tag-active {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-color: #bae6fd;
+    }
+    body.light-theme .tag-planned {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #e2e8f0;
+    }
+    body.light-theme .tag-candidate {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px dashed #f59e0b;
     }
     .task-badges {
       display: flex;
@@ -611,8 +777,9 @@
 
   <!-- Segmented Tabs -->
   <div class="nav-tabs">
-    <button class="tab-btn active" id="tabActiveBtn" onclick="switchView('active')">⚡ 前線作戰 (今日起算)</button>
-    <button class="tab-btn" id="tabArchiveBtn" onclick="switchView('archive')">📜 歷史封存 (09/07 開學至今)</button>
+    <button class="tab-btn active" id="tabActiveBtn" onclick="switchView('active')">⚡ 前線作戰</button>
+    <button class="tab-btn" id="tabSubjectsBtn" onclick="switchView('subjects')">📚 學科工單全覽</button>
+    <button class="tab-btn" id="tabArchiveBtn" onclick="switchView('archive')">📜 歷史封存</button>
   </div>
 
   <!-- Status Bar -->
@@ -643,7 +810,35 @@
     </main>
   </div>
 
-  <!-- View 2: Archive Container -->
+  <!-- View 2: Subjects Work Order Registry -->
+  <div id="subjectsViewContainer" style="display: none;">
+    <div class="archive-controls">
+      <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+        <span>依學科篩選全期工單 (從 001 到最新結案與進行中)：</span>
+        <span id="subjectSummaryStats" style="color: var(--c-blue); font-weight: 700;">共 0 筆</span>
+      </div>
+      <div class="chip-group" id="subjectChipGroup">
+        <button class="chip-item active" onclick="filterSubjectWorkOrders('ALL', this)">全部 (<span id="countAll">0</span>)</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('MATH', this)">🟡 工數 MATH</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('EE', this)">🟢 電工 EE</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('ACC', this)">🔵 會計 ACC</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('TH', this)">🟢 熱力 TH</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('DYN', this)">🟢 應力 DYN</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('STAT', this)">🟣 統計 STAT</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('CAL', this)">🛠️ 系統 CAL</button>
+        <button class="chip-item" onclick="filterSubjectWorkOrders('OTHER', this)">⚪ 彈性/複習</button>
+      </div>
+      <input type="text" id="subjectSearchInput" class="search-input" placeholder="🔍 搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
+    </div>
+
+    <div id="subjectContentContainer">
+      <div class="empty-state">
+        <p>⏳ 整理各科學科工單中...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- View 3: Archive Container -->
   <div id="archiveViewContainer" style="display: none;">
     <div class="archive-controls">
       <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">快速切換週次 (09/07 開學正式啟動至今)：</div>
@@ -754,20 +949,24 @@
     function switchView(view) {
       currentActiveView = view;
       const tabActive = document.getElementById('tabActiveBtn');
+      const tabSubjects = document.getElementById('tabSubjectsBtn');
       const tabArchive = document.getElementById('tabArchiveBtn');
       const activeCont = document.getElementById('activeViewContainer');
+      const subjectsCont = document.getElementById('subjectsViewContainer');
       const archiveCont = document.getElementById('archiveViewContainer');
 
-      if (view === 'active') {
-        tabActive.classList.add('active');
-        tabArchive.classList.remove('active');
-        activeCont.style.display = 'block';
-        archiveCont.style.display = 'none';
-      } else {
-        tabActive.classList.remove('active');
-        tabArchive.classList.add('active');
-        activeCont.style.display = 'none';
-        archiveCont.style.display = 'block';
+      tabActive.classList.toggle('active', view === 'active');
+      tabSubjects.classList.toggle('active', view === 'subjects');
+      tabArchive.classList.toggle('active', view === 'archive');
+
+      activeCont.style.display = view === 'active' ? 'block' : 'none';
+      subjectsCont.style.display = view === 'subjects' ? 'block' : 'none';
+      archiveCont.style.display = view === 'archive' ? 'block' : 'none';
+
+      if (view === 'subjects') {
+        buildSubjectRegistry();
+        renderSubjectsView();
+      } else if (view === 'archive') {
         if (!archiveLoadedWeek) {
           loadArchiveWeek('W39_past');
         }
@@ -775,7 +974,7 @@
     }
 
     function refreshCurrentView() {
-      if (currentActiveView === 'active') {
+      if (currentActiveView === 'active' || currentActiveView === 'subjects') {
         fetchPipeline(true);
       } else {
         if (archiveLoadedWeek) loadArchiveWeek(archiveLoadedWeek, true);
@@ -845,6 +1044,10 @@
 
         parsePipeline(rawPipelineMarkdown);
         renderActiveView();
+        buildSubjectRegistry();
+        if (currentActiveView === 'subjects') {
+          renderSubjectsView();
+        }
 
         statusEl.textContent = `已對齊前線 SSOT (SHA: ${currentFileSha.slice(0,7)})`;
         if (isManual) showToast('已成功獲取最新雙週戰情！', '🔄');
@@ -935,18 +1138,24 @@
       }
     }
 
-    // 格式化工單標題：將反引號 `code` 或標準 ID (如 MATH-005, EE-011, MATH-HW) 轉為 Obsidian 原生灰底等寬字型藥丸
+    // 格式化工單標題：將反引號 `code` 或標準 ID (如 MATH-005, EE-011, MATH-HW, ACC-006-rc) 轉為 Obsidian 原生灰底等寬字型藥丸
+    // 若為候選工單 (-rc 或 -preview)，自動套用黃金琥珀色標籤與 RC 候選標記
     function formatTaskTitle(text) {
       if (!text) return '';
       // 1. 先做 HTML 轉義防止 XSS
       let escaped = escapeHtml(text);
 
       // 2. 將 Markdown 原生反引號 `code` 轉換為灰底等寬藥丸 (無 literal 反引號，呈現原生 MD code badge)
-      escaped = escaped.replace(/`([^`]+)`/g, '<code class="md-code-pill">$1</code>');
+      escaped = escaped.replace(/`([^`]+)`/g, (match, p1) => {
+        const isCand = p1.includes('-rc') || p1.includes('-preview');
+        return `<code class="md-code-pill ${isCand ? 'is-candidate' : ''}" title="${isCand ? '待 CEO 簽核生效候選工單' : 'PlanOS 標準工單'}">${p1}${isCand ? '<span class="candidate-badge">RC</span>' : ''}</code>`;
+      });
 
-      // 3. 容錯：若文本中含有未包裹反引號的標準工單 ID (如 MATH-005, EE-011, MATH-HW, ACC-004, TH-002, DYN-002)
-      // 只要其前面是開頭、空白或顏色標記 (🔴🔵🟢🟡🟣⚪🟠)，且後面是空白、【 或結尾
-      escaped = escaped.replace(/(^|[\s🔴🔵🟢🟡🟣⚪🟠])([A-Z]{2,5}-[A-Z0-9]+)(?=[\s【]|$)/g, '$1<code class="md-code-pill">$2</code>');
+      // 3. 容錯：若文本中含有未包裹反引號的標準工單 ID (如 MATH-005, EE-011, MATH-HW, ACC-004, EE-009-rc)
+      escaped = escaped.replace(/(^|[\s🔴🔵🟢🟡🟣⚪🟠])([A-Z]{2,5}-[A-Z0-9]+(?:-rc|-preview)?)(?=[\s【]|$)/g, (match, p1, p2) => {
+        const isCand = p2.includes('-rc') || p2.includes('-preview');
+        return `${p1}<code class="md-code-pill ${isCand ? 'is-candidate' : ''}" title="${isCand ? '待 CEO 簽核生效候選工單' : 'PlanOS 標準工單'}">${p2}${isCand ? '<span class="candidate-badge">RC</span>' : ''}</code>`;
+      });
 
       return escaped;
     }
@@ -1128,6 +1337,10 @@
       // 樂觀更新 UI
       parsePipeline(newContent);
       renderActiveView();
+      if (currentActiveView === 'subjects') {
+        buildSubjectRegistry();
+        renderSubjectsView();
+      }
       showToast(isDone ? '已取消勾選' : '✅ 打勾完成！正在同步推向 GitHub...', isDone ? '↩️' : '⚡');
 
       // 背景發送 API 回寫私有庫
@@ -1173,6 +1386,191 @@
         showToast(`寫入失敗: ${err.message}`, '❌');
         fetchPipeline();
       }
+    }
+
+    // ==========================================
+    // 學科工單全覽庫 (Subject Registry: 從 001 到最後)
+    // ==========================================
+    let currentSubjectFilter = 'ALL';
+    let subjectRegistryTasks = [];
+
+    const baseSubjectCatalogue = [
+      // 🟡 工數 (MATH)
+      { id: 'MATH-001', subject: 'MATH', title: '【工數一】HW2 題目開工 (進度 33%)', week: 'W39 09/22', isDone: true, isCandidate: false, originDate: '09/22' },
+      { id: 'MATH-002', subject: 'MATH', title: '【工數一】HW2 題目推進 (進度 66%)', week: 'W39 09/23', isDone: true, isCandidate: false, originDate: '09/23' },
+      { id: 'MATH-003', subject: 'MATH', title: '【工數一】Ch2.2 二階常係數 ODE 題型精熟演練', week: 'W39 09/23', isDone: true, isCandidate: false, originDate: '09/23' },
+      { id: 'MATH-004', subject: 'MATH', title: '【工數-HW-2】二階常係數 ODE 題目演算與謄寫封箱 [4C]', week: 'W39 09/27', isDone: false, isCandidate: false, originDate: '09/27' },
+      { id: 'MATH-HW', subject: 'MATH', title: '【工數-HW-2】(09/29 08:45 🏁) 課前繳交 @生機101', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
+      { id: 'MATH-005-rc', subject: 'MATH', title: '【工數】看工數全部（迎戰 09/29 小考1）[4C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
+      { id: 'MATH-005', subject: 'MATH', title: '【工數-Quiz-1】(09/29 09:10 🏁) 課堂應試 @生機101', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
+      { id: 'MATH-006', subject: 'MATH', title: '【工數-Ch-2】高階常微分方程進度 [3C]', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
+
+      // 🟢 電工 (EE)
+      { id: 'EE-001', subject: 'EE', title: '【電工學】隨堂考1：複習 Ch2~3', week: 'W37 09/08', isDone: true, isCandidate: false, originDate: '09/08' },
+      { id: 'EE-002', subject: 'EE', title: '【電工學】2.3 節點電壓法 (KCL) 矩陣演練', week: 'W37 09/09', isDone: true, isCandidate: false, originDate: '09/09' },
+      { id: 'EE-003', subject: 'EE', title: '【電工學】節點/網目分析矩陣解題演練', week: 'W37 09/10', isDone: true, isCandidate: false, originDate: '09/10' },
+      { id: 'EE-004', subject: 'EE', title: '【電工學】Ch4 一階 RC/RL 電路時間常數與三要素公式', week: 'W38 09/15', isDone: true, isCandidate: false, originDate: '09/15' },
+      { id: 'EE-005', subject: 'EE', title: '【電工學】Ch4 一階與二階暫態 6 題精熟', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
+      { id: 'EE-006', subject: 'EE', title: '【電工學】Ch4 單元電路衝刺', week: 'W38 09/17', isDone: true, isCandidate: false, originDate: '09/17' },
+      { id: 'EE-007', subject: 'EE', title: '【電工學】整理 A4 暫態電路速查卡', week: 'W38 09/18', isDone: true, isCandidate: false, originDate: '09/18' },
+      { id: 'EE-008', subject: 'EE', title: '【電工-隨堂考-2】(09/21 09:10 🏁) @知207', week: 'W39 09/21', isDone: true, isCandidate: false, originDate: '09/21' },
+      { id: 'EE-009-rc', subject: 'EE', title: '【電工學】看完電工三 [3C]', week: 'W39 09/24', isDone: false, isCandidate: true, originDate: '09/24' },
+      { id: 'EE-010', subject: 'EE', title: '【電工-隨堂考-3】(09/28 09:10 🏁) 課堂應試 @知207', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
+      { id: 'EE-011', subject: 'EE', title: '【電工-Ch-5】交流電阻抗與相量分析 / 相量電路母題推導 [3C]', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
+      { id: 'EE-012', subject: 'EE', title: '【電工-隨堂考-4】D-2 暫態電路全題庫閉卷刷題 [4C]', week: 'W40 10/04', isDone: false, isCandidate: false, originDate: '10/04' },
+
+      // 🔵 會計 (ACC)
+      { id: 'ACC-001', subject: 'ACC', title: '【會計學】Ch2 借貸與分錄母題演練', week: 'W37 09/08', isDone: true, isCandidate: false, originDate: '09/08' },
+      { id: 'ACC-002', subject: 'ACC', title: '【會計學】A4 會計調整與借貸平衡速查卡', week: 'W37 09/09', isDone: true, isCandidate: false, originDate: '09/09' },
+      { id: 'ACC-003', subject: 'ACC', title: '【會計學】12:20 助教實習小考 1 @共同205', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
+      { id: 'ACC-004', subject: 'ACC', title: '【會計-Quiz-1】(09/23 12:20 🏁) 課堂應試 @共同205', week: 'W39 09/23', isDone: false, isCandidate: false, originDate: '09/23' },
+      { id: 'ACC-005', subject: 'ACC', title: '【會計-Ch-3】§3.1~3.3 調整分錄母題手算 [3C]', week: 'W39 09/24', isDone: false, isCandidate: false, originDate: '09/24' },
+      { id: 'ACC-006-rc', subject: 'ACC', title: '【會計學】線上正課影片消化 ＋ 小考題庫演練 [3C]', week: 'W39 09/24', isDone: false, isCandidate: true, originDate: '09/24' },
+      { id: 'ACC-006', subject: 'ACC', title: '【會計-Ch-4】會計循環總結與小考2衝刺 / 【會計-Quiz-2】(09/30 12:20 🏁)', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
+      { id: 'ACC-MID-preview', subject: 'ACC', title: '【會計-Midterm-1】D-7 全卷閉卷盲推通關結案 [4C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' },
+
+      // 🟢 熱力 (TH)
+      { id: 'TH-001', subject: 'TH', title: '【熱力學】Ch2 狀態與理想氣體例題', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
+      { id: 'TH-002', subject: 'TH', title: '【熱力-Ch-2】封閉系統功與熱計算 (100% 盲推結案)', week: 'W39 09/22', isDone: false, isCandidate: false, originDate: '09/22' },
+      { id: 'TH-003', subject: 'TH', title: '【熱力-Ch-3】控制體積與質量守恆例題 / 穩定流動能量方程式 (SFEE) [3C]', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
+
+      // 🟢 應力 (DYN)
+      { id: 'DYN-001', subject: 'DYN', title: '【應用力學】Ch12 質點運動學直角與極座標速度加速度', week: 'W38 09/17', isDone: true, isCandidate: false, originDate: '09/17' },
+      { id: 'DYN-002', subject: 'DYN', title: '【應力-Ch-12】質點衝量動量定理推導', week: 'W39 09/23', isDone: false, isCandidate: false, originDate: '09/23' },
+      { id: 'DYN-003', subject: 'DYN', title: '【應力-Ch-13】牛頓第二定律與運動方程式 [3C]', week: 'W40 09/30', isDone: false, isCandidate: false, originDate: '09/30' },
+
+      // 🟣 統計 (STAT)
+      { id: 'STAT-001', subject: 'STAT', title: '【機率與統計】數據分析與資料處理 Python 開發作業', week: 'W38 09/18', isDone: true, isCandidate: false, originDate: '09/18' },
+      { id: 'STAT-002', subject: 'STAT', title: '【機率與統計】機率分佈與貝氏定理題型推導', week: 'W38 09/19', isDone: true, isCandidate: false, originDate: '09/19' },
+      { id: 'PROB-003', subject: 'STAT', title: '【機統-Ch-3】二維隨機變數與聯合分配 [3C]', week: 'W40 10/01', isDone: false, isCandidate: false, originDate: '10/01' },
+
+      // 🛠️ 系統/行事曆 (CAL)
+      { id: 'CAL-001', subject: 'CAL', title: '【週度大會】Sunday Calibration：結算當週戰略、裝填次週列車 [1C]', week: '每週日 673次', isDone: false, isCandidate: false, originDate: '每週日' },
+
+      // ⚪ 彈性/複習 (OTHER)
+      { id: 'REV-001-preview', subject: 'OTHER', title: '【全科複習】下週小考衝刺、錯題收斂與彈性裝填 [5C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
+      { id: 'FLEX-001-preview', subject: 'OTHER', title: '【未定/彈性】視精力裝填：統計/應力/熱力 [2C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
+      { id: 'REV-002-preview', subject: 'OTHER', title: '【全科總複習】迎戰 10/05 電工考4 錯題收斂 [5C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' },
+      { id: 'FLEX-002-preview', subject: 'OTHER', title: '【未定/彈性】視精力裝填 [2C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' }
+    ];
+
+    function buildSubjectRegistry() {
+      const pipelineTaskMap = {};
+      parsedDays.forEach(day => {
+        const checkItem = t => {
+          const idMatch = t.cleanTitle.match(/([A-Z]{2,5}-[A-Z0-9]+(?:-rc|-preview)?)/);
+          if (idMatch) {
+            pipelineTaskMap[idMatch[1]] = { isDone: t.isDone, lineIndex: t.lineIndex, dateStr: day.dateStr, dayNum: day.dayNum };
+          }
+        };
+        day.trains.forEach(tr => tr.tasks.forEach(checkItem));
+        day.standaloneTasks.forEach(checkItem);
+      });
+
+      subjectRegistryTasks = baseSubjectCatalogue.map(task => {
+        const live = pipelineTaskMap[task.id];
+        if (live) {
+          const isToday = live.dayNum === todayFullNum;
+          return {
+            ...task,
+            isDone: live.isDone,
+            lineIndex: live.lineIndex,
+            isToday: isToday,
+            inPipeline: true
+          };
+        }
+        return {
+          ...task,
+          inPipeline: false,
+          isToday: false
+        };
+      });
+
+      const countAllEl = document.getElementById('countAll');
+      if (countAllEl) countAllEl.textContent = subjectRegistryTasks.length;
+    }
+
+    function filterSubjectWorkOrders(subj, btnEl) {
+      currentSubjectFilter = subj;
+      const chips = document.querySelectorAll('#subjectChipGroup .chip-item');
+      chips.forEach(c => c.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderSubjectsView();
+    }
+
+    function filterSubjectSearch() {
+      renderSubjectsView();
+    }
+
+    function renderSubjectsView() {
+      const container = document.getElementById('subjectContentContainer');
+      const statsEl = document.getElementById('subjectSummaryStats');
+      const searchVal = (document.getElementById('subjectSearchInput')?.value || '').trim().toLowerCase();
+
+      let filtered = subjectRegistryTasks;
+
+      if (currentSubjectFilter !== 'ALL') {
+        filtered = filtered.filter(t => t.subject === currentSubjectFilter);
+      }
+
+      if (searchVal) {
+        filtered = filtered.filter(t => 
+          t.id.toLowerCase().includes(searchVal) || 
+          t.title.toLowerCase().includes(searchVal) ||
+          t.week.toLowerCase().includes(searchVal)
+        );
+      }
+
+      const totalDone = filtered.filter(t => t.isDone).length;
+      if (statsEl) {
+        statsEl.textContent = `共 ${filtered.length} 筆工單 (✅ ${totalDone} 結案 · ⚡ ${filtered.length - totalDone} 進行中)`;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>查無符合條件的學科工單。</p></div>';
+        return;
+      }
+
+      let html = '<div class="train-card" style="margin-bottom: 20px;"><div class="train-tasks">';
+
+      filtered.forEach(task => {
+        let statusTagHtml = '';
+        if (task.isDone) {
+          statusTagHtml = '<span class="status-tag tag-done">✅ 已結案</span>';
+        } else if (task.isCandidate) {
+          statusTagHtml = '<span class="status-tag tag-candidate">📝 RC 候選</span>';
+        } else if (task.isToday) {
+          statusTagHtml = '<span class="status-tag tag-active">⚡ 今日攻堅</span>';
+        } else if (task.inPipeline) {
+          statusTagHtml = '<span class="status-tag tag-planned">⏳ 前線排程</span>';
+        } else {
+          statusTagHtml = '<span class="status-tag tag-planned">📅 學期規劃</span>';
+        }
+
+        const canToggle = task.lineIndex !== undefined && task.lineIndex !== null;
+        const toggleCall = canToggle ? `onclick="toggleTask(${task.lineIndex})"` : `onclick="showToast('此為歷史結案存檔，不可在前線直接變更', 'ℹ️')"`;
+
+        html += `
+          <div class="task-item ${task.isDone ? 'done' : ''}" ${toggleCall}>
+            <div class="checkbox-box">
+              <span class="checkbox-tick" style="display: ${task.isDone ? 'block' : 'none'};">✓</span>
+            </div>
+            <div class="task-content">
+              <div class="task-clean-title">
+                ${formatTaskTitle(task.id)} ${escapeHtml(task.title)}
+              </div>
+              <div class="task-badges" style="margin-top: 6px;">
+                ${statusTagHtml}
+                <span class="badge-item">${task.week}</span>
+                ${task.isCandidate ? '<span class="badge-item" style="color: var(--c-yellow); border-color: rgba(251, 191, 36, 0.4);">待 CEO 簽核正式工單</span>' : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div></div>';
+      container.innerHTML = html;
     }
 
     // ==========================================
