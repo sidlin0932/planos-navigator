@@ -145,16 +145,40 @@
       box-shadow: var(--glass-shadow);
     }
     body.light-theme .nav-tabs {
-      background: rgba(241, 245, 249, calc(var(--glass-opacity) * 0.9));
-      border: 1px solid var(--glass-border);
-      border-top: 1.5px solid var(--glass-border-highlight);
+      background: rgba(235, 240, 248, calc(var(--glass-opacity) * 0.9));
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      border-top: 1.5px solid #ffffff;
+      box-shadow: inset 0 1.5px 3px rgba(15, 23, 42, 0.08);
+    }
+    body.light-theme .tab-btn {
+      color: #64748b;
+    }
+    body.light-theme .tab-btn:hover {
+      color: #0f172a;
     }
     body.light-theme .tab-btn.active {
-      background: #ffffff;
+      background: transparent;
       color: var(--c-blue);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-      border-color: rgba(2, 132, 199, 0.3);
+      box-shadow: none;
+      border: none;
+    }
+    body.light-theme .nav-slider-glass {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 248, 252, 0.88) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.85);
       border-top: 1.5px solid #ffffff;
+      box-shadow: 
+        0 6px 18px -2px rgba(15, 23, 42, 0.12),
+        0 2px 6px rgba(15, 23, 42, 0.06),
+        inset 0 1.5px 2px #ffffff,
+        inset 0 -1px 2px rgba(0, 0, 0, 0.04);
+    }
+    body.light-theme .nav-slider-glass.is-dragging,
+    body.light-theme .nav-slider-glass:active {
+      box-shadow: 
+        0 14px 28px -4px rgba(15, 23, 42, 0.18),
+        0 4px 10px rgba(15, 23, 42, 0.08),
+        inset 0 2px 2px #ffffff,
+        inset 0 -1px 2px rgba(0, 0, 0, 0.04);
     }
     body.light-theme .train-card {
       background: rgba(255, 255, 255, 0.78);
@@ -193,7 +217,13 @@
     body.light-theme .badge-carriage { background: #fef3c7; color: #b45309; border-color: #fde68a; }
     body.light-theme .badge-location { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
     body.light-theme .badge-origin-date { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
-    body.light-theme .md-code-pill { background: #f1f3f5; color: #1e293b; border-color: rgba(0, 0, 0, 0.06); }
+    body.light-theme .md-code-pill {
+      background: #e9ecef;
+      color: #1e293b;
+      border: 1px solid #d0d7de;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      font-weight: 600;
+    }
     body.light-theme .md-code-pill.is-candidate { background: #fef3c7; color: #b45309; border: 1px dashed #f59e0b; }
     body.light-theme .candidate-badge { background: #fde68a; color: #92400e; }
     body.light-theme .overdue-container {
@@ -216,7 +246,20 @@
     }
     body.light-theme .chip-item { background: rgba(255, 255, 255, 0.7); border-color: #e2e8f0; }
     body.light-theme .chip-item.active { background: var(--c-blue); color: #ffffff; border-color: var(--c-blue); }
-    body.light-theme .search-input { background: rgba(255, 255, 255, 0.85); border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .search-input {
+      background: linear-gradient(180deg, #ffffff 0%, rgba(248, 250, 252, 0.9) 100%);
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      border-top: 1.5px solid #ffffff;
+      box-shadow: inset 0 1.5px 2px #ffffff, inset 0 -1px 2px rgba(0, 0, 0, 0.03), 0 3px 10px rgba(15, 23, 42, 0.05);
+      color: #0f172a;
+    }
+    body.light-theme .search-input:focus {
+      border-color: #0284c7;
+      box-shadow: inset 0 1.5px 2px #ffffff, 0 6px 18px rgba(2, 132, 199, 0.18);
+    }
+    body.light-theme .search-glass-icon {
+      color: #64748b;
+    }
     body.light-theme .modal-box {
       background: var(--glass-surface);
       border-color: var(--glass-border);
@@ -319,42 +362,88 @@
       background: rgba(255, 255, 255, 0.95);
     }
 
-    /* View Segmented Control - Liquid Glass Tabs */
+    /* View Segmented Control - Liquid Glass Tabs with Floating Interactive Glass Slider */
     .nav-tabs {
+      position: relative;
       display: flex;
       background: rgba(12, 16, 26, calc(var(--glass-opacity) * 0.85));
       backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
       -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
       border: 1px solid var(--glass-border);
       border-top: 1.5px solid var(--glass-border-highlight);
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+      box-shadow: inset 0 1.5px 3px rgba(0, 0, 0, 0.4);
       border-radius: 14px;
       padding: 4px;
       margin-bottom: 16px;
-      gap: 4px;
+      touch-action: pan-y;
+      user-select: none;
+      overflow: hidden;
+    }
+    /* Liquid Glass Floating Thumb (Apple VisionOS / iOS Segmented Glass) */
+    .nav-slider-glass {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 0;
+      width: calc((100% - 8px) / 3);
+      z-index: 1;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(56, 189, 248, 0.12) 100%);
+      backdrop-filter: blur(16px) saturate(190%);
+      -webkit-backdrop-filter: blur(16px) saturate(190%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.7);
+      border-left: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: 
+        0 6px 20px -2px rgba(0, 0, 0, 0.45),
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.6),
+        inset 0 -1.5px 2px rgba(0, 0, 0, 0.25);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease;
+      cursor: grab;
+      touch-action: none;
+      will-change: transform;
+    }
+    .nav-slider-glass.is-dragging,
+    .nav-slider-glass:active {
+      cursor: grabbing;
+      box-shadow: 
+        0 14px 32px -4px rgba(0, 0, 0, 0.6),
+        0 6px 12px rgba(0, 0, 0, 0.3),
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1.5px 2px rgba(0, 0, 0, 0.2);
+      transition: none;
     }
     .tab-btn {
+      position: relative;
+      z-index: 2;
       flex: 1;
       text-align: center;
-      padding: 8px 8px;
-      border-radius: 9px;
-      border: 1px solid transparent;
+      padding: 9px 8px;
+      border-radius: 10px;
+      border: none;
       background: transparent;
       color: var(--text-muted);
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: color 0.2s ease;
       font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      touch-action: manipulation;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
     }
     .tab-btn.active {
-      background: rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       color: var(--c-blue);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-top: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.18), 0 4px 14px rgba(0,0,0,0.25);
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
 
     /* Status Bar */
@@ -608,12 +697,13 @@
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 13px;
       font-weight: 500;
-      padding: 1.5px 6.5px;
+      padding: 2px 7px;
       margin: 0 4px 0 2px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
+      border-radius: 5px;
+      background: #1c2230;
       color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid #2d3748;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
       display: inline-block;
       vertical-align: middle;
       line-height: 1.35;
@@ -763,18 +853,41 @@
       border-color: var(--c-blue);
       font-weight: 700;
     }
-    .search-input {
-      background: var(--bg-inset);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
+    /* Apple Liquid Glass Capsule Search Input (matching media_1790259874950.png) */
+    .glass-search-wrapper {
+      position: relative;
       width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .search-input {
+      width: 100%;
+      border-radius: 9999px;
+      padding: 10px 44px 10px 18px;
+      font-size: 13.5px;
+      font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif;
+      outline: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.65);
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.3), inset 0 -1px 2px rgba(0, 0, 0, 0.15), 0 4px 14px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: var(--text-main);
+      transition: all 0.25s ease;
     }
     .search-input:focus {
-      border-color: var(--border-accent);
+      border-color: var(--c-blue);
+      border-top-color: #ffffff;
+      box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.5), 0 6px 20px rgba(56, 189, 248, 0.25);
+    }
+    .search-glass-icon {
+      position: absolute;
+      right: 16px;
+      pointer-events: none;
+      font-size: 14px;
+      color: var(--text-muted);
+      opacity: 0.85;
     }
 
     /* Token Config Modal */
@@ -1062,11 +1175,12 @@
     </div>
   </div>
 
-  <!-- Segmented Tabs -->
-  <div class="nav-tabs">
-    <button class="tab-btn active" id="tabActiveBtn" onclick="switchView('active')">⚡ 前線作戰</button>
-    <button class="tab-btn" id="tabSubjectsBtn" onclick="switchView('subjects')">📚 學科工單全覽</button>
-    <button class="tab-btn" id="tabArchiveBtn" onclick="switchView('archive')">📜 歷史封存</button>
+  <!-- Segmented Tabs with Floating Liquid Glass Slider -->
+  <div class="nav-tabs" id="navTabsTrack">
+    <div class="nav-slider-glass" id="navSliderGlass" title="左右滑動/拖曳選定視圖"></div>
+    <button class="tab-btn active" id="tabActiveBtn" data-view="active" onclick="switchView('active')">⚡ 前線作戰</button>
+    <button class="tab-btn" id="tabSubjectsBtn" data-view="subjects" onclick="switchView('subjects')">📚 學科工單全覽</button>
+    <button class="tab-btn" id="tabArchiveBtn" data-view="archive" onclick="switchView('archive')">📜 歷史封存</button>
   </div>
 
   <!-- Status Bar -->
@@ -1115,7 +1229,10 @@
         <button class="chip-item" onclick="filterSubjectWorkOrders('CAL', this)">🛠️ 系統 CAL</button>
         <button class="chip-item" onclick="filterSubjectWorkOrders('OTHER', this)">⚪ 彈性/複習</button>
       </div>
-      <input type="text" id="subjectSearchInput" class="search-input" placeholder="🔍 搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
+      <div class="glass-search-wrapper">
+        <input type="text" id="subjectSearchInput" class="search-input" placeholder="搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
+        <span class="search-glass-icon">🔎</span>
+      </div>
     </div>
 
     <div id="subjectContentContainer">
@@ -1135,7 +1252,10 @@
         <button class="chip-item active" onclick="loadArchiveWeek('W39_past')">W39 前期歷史 (09/21~09/23)</button>
         <button class="chip-item" onclick="loadArchiveWeek('W36')">W36 (開學前備戰)</button>
       </div>
-      <input type="text" id="archiveSearchInput" class="search-input" placeholder="🔍 搜尋歷史工單關鍵字 (例如: 電工, 會計, HW)..." oninput="filterArchiveSearch()" />
+      <div class="glass-search-wrapper">
+        <input type="text" id="archiveSearchInput" class="search-input" placeholder="搜尋歷史工單關鍵字 (例如: 電工, 會計, HW)..." oninput="filterArchiveSearch()" />
+        <span class="search-glass-icon">🔎</span>
+      </div>
     </div>
 
     <div id="archiveContentContainer">
@@ -1247,6 +1367,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
       initGlassParams();
+      initNavSlider();
       document.getElementById('todayIndicator').textContent = `基準日期: ${todayMMDD}`;
 
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
@@ -1411,6 +1532,198 @@
       applyGlassParams(blur, opacity, 'custom');
     }
 
+    // ==========================================
+    // Interactive Liquid Glass Nav Slider Engine
+    // (Apple VisionOS / iOS Segmented Floating Glass)
+    // ==========================================
+    let isNavSliderDragging = false;
+    let navDragStartX = 0;
+    let navSliderStartLeft = 0;
+    let navSliderCurrentLeft = 0;
+    let navSwipeStartX = 0;
+    let navSwipeStartY = 0;
+
+    function initNavSlider() {
+      const track = document.getElementById('navTabsTrack');
+      const slider = document.getElementById('navSliderGlass');
+      if (!track || !slider) return;
+
+      // Initial alignment
+      setTimeout(() => {
+        updateNavSliderPosition(currentActiveView, false);
+      }, 60);
+
+      window.addEventListener('resize', () => {
+        updateNavSliderPosition(currentActiveView, false);
+      });
+
+      // Pointer / Mouse / Touch Dragging on the Glass Slider
+      const onStart = (clientX) => {
+        isNavSliderDragging = true;
+        const trackRect = track.getBoundingClientRect();
+        const sliderRect = slider.getBoundingClientRect();
+        navDragStartX = clientX;
+        navSliderStartLeft = sliderRect.left - trackRect.left;
+        navSliderCurrentLeft = navSliderStartLeft;
+
+        slider.classList.add('is-dragging');
+        slider.style.transition = 'none';
+      };
+
+      const onMove = (clientX) => {
+        if (!isNavSliderDragging) return;
+        const deltaX = clientX - navDragStartX;
+        const trackRect = track.getBoundingClientRect();
+        const sliderWidth = slider.offsetWidth;
+        const minLeft = 4;
+        const maxLeft = Math.max(minLeft, trackRect.width - sliderWidth - 4);
+
+        navSliderCurrentLeft = Math.max(minLeft, Math.min(maxLeft, navSliderStartLeft + deltaX));
+        slider.style.transform = `translateX(${navSliderCurrentLeft}px) scale(1.04) translateY(-1px)`;
+
+        // Highlight tab under slider center in real-time
+        const sliderCenter = navSliderCurrentLeft + (sliderWidth / 2);
+        const tabs = Array.from(track.querySelectorAll('.tab-btn'));
+        let closestTab = tabs[0];
+        let minDistance = Infinity;
+
+        tabs.forEach(tab => {
+          const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
+          const dist = Math.abs(sliderCenter - tabCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestTab = tab;
+          }
+        });
+
+        tabs.forEach(t => t.classList.toggle('active', t === closestTab));
+      };
+
+      const onEnd = () => {
+        if (!isNavSliderDragging) return;
+        isNavSliderDragging = false;
+        slider.classList.remove('is-dragging');
+        slider.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease';
+
+        // Snap to closest tab
+        const sliderWidth = slider.offsetWidth;
+        const sliderCenter = navSliderCurrentLeft + (sliderWidth / 2);
+        const tabs = Array.from(track.querySelectorAll('.tab-btn'));
+        let closestTab = tabs[0];
+        let minDistance = Infinity;
+
+        tabs.forEach(tab => {
+          const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
+          const dist = Math.abs(sliderCenter - tabCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestTab = tab;
+          }
+        });
+
+        if (closestTab) {
+          const view = closestTab.getAttribute('data-view') || 'active';
+          if (navigator.vibrate) {
+            try { navigator.vibrate(10); } catch (e) {}
+          }
+          switchView(view);
+        }
+      };
+
+      // Pointer events for desktop & touch
+      slider.addEventListener('pointerdown', (e) => {
+        onStart(e.clientX);
+        slider.setPointerCapture(e.pointerId);
+      });
+      slider.addEventListener('pointermove', (e) => {
+        if (isNavSliderDragging) {
+          e.preventDefault();
+          onMove(e.clientX);
+        }
+      });
+      slider.addEventListener('pointerup', (e) => {
+        try { slider.releasePointerCapture(e.pointerId); } catch(err) {}
+        onEnd();
+      });
+      slider.addEventListener('pointercancel', (e) => {
+        try { slider.releasePointerCapture(e.pointerId); } catch(err) {}
+        onEnd();
+      });
+
+      // Track-wide drag support for immediate tactile feel
+      track.addEventListener('pointerdown', (e) => {
+        if (e.target.classList.contains('tab-btn')) return; // let button clicks handle directly
+        onStart(e.clientX);
+        track.setPointerCapture(e.pointerId);
+      });
+      track.addEventListener('pointermove', (e) => {
+        if (isNavSliderDragging) {
+          e.preventDefault();
+          onMove(e.clientX);
+        }
+      });
+      track.addEventListener('pointerup', (e) => {
+        try { track.releasePointerCapture(e.pointerId); } catch(err) {}
+        onEnd();
+      });
+      track.addEventListener('pointercancel', (e) => {
+        try { track.releasePointerCapture(e.pointerId); } catch(err) {}
+        onEnd();
+      });
+
+      // Swipe Left / Right on Mobile Screen
+      document.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) {
+          navSwipeStartX = e.touches[0].clientX;
+          navSwipeStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const deltaX = e.changedTouches[0].clientX - navSwipeStartX;
+          const deltaY = e.changedTouches[0].clientY - navSwipeStartY;
+          // Check for clean horizontal swipe gesture
+          if (Math.abs(deltaX) > 75 && Math.abs(deltaY) < 55) {
+            const views = ['active', 'subjects', 'archive'];
+            const currentIndex = views.indexOf(currentActiveView);
+            if (deltaX < 0 && currentIndex < views.length - 1) {
+              // Swipe Left -> Next Tab
+              if (navigator.vibrate) try { navigator.vibrate(8); } catch(err) {}
+              switchView(views[currentIndex + 1]);
+            } else if (deltaX > 0 && currentIndex > 0) {
+              // Swipe Right -> Prev Tab
+              if (navigator.vibrate) try { navigator.vibrate(8); } catch(err) {}
+              switchView(views[currentIndex - 1]);
+            }
+          }
+        }
+      }, { passive: true });
+    }
+
+    function updateNavSliderPosition(view, animate = true) {
+      const track = document.getElementById('navTabsTrack');
+      const slider = document.getElementById('navSliderGlass');
+      if (!track || !slider) return;
+
+      const activeBtn = track.querySelector(`.tab-btn[data-view="${view}"]`);
+      if (!activeBtn) return;
+
+      const trackRect = track.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const leftOffset = btnRect.left - trackRect.left;
+      const width = btnRect.width;
+
+      if (!animate) {
+        slider.style.transition = 'none';
+      } else {
+        slider.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease';
+      }
+
+      slider.style.width = `${width}px`;
+      slider.style.transform = `translateX(${leftOffset}px)`;
+    }
+
     function switchView(view) {
       currentActiveView = view;
       const tabActive = document.getElementById('tabActiveBtn');
@@ -1427,6 +1740,8 @@
       activeCont.style.display = view === 'active' ? 'block' : 'none';
       subjectsCont.style.display = view === 'subjects' ? 'block' : 'none';
       archiveCont.style.display = view === 'archive' ? 'block' : 'none';
+
+      updateNavSliderPosition(view, true);
 
       if (view === 'subjects') {
         buildSubjectRegistry();
