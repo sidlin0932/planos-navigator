@@ -167,45 +167,33 @@
       border: none;
       font-weight: 700;
     }
+    body.light-theme .nav-tabs {
+      background: rgba(226, 232, 240, 0.75);
+      border: 1px solid rgba(203, 213, 225, 0.85);
+      border-top: 1.5px solid #ffffff;
+      box-shadow: inset 0 1.5px 3px rgba(15, 23, 42, 0.08);
+    }
     body.light-theme .nav-slider-glass {
       top: 3px;
       bottom: 3px;
       border-radius: 9999px;
       background: #ffffff;
-      border: 1px solid rgba(203, 213, 225, 0.75);
+      border: 1px solid rgba(203, 213, 225, 0.8);
       border-top: 1.2px solid #ffffff;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 1px #ffffff;
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease;
-    }
-    /* 游標懸停 (Hover) 與拖曳 (Dragging/Active) 時：立體浮起 ＋ 虹彩稜鏡色散邊緣 (matching media_1790260200440.png) */
-    body.light-theme .nav-tabs:hover .nav-slider-glass,
-    body.light-theme .nav-slider-glass:hover,
-    body.light-theme .nav-slider-glass.is-hovered,
-    body.light-theme .nav-slider-glass.is-dragging,
-    body.light-theme .nav-slider-glass:active {
-      top: -4px;
-      bottom: -4px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.6) 45%, rgba(240, 245, 255, 0.85) 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.95);
-      border-top: 1.8px solid #ffffff;
-      border-bottom: 1px solid rgba(203, 213, 225, 0.8);
       box-shadow: 
-        0 8px 24px -2px rgba(15, 23, 42, 0.16),
+        0 2px 8px rgba(15, 23, 42, 0.08),
+        0 1px 3px rgba(15, 23, 42, 0.04),
+        inset 0 1px 1px #ffffff,
+        0 0 10px rgba(56, 189, 248, 0.15);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    body.light-theme .nav-slider-glass.is-dragging {
+      box-shadow: 
+        0 6px 20px rgba(15, 23, 42, 0.16),
         0 2px 6px rgba(15, 23, 42, 0.08),
-        inset 0 2px 2px #ffffff,
-        inset 0 -1.5px 2px rgba(0, 0, 0, 0.05),
-        0 0 0 1px rgba(255, 255, 255, 0.85),
-        0 0 10px rgba(186, 230, 253, 0.55),
-        0 0 16px rgba(244, 208, 255, 0.35); /* Prismatic chromatic dispersion rim */
-    }
-    body.light-theme .nav-slider-glass.is-dragging,
-    body.light-theme .nav-slider-glass:active {
-      box-shadow: 
-        0 16px 36px -4px rgba(15, 23, 42, 0.22),
-        0 6px 14px rgba(15, 23, 42, 0.12),
-        inset 0 2px 2px #ffffff,
-        inset 0 -1px 2px rgba(0, 0, 0, 0.04),
-        0 0 14px rgba(186, 230, 253, 0.7);
+        inset 0 1px 1px #ffffff,
+        0 0 16px rgba(56, 189, 248, 0.28);
+      transition: none !important;
     }
     body.light-theme .train-card {
       background: rgba(255, 255, 255, 0.78);
@@ -402,11 +390,11 @@
       border-radius: 9999px;
       padding: 3px 4px;
       margin-bottom: 18px;
-      touch-action: pan-y;
+      touch-action: none; /* smooth horizontal drag without vertical scroll conflict */
       user-select: none;
-      overflow: visible;
+      cursor: pointer;
     }
-    /* Liquid Glass Floating Thumb (Apple VisionOS / iPadOS Pointer Interaction) */
+    /* Liquid Glass Floating Thumb (Apple VisionOS / iPadOS Style) */
     .nav-slider-glass {
       position: absolute;
       top: 3px;
@@ -415,50 +403,30 @@
       width: calc((100% - 8px) / 3);
       z-index: 1;
       border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-top: 1.2px solid rgba(255, 255, 255, 0.35);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.18);
-      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease;
-      cursor: grab;
-      touch-action: none;
-      will-change: transform;
-    }
-    /* 游標懸停 (Hover) 與拖曳選定 (Dragging/Active) 時：立體浮起 ＋ 虹彩稜鏡色散邊緣 (1:1 還原 media_1790260200440.png) */
-    .nav-tabs:hover .nav-slider-glass,
-    .nav-slider-glass:hover,
-    .nav-slider-glass.is-hovered,
-    .nav-slider-glass.is-dragging,
-    .nav-slider-glass:active {
-      top: -4px;
-      bottom: -4px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(56, 189, 248, 0.16) 100%);
-      backdrop-filter: blur(18px) saturate(200%);
-      -webkit-backdrop-filter: blur(18px) saturate(200%);
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      border-top: 1.8px solid rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+      pointer-events: none; /* let track handle pointer gestures everywhere */
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.07) 100%);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-top: 1.2px solid rgba(255, 255, 255, 0.65);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.35);
       box-shadow: 
-        0 8px 26px -2px rgba(0, 0, 0, 0.55),
-        0 3px 8px rgba(0, 0, 0, 0.3),
-        inset 0 2px 2px rgba(255, 255, 255, 0.75),
-        inset 0 -1.5px 2px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.25),
-        0 0 10px rgba(56, 189, 248, 0.45),
-        0 0 18px rgba(192, 132, 252, 0.3); /* Prismatic chromatic dispersion rim */
+        0 4px 14px rgba(0, 0, 0, 0.4),
+        0 1px 3px rgba(0, 0, 0, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5),
+        0 0 10px rgba(56, 189, 248, 0.25),
+        0 0 18px rgba(192, 132, 252, 0.18);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, width;
     }
-    .nav-slider-glass.is-dragging,
-    .nav-slider-glass:active {
-      cursor: grabbing;
+    .nav-slider-glass.is-dragging {
       box-shadow: 
-        0 16px 36px -4px rgba(0, 0, 0, 0.7),
-        0 6px 14px rgba(0, 0, 0, 0.4),
-        inset 0 2px 2px rgba(255, 255, 255, 0.9),
-        0 0 16px rgba(56, 189, 248, 0.6),
-        0 0 24px rgba(192, 132, 252, 0.4);
-      transition: none;
+        0 8px 26px rgba(0, 0, 0, 0.6),
+        0 3px 8px rgba(0, 0, 0, 0.35),
+        inset 0 1px 1px rgba(255, 255, 255, 0.8),
+        0 0 14px rgba(56, 189, 248, 0.45),
+        0 0 24px rgba(192, 132, 252, 0.3);
+      transition: none !important;
     }
     .tab-btn {
       position: relative;
@@ -1257,9 +1225,9 @@
   <!-- Segmented Tabs with Floating Liquid Glass Slider -->
   <div class="nav-tabs" id="navTabsTrack">
     <div class="nav-slider-glass" id="navSliderGlass" title="左右滑動/拖曳選定視圖"></div>
-    <button class="tab-btn active" id="tabActiveBtn" data-view="active" onclick="switchView('active')">⚡ 前線作戰</button>
-    <button class="tab-btn" id="tabSubjectsBtn" data-view="subjects" onclick="switchView('subjects')">📚 學科工單全覽</button>
-    <button class="tab-btn" id="tabArchiveBtn" data-view="archive" onclick="switchView('archive')">📜 歷史封存</button>
+    <button class="tab-btn active" id="tabActiveBtn" data-view="active" onclick="handleTabClick('active')">⚡ 前線作戰</button>
+    <button class="tab-btn" id="tabSubjectsBtn" data-view="subjects" onclick="handleTabClick('subjects')">📚 學科工單全覽</button>
+    <button class="tab-btn" id="tabArchiveBtn" data-view="archive" onclick="handleTabClick('archive')">📜 歷史封存</button>
   </div>
 
   <!-- Status Bar -->
@@ -1620,14 +1588,20 @@
 
     // ==========================================
     // Interactive Liquid Glass Nav Slider Engine
-    // (Apple VisionOS / iOS Segmented Floating Glass)
+    // (Apple VisionOS / iOS Floating Segmented Glass)
     // ==========================================
-    let isNavSliderDragging = false;
-    let navDragStartX = 0;
-    let navSliderStartLeft = 0;
-    let navSliderCurrentLeft = 0;
+    let isDraggingNavSlider = false;
+    let wasJustDragging = false;
+    let dragStartX = 0;
+    let dragStartSliderLeft = 0;
+    let currentSliderLeft = 0;
     let navSwipeStartX = 0;
     let navSwipeStartY = 0;
+
+    function handleTabClick(view) {
+      if (wasJustDragging || isDraggingNavSlider) return;
+      switchView(view);
+    }
 
     function initNavSlider() {
       const track = document.getElementById('navTabsTrack');
@@ -1637,135 +1611,119 @@
       // Initial alignment
       setTimeout(() => {
         updateNavSliderPosition(currentActiveView, false);
-      }, 60);
+      }, 50);
 
       window.addEventListener('resize', () => {
         updateNavSliderPosition(currentActiveView, false);
       });
 
-      // Pointer / Mouse / Touch Dragging on the Glass Slider
-      const onStart = (clientX) => {
-        isNavSliderDragging = true;
-        const trackRect = track.getBoundingClientRect();
-        const sliderRect = slider.getBoundingClientRect();
-        navDragStartX = clientX;
-        navSliderStartLeft = sliderRect.left - trackRect.left;
-        navSliderCurrentLeft = navSliderStartLeft;
-
-        slider.classList.add('is-dragging');
-        slider.style.transition = 'none';
-      };
-
-      const onMove = (clientX) => {
-        if (!isNavSliderDragging) return;
-        const deltaX = clientX - navDragStartX;
-        const trackRect = track.getBoundingClientRect();
-        const sliderWidth = slider.offsetWidth;
-        const minLeft = 4;
-        const maxLeft = Math.max(minLeft, trackRect.width - sliderWidth - 4);
-
-        navSliderCurrentLeft = Math.max(minLeft, Math.min(maxLeft, navSliderStartLeft + deltaX));
-        slider.style.transform = `translateX(${navSliderCurrentLeft}px) scale(1.04) translateY(-1px)`;
-
-        // Highlight tab under slider center in real-time
-        const sliderCenter = navSliderCurrentLeft + (sliderWidth / 2);
-        const tabs = Array.from(track.querySelectorAll('.tab-btn'));
-        let closestTab = tabs[0];
-        let minDistance = Infinity;
-
-        tabs.forEach(tab => {
-          const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
-          const dist = Math.abs(sliderCenter - tabCenter);
-          if (dist < minDistance) {
-            minDistance = dist;
-            closestTab = tab;
-          }
-        });
-
-        tabs.forEach(t => t.classList.toggle('active', t === closestTab));
-      };
-
-      const onEnd = () => {
-        if (!isNavSliderDragging) return;
-        isNavSliderDragging = false;
-        slider.classList.remove('is-dragging');
-        slider.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease';
-
-        // Snap to closest tab
-        const sliderWidth = slider.offsetWidth;
-        const sliderCenter = navSliderCurrentLeft + (sliderWidth / 2);
-        const tabs = Array.from(track.querySelectorAll('.tab-btn'));
-        let closestTab = tabs[0];
-        let minDistance = Infinity;
-
-        tabs.forEach(tab => {
-          const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
-          const dist = Math.abs(sliderCenter - tabCenter);
-          if (dist < minDistance) {
-            minDistance = dist;
-            closestTab = tab;
-          }
-        });
-
-        if (closestTab) {
-          const view = closestTab.getAttribute('data-view') || 'active';
-          if (navigator.vibrate) {
-            try { navigator.vibrate(10); } catch (e) {}
-          }
-          switchView(view);
-        }
-      };
-
-      // Pointer events for desktop & touch
-      slider.addEventListener('pointerdown', (e) => {
-        onStart(e.clientX);
-        slider.setPointerCapture(e.pointerId);
-      });
-      slider.addEventListener('pointermove', (e) => {
-        if (isNavSliderDragging) {
-          e.preventDefault();
-          onMove(e.clientX);
-        }
-      });
-      slider.addEventListener('pointerup', (e) => {
-        try { slider.releasePointerCapture(e.pointerId); } catch(err) {}
-        onEnd();
-      });
-      slider.addEventListener('pointercancel', (e) => {
-        try { slider.releasePointerCapture(e.pointerId); } catch(err) {}
-        onEnd();
-      });
-
-      // Track-wide drag support for immediate tactile feel
+      // Pointer / Mouse / Touch Dragging across the entire Segmented Track
       track.addEventListener('pointerdown', (e) => {
-        if (e.target.classList.contains('tab-btn')) return; // let button clicks handle directly
-        onStart(e.clientX);
-        track.setPointerCapture(e.pointerId);
+        if (e.button !== undefined && e.button !== 0) return;
+
+        isDraggingNavSlider = false;
+        wasJustDragging = false;
+        dragStartX = e.clientX;
+
+        const activeBtn = track.querySelector(`.tab-btn[data-view="${currentActiveView}"]`);
+        dragStartSliderLeft = activeBtn ? activeBtn.offsetLeft : 4;
+        currentSliderLeft = dragStartSliderLeft;
+
+        try { track.setPointerCapture(e.pointerId); } catch(err) {}
       });
+
       track.addEventListener('pointermove', (e) => {
-        if (isNavSliderDragging) {
+        if (e.pointerType === 'mouse' && e.buttons === 0) return;
+
+        const deltaX = e.clientX - dragStartX;
+
+        // If moved more than 5px, transition into active drag mode
+        if (!isDraggingNavSlider && Math.abs(deltaX) > 5) {
+          isDraggingNavSlider = true;
+          wasJustDragging = true;
+          slider.classList.add('is-dragging');
+          slider.style.transition = 'none';
+        }
+
+        if (isDraggingNavSlider) {
           e.preventDefault();
-          onMove(e.clientX);
+          const tabs = Array.from(track.querySelectorAll('.tab-btn'));
+          const minLeft = tabs[0].offsetLeft;
+          const maxLeft = tabs[tabs.length - 1].offsetLeft;
+
+          // Apple elastic drag curve at bounds
+          let newLeft = dragStartSliderLeft + deltaX;
+          if (newLeft < minLeft) {
+            newLeft = minLeft - Math.pow(minLeft - newLeft, 0.72);
+          } else if (newLeft > maxLeft) {
+            newLeft = maxLeft + Math.pow(newLeft - maxLeft, 0.72);
+          }
+
+          currentSliderLeft = newLeft;
+          slider.style.transform = `translateX(${currentSliderLeft}px)`;
+
+          // Real-time highlight closest tab under slider center
+          const sliderCenter = currentSliderLeft + (slider.offsetWidth / 2);
+          let closestTab = tabs[0];
+          let minDistance = Infinity;
+
+          tabs.forEach(tab => {
+            const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
+            const dist = Math.abs(sliderCenter - tabCenter);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestTab = tab;
+            }
+          });
+
+          tabs.forEach(t => t.classList.toggle('active', t === closestTab));
         }
       });
-      track.addEventListener('pointerup', (e) => {
-        try { track.releasePointerCapture(e.pointerId); } catch(err) {}
-        onEnd();
-      });
-      track.addEventListener('pointercancel', (e) => {
-        try { track.releasePointerCapture(e.pointerId); } catch(err) {}
-        onEnd();
-      });
 
-      // Pointer Hover Interaction (Apple visionOS / iPadOS Parity)
-      track.addEventListener('pointerenter', () => {
-        slider.classList.add('is-hovered');
-      });
-      track.addEventListener('pointerleave', () => {
-        slider.classList.remove('is-hovered');
-      });
+      const onPointerRelease = (e) => {
+        try { track.releasePointerCapture(e.pointerId); } catch(err) {}
 
-      // Swipe Left / Right on Mobile Screen
+        if (isDraggingNavSlider) {
+          isDraggingNavSlider = false;
+          slider.classList.remove('is-dragging');
+          slider.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1)';
+
+          // Snap to closest tab
+          const tabs = Array.from(track.querySelectorAll('.tab-btn'));
+          const sliderCenter = currentSliderLeft + (slider.offsetWidth / 2);
+          let closestTab = tabs[0];
+          let minDistance = Infinity;
+
+          tabs.forEach(tab => {
+            const tabCenter = tab.offsetLeft + (tab.offsetWidth / 2);
+            const dist = Math.abs(sliderCenter - tabCenter);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestTab = tab;
+            }
+          });
+
+          if (closestTab) {
+            const view = closestTab.getAttribute('data-view') || 'active';
+            if (navigator.vibrate) try { navigator.vibrate(10); } catch(err) {}
+            switchView(view);
+          }
+
+          setTimeout(() => { wasJustDragging = false; }, 80);
+        } else {
+          // Normal tap/click
+          const clickedTab = e.target.closest('.tab-btn');
+          if (clickedTab) {
+            const view = clickedTab.getAttribute('data-view');
+            if (view) switchView(view);
+          }
+        }
+      };
+
+      track.addEventListener('pointerup', onPointerRelease);
+      track.addEventListener('pointercancel', onPointerRelease);
+
+      // Mobile Screen Horizontal Swipe Gesture
       document.addEventListener('touchstart', (e) => {
         if (e.touches && e.touches.length === 1) {
           navSwipeStartX = e.touches[0].clientX;
@@ -1777,16 +1735,13 @@
         if (e.changedTouches && e.changedTouches.length === 1) {
           const deltaX = e.changedTouches[0].clientX - navSwipeStartX;
           const deltaY = e.changedTouches[0].clientY - navSwipeStartY;
-          // Check for clean horizontal swipe gesture
           if (Math.abs(deltaX) > 75 && Math.abs(deltaY) < 55) {
             const views = ['active', 'subjects', 'archive'];
             const currentIndex = views.indexOf(currentActiveView);
             if (deltaX < 0 && currentIndex < views.length - 1) {
-              // Swipe Left -> Next Tab
               if (navigator.vibrate) try { navigator.vibrate(8); } catch(err) {}
               switchView(views[currentIndex + 1]);
             } else if (deltaX > 0 && currentIndex > 0) {
-              // Swipe Right -> Prev Tab
               if (navigator.vibrate) try { navigator.vibrate(8); } catch(err) {}
               switchView(views[currentIndex - 1]);
             }
@@ -1803,15 +1758,13 @@
       const activeBtn = track.querySelector(`.tab-btn[data-view="${view}"]`);
       if (!activeBtn) return;
 
-      const trackRect = track.getBoundingClientRect();
-      const btnRect = activeBtn.getBoundingClientRect();
-      const leftOffset = btnRect.left - trackRect.left;
-      const width = btnRect.width;
+      const leftOffset = activeBtn.offsetLeft;
+      const width = activeBtn.offsetWidth;
 
       if (!animate) {
         slider.style.transition = 'none';
       } else {
-        slider.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease';
+        slider.style.transition = 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), width 0.35s cubic-bezier(0.22, 1, 0.36, 1)';
       }
 
       slider.style.width = `${width}px`;
