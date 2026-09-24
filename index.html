@@ -1394,6 +1394,7 @@
     const STORAGE_KEY_TOKEN = 'planos_gh_token';
     const STORAGE_KEY_REPO = 'planos_gh_repo';
     const STORAGE_KEY_THEME = 'planos_theme';
+    const STORAGE_KEY_OVERDUE = 'planos_persisted_overdue_keys';
     const PIPELINE_PATH = 'PIPELINE.md';
 
     let currentFileSha = null;
@@ -1403,12 +1404,7 @@
     let pastCompletedDays = [];
     let currentActiveView = 'active';
     let recentlyCheckedIndices = new Set();
-    let showPastCompletedDays = false;
-
-    function togglePastDays() {
-      showPastCompletedDays = !showPastCompletedDays;
-      renderActiveView();
-    }
+    let persistedOverdueKeys = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY_OVERDUE) || '[]'));
 
     // 獲取當前真實日期 (格式: MM/DD)
     const now = new Date();
@@ -1961,10 +1957,11 @@
 
           const taskObj = extractTaskMeta(rawTask, line, i, isDone, currentDay.dateStr);
 
-          // 核心分流：若日期在今天之前且「尚未打勾」➔ 自動升級歸入 P0 Overdue Queue！
-          // 關鍵防呆：若此前逾期但本會話剛打勾，依然保留在 Overdue 清單供檢視或反悔取消，絕不憑空消失！
+          // 核心分流：若日期在今天之前且「尚未打勾」或「此前曾入列 Overdue」➔ 永遠保留在 P0 Overdue Queue，絕不自動消失！
           if (currentDay.dayNum > 0 && currentDay.dayNum < todayFullNum) {
-            if (!isDone || recentlyCheckedIndices.has(i)) {
+            const taskKey = `${currentDay.dateStr}_${taskObj.cleanTitle}`;
+            if (!isDone || persistedOverdueKeys.has(taskKey) || recentlyCheckedIndices.has(i)) {
+              persistedOverdueKeys.add(taskKey);
               overdueTasks.push(taskObj);
             }
           }
@@ -1976,6 +1973,10 @@
           }
         }
       }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_OVERDUE, JSON.stringify(Array.from(persistedOverdueKeys)));
+      } catch (e) {}
     }
 
     // 格式化車次標題為手機友善藥丸膠囊 (避免中文字截斷)
@@ -2070,30 +2071,21 @@
       };
     }
 
-    // 雙堆排序：未完成正序排列，已完成倒序排列 (工單全週原地保留，週日結算前絕不封存)
-    function sortTasksTwoPiles(tasks) {
-      if (!tasks || tasks.length <= 1) return tasks || [];
-      const pending = tasks.filter(t => !t.isDone); // 未完成：維持正序
-      const completed = tasks.filter(t => t.isDone).slice().reverse(); // 已完成：倒序排列
-      return [...pending, ...completed];
-    }
-
-    // 渲染前線作戰視圖 (全週作戰流水線完整展現 · 當週打勾 100% 原位保留 · 9/27-9/28 週度結算前絕不移走)
+    // 渲染前線作戰視圖 (全週作戰流水線完整展現 · 保持 100% 原始順序 · 絕不自動重排 · 絕不自動消失)
     function renderActiveView() {
       const overdueBox = document.getElementById('overdueBox');
       const overdueList = document.getElementById('overdueTasksList');
       const overdueCountEl = document.getElementById('overdueCount');
       const container = document.getElementById('pipelineContainer');
 
-      // 1. 渲染 P0 Overdue Queue (未完成正序，已完成倒序)
+      // 1. 渲染 P0 Overdue Queue (保持原始順序，打勾絕不消失，絕不重排)
       if (overdueTasks.length > 0) {
         overdueBox.style.display = 'block';
         const pendingCount = overdueTasks.filter(t => !t.isDone).length;
         const doneCount = overdueTasks.length - pendingCount;
-        overdueCountEl.textContent = `${pendingCount} 項待補${doneCount > 0 ? ` · ${doneCount} 項本次已補齊` : ''}`;
+        overdueCountEl.textContent = `${pendingCount} 項待補${doneCount > 0 ? ` · ${doneCount} 項已完成` : ''}`;
         let ovHtml = '';
-        const sortedOverdue = sortTasksTwoPiles(overdueTasks);
-        sortedOverdue.forEach(task => {
+        overdueTasks.forEach(task => {
           ovHtml += renderTaskItem(task, true);
         });
         overdueList.innerHTML = ovHtml;
@@ -2102,8 +2094,7 @@
       }
 
       // 2. 渲染全週前線日程：
-      // 全週所有日程 (含 09/21 已結案、09/22~23 含待辦、09/24 今日、未來日程) 100% 完整平鋪展開！
-      // 打勾工單留存於原處，直到該週正式過去 (9/27~9/28 Sunday Calibration) 才會整體封存！
+      // 全週所有日程 100% 完整平鋪展開！工單永遠保留在原處原位，絕不重新排序，絕不自動消失！
       let html = '';
 
       parsedDays.forEach(day => {
@@ -2155,7 +2146,7 @@
         `;
       }
 
-      // 車次任務渲染：未完成正序排列，已完成倒序排列
+      // 車次任務渲染：保持 100% 原始順序，絕對不重新排序！
       if (day.trains && day.trains.length > 0) {
         day.trains.forEach(train => {
           dayHtml += `
@@ -2165,19 +2156,17 @@
               </div>
               <div class="train-tasks">
           `;
-          const sortedTrainTasks = sortTasksTwoPiles(train.tasks);
-          sortedTrainTasks.forEach(task => {
+          train.tasks.forEach(task => {
             dayHtml += renderTaskItem(task, false);
           });
           dayHtml += `</div></div>`;
         });
       }
 
-      // 獨立任務渲染：未完成正序排列，已完成倒序排列
+      // 獨立任務渲染：保持 100% 原始順序，絕對不重新排序！
       if (day.standaloneTasks && day.standaloneTasks.length > 0) {
         dayHtml += `<div class="train-card"><div class="train-tasks">`;
-        const sortedStandalone = sortTasksTwoPiles(day.standaloneTasks);
-        sortedStandalone.forEach(task => {
+        day.standaloneTasks.forEach(task => {
           dayHtml += renderTaskItem(task, false);
         });
         dayHtml += `</div></div>`;
