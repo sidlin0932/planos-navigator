@@ -12,11 +12,16 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* Liquid Glass Dynamic Optical Controls */
+      --glass-blur: 16px;
+      --glass-opacity: 0.65;
+      --glass-saturate: 180%;
+
       --bg-base: #090b10;
-      --bg-card: #12151f;
-      --bg-card-hover: #181d2a;
-      --bg-inset: #0c0f17;
-      --border: #232a3b;
+      --bg-card: rgba(18, 21, 31, var(--glass-opacity));
+      --bg-card-hover: rgba(24, 29, 42, 0.85);
+      --bg-inset: rgba(12, 15, 23, 0.45);
+      --border: rgba(255, 255, 255, 0.08);
       --border-accent: #38bdf8;
       --text-main: #f1f5f9;
       --text-muted: #94a3b8;
@@ -33,10 +38,10 @@
 
     body.light-theme {
       --bg-base: #f8fafc;
-      --bg-card: #ffffff;
-      --bg-card-hover: #f1f5f9;
-      --bg-inset: #f1f5f9;
-      --border: #e2e8f0;
+      --bg-card: rgba(255, 255, 255, var(--glass-opacity));
+      --bg-card-hover: rgba(241, 245, 249, 0.95);
+      --bg-inset: rgba(248, 250, 252, 0.75);
+      --border: rgba(0, 0, 0, 0.07);
       --border-accent: #0284c7;
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -58,13 +63,13 @@
       background-attachment: fixed;
     }
     body.light-theme .top-bar {
-      background: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, calc(var(--glass-opacity) + 0.15));
       border-color: rgba(0, 0, 0, 0.08);
       border-top-color: rgba(255, 255, 255, 0.95);
       box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8), 0 8px 24px 0 rgba(0, 0, 0, 0.05);
     }
     body.light-theme .nav-tabs {
-      background: rgba(241, 245, 249, 0.78);
+      background: rgba(241, 245, 249, calc(var(--glass-opacity) + 0.1));
       border-color: rgba(0, 0, 0, 0.08);
     }
     body.light-theme .tab-btn.active {
@@ -75,7 +80,7 @@
       border-top-color: rgba(255, 255, 255, 0.9);
     }
     body.light-theme .train-card {
-      background: rgba(255, 255, 255, 0.76);
+      background: var(--bg-card);
       border-color: rgba(0, 0, 0, 0.07);
       border-top-color: rgba(255, 255, 255, 0.95);
       box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), 0 8px 24px 0 rgba(0, 0, 0, 0.04);
@@ -366,9 +371,9 @@
 
     /* Train Box - Liquid Glass Card */
     .train-card {
-      background: rgba(18, 21, 31, 0.65);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background: var(--bg-card);
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-top: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.08), 0 8px 30px 0 rgba(0, 0, 0, 0.32);
@@ -770,8 +775,9 @@
     </div>
     <div class="top-actions">
       <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️ 亮色</button>
+      <button class="btn-icon" onclick="cycleGlassPreset()" id="glassBtn" title="切換玻璃質感 (水漾高透 / 標準液態 / 重度磨砂)">🌊 液態</button>
       <button class="btn-icon" onclick="refreshCurrentView()" id="refreshBtn">🔄 刷新</button>
-      <button class="btn-icon" onclick="openTokenModal()">🔑 設定</button>
+      <button class="btn-icon" onclick="openTokenModal()">⚙️ 設定</button>
     </div>
   </div>
 
@@ -858,22 +864,62 @@
     </div>
   </div>
 
-  <!-- GitHub Token Setup Modal -->
+  <!-- System & Glass Settings Modal -->
   <div id="tokenModal" class="modal-overlay" style="display: none;">
     <div class="modal-box">
-      <div class="modal-title">🔑 綁定 GitHub 個人存取權杖</div>
-      <div class="modal-desc">
-        本儀表板為 100% 純前端無伺服器架構。金鑰將<strong>僅儲存於您本機瀏覽器 (localStorage)</strong>，用於直接向 GitHub API 讀寫 <code>PlanOS_v2</code>，絕無任何中介伺服器。
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div class="modal-title" style="margin-bottom: 0;">⚙️ 系統與玻璃光學設定</div>
+        <button class="btn-icon" onclick="closeTokenModal()" style="padding: 4px 8px; font-size: 13px;">✕</button>
       </div>
+      <div class="modal-desc">
+        金鑰與個人化玻璃質感皆<strong>僅儲存於本機瀏覽器 (localStorage)</strong>，直連 GitHub API，零中介伺服器。
+      </div>
+
+      <!-- Glass Tuner Section -->
+      <div style="margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px dashed var(--border);">
+        <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+          <span>🎛️ Liquid Glass 液態玻璃光學調控</span>
+          <span id="currentPresetName" style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--c-blue); font-weight: 700;">🌊 標準液態</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+          自由定義背景模糊度與通透度（水漾高透 ⇄ 磨砂毛玻璃，像 Apple 一樣即時生效）：
+        </div>
+
+        <!-- Presets -->
+        <div class="chip-group" id="settingsGlassChips" style="margin-bottom: 14px;">
+          <button class="chip-item" onclick="setGlassPreset('clear')">💎 水漾高透 (Clear)</button>
+          <button class="chip-item active" onclick="setGlassPreset('liquid')">🌊 標準液態 (Liquid)</button>
+          <button class="chip-item" onclick="setGlassPreset('frosted')">🌫️ 重度磨砂 (Frosted)</button>
+        </div>
+
+        <!-- Sliders -->
+        <div class="input-group" style="margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+            <span class="input-label" style="margin-bottom: 0;">毛玻璃模糊度 (Blur)</span>
+            <span id="blurValLabel" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--c-blue); font-weight: 700;">16px</span>
+          </div>
+          <input type="range" id="glassBlurRange" min="4" max="36" value="16" step="2" style="width: 100%; cursor: pointer;" oninput="onGlassParamChange()" />
+        </div>
+
+        <div class="input-group" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+            <span class="input-label" style="margin-bottom: 0;">卡片底色不透明度 (Opacity)</span>
+            <span id="opacityValLabel" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--c-blue); font-weight: 700;">65%</span>
+          </div>
+          <input type="range" id="glassOpacityRange" min="20" max="95" value="65" step="5" style="width: 100%; cursor: pointer;" oninput="onGlassParamChange()" />
+        </div>
+      </div>
+
+      <!-- GitHub API Section -->
       <div class="input-group">
-        <label class="input-label">GitHub Token (Classic 或 Fine-grained 需含 repo 權限)</label>
+        <label class="input-label">GitHub Token (需含 repo 讀寫權限)</label>
         <input type="password" id="patInput" class="input-field" placeholder="ghp_xxxx 或 github_pat_xxxx" />
       </div>
       <div class="input-group">
         <label class="input-label">私有倉庫路徑 (Owner/Repo)</label>
         <input type="text" id="repoInput" class="input-field" value="sidlin0932/PlanOS_v2" />
       </div>
-      <button class="btn-primary" onclick="saveSettings()">儲存並連線</button>
+      <button class="btn-primary" onclick="saveSettings()">儲存連線設定</button>
     </div>
   </div>
 
@@ -906,6 +952,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      initGlassParams();
       document.getElementById('todayIndicator').textContent = `基準日期: ${todayMMDD}`;
 
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
@@ -944,6 +991,90 @@
         if (themeBtn) themeBtn.textContent = '☀️ 亮色';
         if (metaTheme) metaTheme.setAttribute('content', '#090b10');
       }
+    }
+
+    // ==========================================
+    // Liquid Glass 光學調控邏輯 (Apple VisionOS 風格)
+    // ==========================================
+    const STORAGE_KEY_GLASS_BLUR = 'planos_glass_blur';
+    const STORAGE_KEY_GLASS_OPACITY = 'planos_glass_opacity';
+    const STORAGE_KEY_GLASS_PRESET = 'planos_glass_preset';
+
+    function initGlassParams() {
+      const savedBlur = localStorage.getItem(STORAGE_KEY_GLASS_BLUR) || 16;
+      const savedOpacity = localStorage.getItem(STORAGE_KEY_GLASS_OPACITY) || 0.65;
+      const savedPreset = localStorage.getItem(STORAGE_KEY_GLASS_PRESET) || 'liquid';
+      applyGlassParams(parseInt(savedBlur, 10), parseFloat(savedOpacity), savedPreset, false);
+    }
+
+    function applyGlassParams(blur, opacity, preset = 'custom', save = true) {
+      const root = document.documentElement;
+      root.style.setProperty('--glass-blur', `${blur}px`);
+      root.style.setProperty('--glass-opacity', opacity);
+
+      if (save) {
+        localStorage.setItem(STORAGE_KEY_GLASS_BLUR, blur);
+        localStorage.setItem(STORAGE_KEY_GLASS_OPACITY, opacity);
+        localStorage.setItem(STORAGE_KEY_GLASS_PRESET, preset);
+      }
+
+      const blurRange = document.getElementById('glassBlurRange');
+      const opacityRange = document.getElementById('glassOpacityRange');
+      const blurValLabel = document.getElementById('blurValLabel');
+      const opacityValLabel = document.getElementById('opacityValLabel');
+      const glassBtn = document.getElementById('glassBtn');
+      const presetLabel = document.getElementById('currentPresetName');
+
+      if (blurRange) blurRange.value = blur;
+      if (opacityRange) opacityRange.value = Math.round(opacity * 100);
+      if (blurValLabel) blurValLabel.textContent = `${blur}px`;
+      if (opacityValLabel) opacityValLabel.textContent = `${Math.round(opacity * 100)}%`;
+
+      let iconText = '🌊 液態';
+      if (preset === 'clear') iconText = '💎 水漾';
+      else if (preset === 'frosted') iconText = '🌫️ 磨砂';
+      else if (preset === 'custom') iconText = '🎛️ 自訂';
+
+      if (glassBtn) glassBtn.textContent = iconText;
+      if (presetLabel) presetLabel.textContent = iconText;
+
+      const chips = document.querySelectorAll('#settingsGlassChips .chip-item');
+      chips.forEach(c => {
+        if (preset === 'clear' && c.textContent.includes('水漾')) c.classList.add('active');
+        else if (preset === 'liquid' && c.textContent.includes('液態')) c.classList.add('active');
+        else if (preset === 'frosted' && c.textContent.includes('磨砂')) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+    }
+
+    function setGlassPreset(preset) {
+      if (preset === 'clear') {
+        applyGlassParams(10, 0.40, 'clear');
+        showToast('已套用：💎 水漾高透玻璃 (Clear)', '💎');
+      } else if (preset === 'frosted') {
+        applyGlassParams(28, 0.88, 'frosted');
+        showToast('已套用：🌫️ 重度磨砂毛玻璃 (Frosted)', '🌫️');
+      } else {
+        applyGlassParams(16, 0.65, 'liquid');
+        showToast('已套用：🌊 標準液態玻璃 (Liquid)', '🌊');
+      }
+    }
+
+    function cycleGlassPreset() {
+      const current = localStorage.getItem(STORAGE_KEY_GLASS_PRESET) || 'liquid';
+      if (current === 'liquid') {
+        setGlassPreset('clear');
+      } else if (current === 'clear') {
+        setGlassPreset('frosted');
+      } else {
+        setGlassPreset('liquid');
+      }
+    }
+
+    function onGlassParamChange() {
+      const blur = parseInt(document.getElementById('glassBlurRange').value, 10);
+      const opacity = parseInt(document.getElementById('glassOpacityRange').value, 10) / 100;
+      applyGlassParams(blur, opacity, 'custom');
     }
 
     function switchView(view) {
