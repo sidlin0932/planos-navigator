@@ -856,6 +856,163 @@
       padding: 48px 16px;
       color: var(--text-muted);
     }
+
+    /* Train Header Pill Layout (Mobile-Friendly Wrapping) */
+    .train-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .train-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: var(--c-blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .train-time-pill {
+      font-weight: 500;
+      opacity: 0.85;
+      font-size: 11.5px;
+    }
+    .train-topic-badge {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .train-topic-sep {
+      color: var(--text-dim);
+      font-weight: 300;
+      margin: 0 2px;
+    }
+    body.light-theme .train-badge-pill {
+      background: #e0f2fe;
+      border-color: #bae6fd;
+      color: #0369a1;
+    }
+
+    /* Mobile Ergonomic Responsive Engine */
+    @media (max-width: 640px) {
+      body {
+        padding: 8px 10px max(80px, calc(env(safe-area-inset-bottom, 20px) + 60px)) 10px;
+      }
+      .top-bar {
+        top: max(6px, env(safe-area-inset-top, 6px));
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        border-radius: 14px;
+      }
+      .brand-title {
+        font-size: 15px;
+      }
+      .brand-sub {
+        display: none; /* Hide subtitle to preserve vital horizontal space */
+      }
+      .top-actions {
+        gap: 5px;
+      }
+      .btn-icon {
+        padding: 5px 8px;
+        font-size: 11px;
+        border-radius: 7px;
+        gap: 4px;
+      }
+      .nav-tabs {
+        padding: 3px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+      }
+      .tab-btn {
+        padding: 7px 4px;
+        font-size: 12px;
+      }
+      .day-section {
+        margin-bottom: 16px;
+      }
+      .day-section.today-active {
+        padding: 10px 8px;
+        border-radius: 14px;
+      }
+      .day-header {
+        margin-bottom: 8px;
+        padding: 0 4px;
+      }
+      .day-title {
+        font-size: 14px;
+      }
+      .train-card {
+        padding: 12px 10px;
+        margin-bottom: 10px;
+        border-radius: 14px;
+      }
+      .train-header {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+      }
+      .train-badge-pill {
+        font-size: 12px;
+        padding: 2px 7px;
+      }
+      .train-topic-badge {
+        font-size: 13px;
+      }
+      .task-item {
+        padding: 9px 10px;
+        gap: 10px;
+        margin-bottom: 7px;
+        border-radius: 9px;
+        touch-action: manipulation;
+      }
+      .task-item:active {
+        transform: scale(0.985);
+      }
+      .task-content {
+        min-width: 0;
+      }
+      .task-clean-title {
+        font-size: 13.5px;
+        line-height: 1.45;
+      }
+      .checkbox-box {
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        margin-top: 1px;
+        border-radius: 6px;
+      }
+      .checkbox-tick {
+        font-size: 13px;
+      }
+      .task-badges {
+        margin-top: 4px;
+        gap: 4px;
+      }
+      .badge-item {
+        font-size: 10px;
+        padding: 1px 5px;
+      }
+      .md-code-pill {
+        padding: 1px 5px;
+        font-size: 12px;
+      }
+      .candidate-badge {
+        font-size: 9px;
+        padding: 0 3px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1360,6 +1517,13 @@
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
 
+        // 遇到非日程大標題 (如 ## 🔮 或 ## 📥)，重設當前日期與列車，避免誤吞幽靈任務
+        if (line.startsWith('## ') && !line.includes('雙週') && !line.includes('作戰流水線')) {
+          currentDay = null;
+          currentTrain = null;
+          continue;
+        }
+
         // 偵測日期標題 (### 週X MM/DD)
         if (line.startsWith('### 週')) {
           const rawTitle = line.replace('###', '').trim();
@@ -1410,6 +1574,9 @@
           const isDone = line.match(/^\s*-\s*\[([xX])\]/) !== null;
           const rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
 
+          // 核心防呆：絕對排除幽靈空白工單 (如純 - [ ] 無文字行)
+          if (!rawTask) continue;
+
           const taskObj = extractTaskMeta(rawTask, line, i, isDone, currentDay.dateStr);
 
           // 核心分流：若日期在今天之前且「尚未打勾」➔ 自動升級歸入 P0 Overdue Queue！
@@ -1424,6 +1591,27 @@
           }
         }
       }
+    }
+
+    // 格式化車次標題為手機友善藥丸膠囊 (避免中文字截斷)
+    function formatTrainTitle(rawTitle) {
+      if (!rawTitle) return '';
+      const match = rawTitle.match(/^(🚂\s*\d+次)\s*(?:\(([^)]+)\))?\s*(.*)$/);
+      if (!match) {
+        return `<span class="train-topic-badge">${escapeHtml(rawTitle)}</span>`;
+      }
+      const trainCode = match[1];
+      const trainTime = match[2];
+      const restTopic = match[3];
+
+      let html = `<div class="train-pill-row">`;
+      html += `<span class="train-badge-pill">${escapeHtml(trainCode)}${trainTime ? ` <span class="train-time-pill">${escapeHtml(trainTime)}</span>` : ''}</span>`;
+      if (restTopic) {
+        const formattedTopic = escapeHtml(restTopic).replace(/(\s*｜\s*)/g, '<span class="train-topic-sep">｜</span>');
+        html += `<span class="train-topic-badge">${formattedTopic}</span>`;
+      }
+      html += `</div>`;
+      return html;
     }
 
     // 格式化工單標題：將反引號 `code` 或標準 ID (如 MATH-005, EE-011, MATH-HW, ACC-006-rc) 轉為 Obsidian 原生灰底等寬字型藥丸
@@ -1558,7 +1746,7 @@
             html += `
               <div class="train-card">
                 <div class="train-header">
-                  <div class="train-code-title">${escapeHtml(train.title)}</div>
+                  <div class="train-code-title">${formatTrainTitle(train.title)}</div>
                 </div>
                 <div class="train-tasks">
             `;
