@@ -168,10 +168,10 @@
       font-weight: 700;
     }
     body.light-theme .nav-tabs {
-      background: rgba(226, 232, 240, 0.75);
-      border: 1px solid rgba(203, 213, 225, 0.85);
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
       border-top: 1.5px solid #ffffff;
-      box-shadow: inset 0 1.5px 3px rgba(15, 23, 42, 0.08);
+      box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.12);
       overflow: visible;
     }
     /* Resting State (Image 1 media_1790264029567.png): flush inside track */
@@ -180,9 +180,9 @@
       bottom: 3px;
       border-radius: 9999px;
       background: #ffffff;
-      border: 1px solid rgba(203, 213, 225, 0.8);
-      border-top: 1.2px solid #ffffff;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), inset 0 1px 1px #ffffff;
+      border: 1px solid #cbd5e1;
+      border-top: 1.5px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12), inset 0 1px 1px #ffffff;
       cursor: grab;
       will-change: transform, width, top, bottom;
       transition: 
@@ -199,21 +199,21 @@
       top: -3px;
       bottom: -3px;
       background: #ffffff;
-      border: 1.2px solid rgba(203, 213, 225, 0.95);
-      border-top: 1.5px solid #ffffff;
+      border: 1.5px solid #94a3b8;
+      border-top: 2px solid #ffffff;
       box-shadow: 
-        0 6px 18px -2px rgba(15, 23, 42, 0.18), 
-        0 2px 6px rgba(15, 23, 42, 0.08), 
+        0 8px 24px -2px rgba(15, 23, 42, 0.22), 
+        0 2px 8px rgba(15, 23, 42, 0.12), 
         inset 0 1px 1px #ffffff,
-        0 0 10px rgba(56, 189, 248, 0.2);
+        0 0 12px rgba(2, 132, 199, 0.25);
     }
     body.light-theme .nav-slider-glass.is-dragging {
       cursor: grabbing;
       box-shadow: 
-        0 10px 24px -2px rgba(15, 23, 42, 0.24), 
-        0 4px 10px rgba(15, 23, 42, 0.12), 
+        0 14px 30px -2px rgba(15, 23, 42, 0.28), 
+        0 4px 12px rgba(15, 23, 42, 0.15), 
         inset 0 1px 1px #ffffff,
-        0 0 14px rgba(56, 189, 248, 0.3);
+        0 0 18px rgba(2, 132, 199, 0.35);
     }
     body.light-theme .train-card {
       background: rgba(255, 255, 255, 0.78);
@@ -398,15 +398,16 @@
     }
 
     /* View Segmented Control - Liquid Glass Tabs with Floating Interactive Glass Slider */
+    /* View Segmented Control - Liquid Glass Tabs with Floating Interactive Glass Slider */
     .nav-tabs {
       position: relative;
       display: flex;
-      background: rgba(14, 18, 28, calc(var(--glass-opacity) * 0.88));
+      background: rgba(11, 15, 25, 0.88);
       backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
       -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-      border: 1px solid var(--glass-border);
-      border-top: 1.5px solid var(--glass-border-highlight);
-      box-shadow: inset 0 1.5px 3px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-top: 1.5px solid rgba(255, 255, 255, 0.28);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.55);
       border-radius: 9999px;
       padding: 3px 4px;
       margin-bottom: 18px;
@@ -424,12 +425,12 @@
       width: calc((100% - 8px) / 3);
       z-index: 1;
       border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-top: 1.2px solid rgba(255, 255, 255, 0.35);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-top: 1.4px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.25);
       cursor: grab;
       will-change: transform, width, top, bottom;
       transition: 
@@ -445,27 +446,38 @@
     .nav-slider-glass.is-dragging {
       top: -3px;
       bottom: -3px;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(16px) saturate(190%);
-      -webkit-backdrop-filter: blur(16px) saturate(190%);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      border-top: 1.4px solid rgba(255, 255, 255, 0.7);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(18px) saturate(200%);
+      -webkit-backdrop-filter: blur(18px) saturate(200%);
+      border: 1.2px solid rgba(255, 255, 255, 0.38);
+      border-top: 1.6px solid rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
       box-shadow: 
-        0 8px 24px -2px rgba(0, 0, 0, 0.6), 
-        0 2px 6px rgba(0, 0, 0, 0.3), 
-        inset 0 1px 1px rgba(255, 255, 255, 0.6), 
-        0 0 12px rgba(56, 189, 248, 0.35), 
-        0 0 20px rgba(192, 132, 252, 0.2);
+        0 10px 28px -2px rgba(0, 0, 0, 0.7), 
+        0 3px 8px rgba(0, 0, 0, 0.35), 
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.75), 
+        0 0 16px rgba(56, 189, 248, 0.45), 
+        0 0 24px rgba(192, 132, 252, 0.25);
     }
     .nav-slider-glass.is-dragging {
       cursor: grabbing;
       box-shadow: 
-        0 14px 32px -4px rgba(0, 0, 0, 0.7), 
-        0 4px 10px rgba(0, 0, 0, 0.4), 
-        inset 0 1px 1px rgba(255, 255, 255, 0.8), 
-        0 0 16px rgba(56, 189, 248, 0.5), 
-        0 0 24px rgba(192, 132, 252, 0.3);
+        0 16px 36px -4px rgba(0, 0, 0, 0.8), 
+        0 5px 12px rgba(0, 0, 0, 0.45), 
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.9), 
+        0 0 20px rgba(56, 189, 248, 0.6), 
+        0 0 28px rgba(192, 132, 252, 0.35);
+    }
+    /* Liquid QQ Viewport & Container Transition Engine */
+    .views-viewport {
+      position: relative;
+      width: 100%;
+      min-height: 480px;
+    }
+    .tab-view-container {
+      width: 100%;
+      will-change: opacity, transform;
+      transform-origin: top center;
     }
     .tab-btn {
       position: relative;
@@ -1278,75 +1290,78 @@
     <span id="todayIndicator" style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);"></span>
   </div>
 
-  <!-- View 1: Active Pipeline Container -->
-  <div id="activeViewContainer">
-    <!-- P0 Overdue Section -->
-    <div id="overdueBox" class="overdue-container" style="display: none;">
-      <div class="overdue-header">
-        <span>🚨 P0 過去逾期未完成工單 (Overdue Queue)</span>
-        <span class="overdue-tag" id="overdueCount">0 項滯留</span>
+  <!-- Viewport for Smooth Liquid QQ Transitions -->
+  <div class="views-viewport" id="viewsViewport">
+    <!-- View 1: Active Pipeline Container -->
+    <div id="activeViewContainer" class="tab-view-container">
+      <!-- P0 Overdue Section -->
+      <div id="overdueBox" class="overdue-container" style="display: none;">
+        <div class="overdue-header">
+          <span>🚨 P0 過去逾期未完成工單 (Overdue Queue)</span>
+          <span class="overdue-tag" id="overdueCount">0 項滯留</span>
+        </div>
+        <div id="overdueTasksList"></div>
       </div>
-      <div id="overdueTasksList"></div>
+
+      <!-- Active Days List -->
+      <main id="pipelineContainer">
+        <div class="empty-state">
+          <p>⏳ 載入 PIPELINE.md 中...</p>
+        </div>
+      </main>
     </div>
 
-    <!-- Active Days List -->
-    <main id="pipelineContainer">
-      <div class="empty-state">
-        <p>⏳ 載入 PIPELINE.md 中...</p>
+    <!-- View 2: Subjects Work Order Registry -->
+    <div id="subjectsViewContainer" class="tab-view-container" style="display: none;">
+      <div class="archive-controls">
+        <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+          <span>依學科篩選全期工單 (從 001 到最新結案與進行中)：</span>
+          <span id="subjectSummaryStats" style="color: var(--c-blue); font-weight: 700;">共 0 筆</span>
+        </div>
+        <div class="chip-group" id="subjectChipGroup">
+          <button class="chip-item active" onclick="filterSubjectWorkOrders('ALL', this)">全部 (<span id="countAll">0</span>)</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('MATH', this)">🟡 工數 MATH</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('EE', this)">🟢 電工 EE</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('ACC', this)">🔵 會計 ACC</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('TH', this)">🟢 熱力 TH</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('DYN', this)">🟢 應力 DYN</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('STAT', this)">🟣 統計 STAT</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('CAL', this)">🛠️ 系統 CAL</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('OTHER', this)">⚪ 彈性/複習</button>
+        </div>
+        <div class="glass-search-wrapper">
+          <input type="text" id="subjectSearchInput" class="search-input" placeholder="搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
+          <span class="search-glass-icon">🔎</span>
+        </div>
       </div>
-    </main>
-  </div>
 
-  <!-- View 2: Subjects Work Order Registry -->
-  <div id="subjectsViewContainer" style="display: none;">
-    <div class="archive-controls">
-      <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-        <span>依學科篩選全期工單 (從 001 到最新結案與進行中)：</span>
-        <span id="subjectSummaryStats" style="color: var(--c-blue); font-weight: 700;">共 0 筆</span>
-      </div>
-      <div class="chip-group" id="subjectChipGroup">
-        <button class="chip-item active" onclick="filterSubjectWorkOrders('ALL', this)">全部 (<span id="countAll">0</span>)</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('MATH', this)">🟡 工數 MATH</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('EE', this)">🟢 電工 EE</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('ACC', this)">🔵 會計 ACC</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('TH', this)">🟢 熱力 TH</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('DYN', this)">🟢 應力 DYN</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('STAT', this)">🟣 統計 STAT</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('CAL', this)">🛠️ 系統 CAL</button>
-        <button class="chip-item" onclick="filterSubjectWorkOrders('OTHER', this)">⚪ 彈性/複習</button>
-      </div>
-      <div class="glass-search-wrapper">
-        <input type="text" id="subjectSearchInput" class="search-input" placeholder="搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
-        <span class="search-glass-icon">🔎</span>
-      </div>
-    </div>
-
-    <div id="subjectContentContainer">
-      <div class="empty-state">
-        <p>⏳ 整理各科學科工單中...</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- View 3: Archive Container -->
-  <div id="archiveViewContainer" style="display: none;">
-    <div class="archive-controls">
-      <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">快速切換週次 (09/07 開學正式啟動至今)：</div>
-      <div class="chip-group" id="weekChipGroup">
-        <button class="chip-item" onclick="loadArchiveWeek('W37')">W37 (09/07~09/13 · 開學第1週)</button>
-        <button class="chip-item" onclick="loadArchiveWeek('W38')">W38 (09/14~09/20 · 開學第2週)</button>
-        <button class="chip-item active" onclick="loadArchiveWeek('W39_past')">W39 前期歷史 (09/21~09/23)</button>
-        <button class="chip-item" onclick="loadArchiveWeek('W36')">W36 (開學前備戰)</button>
-      </div>
-      <div class="glass-search-wrapper">
-        <input type="text" id="archiveSearchInput" class="search-input" placeholder="搜尋歷史工單關鍵字 (例如: 電工, 會計, HW)..." oninput="filterArchiveSearch()" />
-        <span class="search-glass-icon">🔎</span>
+      <div id="subjectContentContainer">
+        <div class="empty-state">
+          <p>⏳ 整理各科學科工單中...</p>
+        </div>
       </div>
     </div>
 
-    <div id="archiveContentContainer">
-      <div class="empty-state">
-        <p>請點選上方週次載入歷史存檔。</p>
+    <!-- View 3: Archive Container -->
+    <div id="archiveViewContainer" class="tab-view-container" style="display: none;">
+      <div class="archive-controls">
+        <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">快速切換週次 (09/07 開學正式啟動至今)：</div>
+        <div class="chip-group" id="weekChipGroup">
+          <button class="chip-item" onclick="loadArchiveWeek('W37')">W37 (09/07~09/13 · 開學第1週)</button>
+          <button class="chip-item" onclick="loadArchiveWeek('W38')">W38 (09/14~09/20 · 開學第2週)</button>
+          <button class="chip-item active" onclick="loadArchiveWeek('W39_past')">W39 前期歷史 (09/21~09/23)</button>
+          <button class="chip-item" onclick="loadArchiveWeek('W36')">W36 (開學前備戰)</button>
+        </div>
+        <div class="glass-search-wrapper">
+          <input type="text" id="archiveSearchInput" class="search-input" placeholder="搜尋歷史工單關鍵字 (例如: 電工, 會計, HW)..." oninput="filterArchiveSearch()" />
+          <span class="search-glass-icon">🔎</span>
+        </div>
+      </div>
+
+      <div id="archiveContentContainer">
+        <div class="empty-state">
+          <p>請點選上方週次載入歷史存檔。</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1830,25 +1845,41 @@
       slider.style.transform = `translateX(${leftOffset}px)`;
     }
 
+    let isSwitchingView = false;
     function switchView(view) {
+      if (view === currentActiveView && !isSwitchingView) {
+        updateNavSliderPosition(view, true);
+        return;
+      }
+
+      const views = ['active', 'subjects', 'archive'];
+      const prevView = currentActiveView;
+      const prevIdx = views.indexOf(prevView);
+      const nextIdx = views.indexOf(view);
+      const direction = nextIdx >= prevIdx ? 1 : -1;
+
       currentActiveView = view;
+      isSwitchingView = true;
+
       const tabActive = document.getElementById('tabActiveBtn');
       const tabSubjects = document.getElementById('tabSubjectsBtn');
       const tabArchive = document.getElementById('tabArchiveBtn');
-      const activeCont = document.getElementById('activeViewContainer');
-      const subjectsCont = document.getElementById('subjectsViewContainer');
-      const archiveCont = document.getElementById('archiveViewContainer');
-
-      tabActive.classList.toggle('active', view === 'active');
-      tabSubjects.classList.toggle('active', view === 'subjects');
-      tabArchive.classList.toggle('active', view === 'archive');
-
-      activeCont.style.display = view === 'active' ? 'block' : 'none';
-      subjectsCont.style.display = view === 'subjects' ? 'block' : 'none';
-      archiveCont.style.display = view === 'archive' ? 'block' : 'none';
+      if (tabActive) tabActive.classList.toggle('active', view === 'active');
+      if (tabSubjects) tabSubjects.classList.toggle('active', view === 'subjects');
+      if (tabArchive) tabArchive.classList.toggle('active', view === 'archive');
 
       updateNavSliderPosition(view, true);
 
+      const containers = {
+        active: document.getElementById('activeViewContainer'),
+        subjects: document.getElementById('subjectsViewContainer'),
+        archive: document.getElementById('archiveViewContainer')
+      };
+
+      const prevCont = containers[prevView];
+      const nextCont = containers[view];
+
+      // Prepare target view data
       if (view === 'subjects') {
         buildSubjectRegistry();
         renderSubjectsView();
@@ -1857,6 +1888,61 @@
           loadArchiveWeek('W39_past');
         }
       }
+
+      if (!prevCont || !nextCont || prevCont === nextCont) {
+        Object.keys(containers).forEach(k => {
+          if (containers[k]) containers[k].style.display = k === view ? 'block' : 'none';
+        });
+        isSwitchingView = false;
+        return;
+      }
+
+      // Outgoing view: float over incoming and smoothly drift out
+      prevCont.style.position = 'absolute';
+      prevCont.style.top = '0';
+      prevCont.style.left = '0';
+      prevCont.style.width = '100%';
+      prevCont.style.pointerEvents = 'none';
+      prevCont.style.zIndex = '1';
+      prevCont.style.transition = 'opacity 0.2s cubic-bezier(0.4, 0, 1, 1), transform 0.2s cubic-bezier(0.4, 0, 1, 1)';
+      prevCont.style.opacity = '0';
+      prevCont.style.transform = `translateX(${direction * -24}px) scale(0.985)`;
+
+      // Incoming view: establish natural flow layout, prepare starting spring offset
+      nextCont.style.display = 'block';
+      nextCont.style.position = 'relative';
+      nextCont.style.width = '100%';
+      nextCont.style.zIndex = '2';
+      nextCont.style.opacity = '0';
+      nextCont.style.transform = `translateX(${direction * 32}px) scale(0.98)`;
+      nextCont.style.transition = 'none';
+
+      // Force layout calculation
+      void nextCont.offsetWidth;
+
+      // Execute Liquid QQ elastic landing
+      requestAnimationFrame(() => {
+        nextCont.style.transition = 'opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1), transform 0.44s cubic-bezier(0.18, 1.15, 0.32, 1)';
+        nextCont.style.opacity = '1';
+        nextCont.style.transform = 'translateX(0px) scale(1)';
+      });
+
+      // Reset and hide outgoing container after transition finishes
+      setTimeout(() => {
+        if (currentActiveView === view) {
+          prevCont.style.display = 'none';
+          prevCont.style.position = '';
+          prevCont.style.top = '';
+          prevCont.style.left = '';
+          prevCont.style.width = '';
+          prevCont.style.pointerEvents = '';
+          prevCont.style.zIndex = '';
+          prevCont.style.transform = '';
+          prevCont.style.opacity = '';
+          prevCont.style.transition = '';
+        }
+        isSwitchingView = false;
+      }, 250);
     }
 
     function refreshCurrentView() {
