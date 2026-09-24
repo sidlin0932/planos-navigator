@@ -55,7 +55,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       padding-bottom: 14px;
       border-bottom: 1px solid var(--border);
     }
@@ -86,8 +86,8 @@
       border: 1px solid var(--border);
       color: var(--text-main);
       border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 13px;
+      padding: 7px 11px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -99,8 +99,21 @@
       background: var(--bg-card-hover);
       border-color: var(--border-accent);
     }
+    .btn-icon.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--c-blue);
+      color: var(--c-blue);
+    }
 
-    /* Status Pill */
+    /* Status Bar */
+    .status-bar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
     .status-pill {
       display: inline-flex;
       align-items: center;
@@ -111,7 +124,6 @@
       background: rgba(56, 189, 248, 0.1);
       color: var(--c-blue);
       border: 1px solid rgba(56, 189, 248, 0.25);
-      margin-bottom: 16px;
       font-family: 'JetBrains Mono', monospace;
     }
     .status-dot {
@@ -125,19 +137,63 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
+    .filter-btn {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      border-color: var(--text-muted);
+      color: var(--text-main);
+    }
+    .filter-btn.active {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.3);
+      color: var(--c-yellow);
+    }
+
+    /* Week Horizon Divider */
+    .week-divider {
+      background: linear-gradient(90deg, rgba(56,189,248,0.15) 0%, rgba(18,21,31,0.6) 100%);
+      border-left: 4px solid var(--c-blue);
+      border-radius: 0 8px 8px 0;
+      padding: 8px 14px;
+      margin: 28px 0 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--c-blue);
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .week-divider.next-week {
+      background: linear-gradient(90deg, rgba(192,132,252,0.15) 0%, rgba(18,21,31,0.6) 100%);
+      border-left-color: var(--c-purple);
+      color: var(--c-purple);
+    }
 
     /* Day Section */
     .day-section {
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
     .day-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .day-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
@@ -159,8 +215,8 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
       transition: border-color 0.2s;
     }
     .train-card:hover {
@@ -170,25 +226,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
       border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
     }
     .train-code-title {
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .train-capacity {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      background: var(--bg-inset);
-      padding: 2px 8px;
-      border-radius: 6px;
-      color: var(--c-yellow);
-      border: 1px solid rgba(251, 191, 36, 0.2);
+
+    /* Rest Day Card */
+    .rest-card {
+      background: rgba(52, 211, 153, 0.05);
+      border: 1px dashed rgba(52, 211, 153, 0.25);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      color: var(--c-green);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
     }
 
     /* Task Item */
@@ -213,9 +273,9 @@
       border-color: rgba(255, 255, 255, 0.1);
     }
     .task-item.done {
-      opacity: 0.45;
+      opacity: 0.4;
     }
-    .task-item.done .task-text {
+    .task-item.done .task-clean-title {
       text-decoration: line-through;
     }
 
@@ -254,26 +314,44 @@
       flex: 1;
       min-width: 0;
     }
-    .task-text {
+    .task-clean-title {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-main);
       word-break: break-word;
-      line-height: 1.45;
+      line-height: 1.4;
     }
-    .task-meta {
+    .task-badges {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
-      margin-top: 4px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+    .badge-item {
       font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
-    }
-    .meta-tag {
       padding: 1px 6px;
       border-radius: 4px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+    }
+    .badge-carriage {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--c-yellow);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      font-weight: 600;
+    }
+    .badge-location {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--c-blue);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .badge-exam {
+      background: rgba(248, 113, 113, 0.15);
+      color: var(--c-red);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      font-weight: 700;
     }
 
     /* Token Config Modal */
@@ -376,6 +454,21 @@
       padding: 48px 16px;
       color: var(--text-muted);
     }
+    .hidden-badge-bar {
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-inset);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      border: 1px dashed var(--border);
+    }
+    .hidden-badge-bar:hover {
+      border-color: var(--c-yellow);
+      color: var(--c-yellow);
+    }
   </style>
 </head>
 <body>
@@ -386,20 +479,30 @@
       <span class="brand-logo">🚂</span>
       <div>
         <div class="brand-title">PlanOS Navigator</div>
-        <div class="brand-sub">Serverless Realtime Sandbox</div>
+        <div class="brand-sub">雙週作戰面板 (2-Week Horizon)</div>
       </div>
     </div>
     <div class="top-actions">
-      <button class="btn-icon" onclick="fetchPipeline(true)" id="refreshBtn">🔄 重新整理</button>
+      <button class="btn-icon" onclick="fetchPipeline(true)" id="refreshBtn">🔄 刷新</button>
       <button class="btn-icon" onclick="openTokenModal()">🔑 設定</button>
     </div>
   </div>
 
-  <div id="statusContainer">
+  <!-- Status & Filters -->
+  <div class="status-bar-row">
     <div class="status-pill">
       <span class="status-dot"></span>
       <span id="syncStatus">正在連線至 GitHub 倉庫...</span>
     </div>
+
+    <button class="filter-btn active" id="toggleDoneBtn" onclick="toggleHideFinished()">
+      <span id="toggleDoneIcon">🙈</span>
+      <span id="toggleDoneText">隱藏已結案項目</span>
+    </button>
+  </div>
+
+  <div id="hiddenNoticeBar" class="hidden-badge-bar" style="display: none;" onclick="toggleHideFinished()">
+    已隱藏 <span id="hiddenCount">0</span> 個已完全結案的歷史日程（點擊展開檢視）
   </div>
 
   <!-- Main Pipeline Content -->
@@ -414,14 +517,14 @@
     <div class="modal-box">
       <div class="modal-title">🔑 綁定 GitHub 個人存取權杖</div>
       <div class="modal-desc">
-        本儀表板為 100% 純前端無伺服器架構。金鑰將<strong>僅儲存於您本機瀏覽器 (localStorage)</strong>，用於直接向 GitHub API 讀寫 <code>PIPELINE.md</code>，絕無任何中間伺服器介入。
+        本儀表板為 100% 純前端無伺服器架構。金鑰將<strong>僅儲存於您本機瀏覽器 (localStorage)</strong>，用於直接向 GitHub API 讀寫 <code>PIPELINE.md</code>，絕無任何中介伺服器。
       </div>
       <div class="input-group">
-        <label class="input-label">GitHub Fine-grained PAT / Classic Token</label>
-        <input type="password" id="patInput" class="input-field" placeholder="github_pat_xxxx 或 ghp_xxxx" />
+        <label class="input-label">GitHub Fine-grained PAT / Classic Token (需含 repo 權限)</label>
+        <input type="password" id="patInput" class="input-field" placeholder="ghp_xxxx 或 github_pat_xxxx" />
       </div>
       <div class="input-group">
-        <label class="input-label">倉庫路徑 (Owner/Repo)</label>
+        <label class="input-label">私有倉庫路徑 (Owner/Repo)</label>
         <input type="text" id="repoInput" class="input-field" value="sidlin0932/PlanOS_v2" />
       </div>
       <button class="btn-primary" onclick="saveSettings()">儲存並連線</button>
@@ -437,14 +540,22 @@
   <script>
     const STORAGE_KEY_TOKEN = 'planos_gh_token';
     const STORAGE_KEY_REPO = 'planos_gh_repo';
+    const STORAGE_KEY_HIDE_DONE = 'planos_hide_finished';
     const FILE_PATH = 'PIPELINE.md';
 
     let currentFileSha = null;
     let rawMarkdownContent = '';
-    let parsedDays = [];
+    let parsedSections = [];
+    let hideFinished = true;
 
     // 初始化載入
     window.addEventListener('DOMContentLoaded', () => {
+      const savedHide = localStorage.getItem(STORAGE_KEY_HIDE_DONE);
+      if (savedHide !== null) {
+        hideFinished = savedHide === 'true';
+      }
+      updateHideBtnUI();
+
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
       const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
       
@@ -456,6 +567,29 @@
         openTokenModal();
       }
     });
+
+    function toggleHideFinished() {
+      hideFinished = !hideFinished;
+      localStorage.setItem(STORAGE_KEY_HIDE_DONE, hideFinished);
+      updateHideBtnUI();
+      renderPipeline();
+    }
+
+    function updateHideBtnUI() {
+      const btn = document.getElementById('toggleDoneBtn');
+      const icon = document.getElementById('toggleDoneIcon');
+      const text = document.getElementById('toggleDoneText');
+
+      if (hideFinished) {
+        btn.classList.add('active');
+        icon.textContent = '🙈';
+        text.textContent = '隱藏已結案日程';
+      } else {
+        btn.classList.remove('active');
+        icon.textContent = '👁️';
+        text.textContent = '顯示全部日程';
+      }
+    }
 
     function openTokenModal() {
       document.getElementById('tokenModal').style.display = 'flex';
@@ -492,7 +626,7 @@
         return;
       }
 
-      statusEl.textContent = '正在從 GitHub 同步 PIPELINE.md...';
+      statusEl.textContent = '正在從 GitHub 同步雙週作戰面...';
       const refreshBtn = document.getElementById('refreshBtn');
       if (refreshBtn) refreshBtn.textContent = '⏳ 同步中...';
 
@@ -506,7 +640,7 @@
 
         if (!res.ok) {
           if (res.status === 401 || res.status === 404) {
-            throw new Error(`存取失敗 (${res.status})：請檢查 Token 權限或倉庫名稱。`);
+            throw new Error(`存取失敗 (${res.status})：請檢查 Token 權限或私有倉庫名稱。`);
           }
           throw new Error(`GitHub API 回傳錯誤: ${res.statusText}`);
         }
@@ -522,35 +656,62 @@
         parseMarkdownPipeline(rawMarkdownContent);
         renderPipeline();
 
-        statusEl.textContent = `已對齊 GitHub SSOT (SHA: ${currentFileSha.slice(0,7)})`;
-        if (isManual) showToast('已成功獲取最新戰情！', '🔄');
+        statusEl.textContent = `已對齊雙週 SSOT (SHA: ${currentFileSha.slice(0,7)})`;
+        if (isManual) showToast('已成功獲取最新雙週戰情！', '🔄');
       } catch (err) {
         statusEl.textContent = `同步失敗: ${err.message}`;
         showToast(err.message, '⚠️');
       } finally {
-        if (refreshBtn) refreshBtn.textContent = '🔄 重新整理';
+        if (refreshBtn) refreshBtn.textContent = '🔄 刷新';
       }
     }
 
-    // 解析 PIPELINE.md
+    // 解析 PIPELINE.md (支援雙週與已結案判定)
     function parseMarkdownPipeline(md) {
       const lines = md.split('\n');
-      parsedDays = [];
+      parsedSections = [];
+      let currentSection = null;
       let currentDay = null;
       let currentTrain = null;
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
 
+        // 偵測週次大標題 (## 📅 ... W39 / W40)
+        if (line.startsWith('## 📅')) {
+          currentSection = {
+            title: line.replace('##', '').trim(),
+            days: []
+          };
+          parsedSections.push(currentSection);
+          currentDay = null;
+          currentTrain = null;
+          continue;
+        }
+
         // 偵測日期標題 (### 週X MM/DD)
         if (line.startsWith('### 週')) {
           currentDay = {
             title: line.replace('###', '').trim(),
             lineIndex: i,
-            trains: []
+            trains: [],
+            standaloneTasks: [],
+            isRestDay: false,
+            restNote: ''
           };
-          parsedDays.push(currentDay);
+          if (!currentSection) {
+            currentSection = { title: '本週作戰流水線', days: [] };
+            parsedSections.push(currentSection);
+          }
+          currentSection.days.push(currentDay);
           currentTrain = null;
+          continue;
+        }
+
+        // 偵測放空/休整公約行 (*(...) 或 -(...))
+        if (currentDay && (line.includes('零讀書放空') || line.includes('零讀書充電') || line.includes('零讀書休整'))) {
+          currentDay.isRestDay = true;
+          currentDay.restNote = line.replace(/^[*\s-]+|[*\s-]+$/g, '').trim();
           continue;
         }
 
@@ -565,81 +726,173 @@
           continue;
         }
 
-        // 偵測非列車單項任務 (- [ ] 或 - [x])
+        // 偵測任務 (- [ ] 或 - [x])
         if (line.match(/^\s*-\s*\[([ xX])\]/) && currentDay) {
           const isDone = line.match(/^\s*-\s*\[([xX])\]/) !== null;
-          const taskText = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
+          const rawTask = line.replace(/^\s*-\s*\[[ xX]\]\s*/, '').trim();
 
-          const taskObj = {
-            rawLine: line,
-            lineIndex: i,
-            isDone: isDone,
-            text: taskText
-          };
+          const taskObj = extractTaskMeta(rawTask, line, i, isDone);
 
           if (currentTrain) {
             currentTrain.tasks.push(taskObj);
           } else {
-            // 掛在日層級的獨立任務
-            if (!currentDay.standaloneTasks) currentDay.standaloneTasks = [];
             currentDay.standaloneTasks.push(taskObj);
           }
         }
       }
     }
 
+    // 解析任務文字與精緻標籤 (消滅 @Desk 噪點)
+    function extractTaskMeta(rawText, rawLine, lineIndex, isDone) {
+      let cleanText = rawText;
+      let carriage = null;
+      let location = null;
+      let isExam = false;
+
+      // 1. 抓取車廂容量 [xC]
+      const carriageMatch = cleanText.match(/\[([0-9]+C)\]/);
+      if (carriageMatch) {
+        carriage = carriageMatch[1];
+        cleanText = cleanText.replace(/\[[0-9]+C\]/, '');
+      }
+
+      // 2. 抓取地點標籤 (@Desk, @CEO, @知207, @生機101 等)
+      const locMatch = cleanText.match(/@([a-zA-Z0-9_\u4e00-\u9fa5]+)/);
+      if (locMatch) {
+        const rawLoc = locMatch[1];
+        if (rawLoc.toLowerCase() === 'desk') {
+          location = '🪑 書桌伏案';
+        } else if (rawLoc.toLowerCase() === 'ceo') {
+          location = '👤 肉身親作';
+        } else {
+          location = `📍 ${rawLoc}`;
+        }
+        cleanText = cleanText.replace(/@[a-zA-Z0-9_\u4e00-\u9fa5]+/, '');
+      }
+
+      // 3. 抓取小考/死線標記
+      if (cleanText.includes('🔴') || cleanText.includes('🏁') || cleanText.includes('Quiz') || cleanText.includes('小考') || cleanText.includes('隨堂考')) {
+        isExam = true;
+      }
+
+      // 4. 清除尾隨雜訊標籤 (#M, #S, #L, ⏫)
+      cleanText = cleanText.replace(/#(S|M|L|XL)/g, '').replace(/⏫/g, '').trim();
+
+      return {
+        rawLine: rawLine,
+        lineIndex: lineIndex,
+        isDone: isDone,
+        cleanTitle: cleanText,
+        carriage: carriage,
+        location: location,
+        isExam: isExam
+      };
+    }
+
     // 渲染前端 DOM
     function renderPipeline() {
       const container = document.getElementById('pipelineContainer');
-      if (parsedDays.length === 0) {
+      const noticeBar = document.getElementById('hiddenNoticeBar');
+      const hiddenCountEl = document.getElementById('hiddenCount');
+
+      if (parsedSections.length === 0) {
         container.innerHTML = '<div class="empty-state"><p>未解析到週排程資料。</p></div>';
+        noticeBar.style.display = 'none';
         return;
       }
 
       let html = '';
-      parsedDays.forEach(day => {
-        html += `
-          <div class="day-section">
-            <div class="day-header">
-              <div class="day-title">📅 ${escapeHtml(day.title)}</div>
-            </div>
-        `;
+      let totalHiddenDays = 0;
 
-        // 渲染列車
-        if (day.trains && day.trains.length > 0) {
-          day.trains.forEach(train => {
-            html += `
-              <div class="train-card">
-                <div class="train-header">
-                  <div class="train-code-title">${escapeHtml(train.title)}</div>
-                </div>
-                <div class="train-tasks">
-            `;
+      parsedSections.forEach((section, sIdx) => {
+        let sectionDaysHtml = '';
+        const isNextWeek = section.title.includes('下週') || section.title.includes('W40');
 
-            train.tasks.forEach(task => {
-              html += renderTaskItem(task);
-            });
+        section.days.forEach(day => {
+          // 檢查是否所有任務都已完成
+          const allTasks = [...(day.trains.flatMap(t => t.tasks)), ...day.standaloneTasks];
+          const hasTasks = allTasks.length > 0;
+          const isAllDone = hasTasks && allTasks.every(t => t.isDone);
+          const isExplicitArchived = day.title.includes('已結案');
 
-            html += `
-                </div>
+          const isDayFinished = isExplicitArchived || isAllDone;
+
+          if (isDayFinished && hideFinished) {
+            totalHiddenDays++;
+            return; // 隱藏已結案日期
+          }
+
+          sectionDaysHtml += `
+            <div class="day-section">
+              <div class="day-header">
+                <div class="day-title">📅 ${escapeHtml(day.title)}</div>
+                ${isDayFinished ? '<span class="day-badge" style="color:var(--c-green); border-color:rgba(52,211,153,0.3);">✅ 已結案</span>' : ''}
+              </div>
+          `;
+
+          // 若為休整日
+          if (day.isRestDay) {
+            sectionDaysHtml += `
+              <div class="rest-card">
+                🏖️ ${escapeHtml(day.restNote || '週末充電公約：全面休整放空、零課業負擔')}
               </div>
             `;
-          });
-        }
+          }
 
-        // 渲染獨立任務 (若有)
-        if (day.standaloneTasks && day.standaloneTasks.length > 0) {
-          html += `<div class="train-card"><div class="train-tasks">`;
-          day.standaloneTasks.forEach(task => {
-            html += renderTaskItem(task);
-          });
-          html += `</div></div>`;
-        }
+          // 渲染列車
+          if (day.trains && day.trains.length > 0) {
+            day.trains.forEach(train => {
+              sectionDaysHtml += `
+                <div class="train-card">
+                  <div class="train-header">
+                    <div class="train-code-title">${escapeHtml(train.title)}</div>
+                  </div>
+                  <div class="train-tasks">
+              `;
 
-        html += `</div>`;
+              train.tasks.forEach(task => {
+                sectionDaysHtml += renderTaskItem(task);
+              });
+
+              sectionDaysHtml += `
+                  </div>
+                </div>
+              `;
+            });
+          }
+
+          // 渲染獨立任務
+          if (day.standaloneTasks && day.standaloneTasks.length > 0) {
+            sectionDaysHtml += `<div class="train-card"><div class="train-tasks">`;
+            day.standaloneTasks.forEach(task => {
+              sectionDaysHtml += renderTaskItem(task);
+            });
+            sectionDaysHtml += `</div></div>`;
+          }
+
+          sectionDaysHtml += `</div>`;
+        });
+
+        if (sectionDaysHtml.trim() !== '') {
+          html += `
+            <div class="week-divider ${isNextWeek ? 'next-week' : ''}">
+              <span>${escapeHtml(section.title)}</span>
+              <span>${isNextWeek ? 'NEXT WEEK' : 'CURRENT'}</span>
+            </div>
+            ${sectionDaysHtml}
+          `;
+        }
       });
 
-      container.innerHTML = html;
+      // 更新隱藏提示列
+      if (totalHiddenDays > 0 && hideFinished) {
+        noticeBar.style.display = 'block';
+        hiddenCountEl.textContent = totalHiddenDays;
+      } else {
+        noticeBar.style.display = 'none';
+      }
+
+      container.innerHTML = html || '<div class="empty-state"><p>所有排程皆已結案！請切換「顯示全部日程」檢視歷史。</p></div>';
     }
 
     function renderTaskItem(task) {
@@ -649,7 +902,12 @@
             <span class="checkbox-tick">✓</span>
           </div>
           <div class="task-content">
-            <div class="task-text">${escapeHtml(task.text)}</div>
+            <div class="task-clean-title">${escapeHtml(task.cleanTitle)}</div>
+            <div class="task-badges">
+              ${task.carriage ? `<span class="badge-item badge-carriage">${task.carriage}</span>` : ''}
+              ${task.location ? `<span class="badge-item badge-location">${task.location}</span>` : ''}
+              ${task.isExam ? `<span class="badge-item badge-exam">應試死線</span>` : ''}
+            </div>
           </div>
         </div>
       `;
@@ -677,12 +935,12 @@
       const newContent = lines.join('\n');
       rawMarkdownContent = newContent;
 
-      // 樂觀更新 UI (不用等 API 完成)
+      // 樂觀更新 UI (立刻給予即時觸覺反饋)
       parseMarkdownPipeline(newContent);
       renderPipeline();
-      showToast(isDone ? '已取消勾選' : '✅ 已完成打勾！正在推向 GitHub...', isDone ? '↩️' : '⚡');
+      showToast(isDone ? '已取消勾選' : '✅ 打勾完成！正在同步推向 GitHub...', isDone ? '↩️' : '⚡');
 
-      // 背景發送 API 回寫
+      // 背景發送 API 回寫私有庫
       try {
         const utf8Bytes = new TextEncoder().encode(newContent);
         let binaryStr = '';
@@ -720,11 +978,10 @@
 
         const resData = await res.json();
         currentFileSha = resData.content.sha;
-        showToast('🎉 GitHub 倉庫已同步更新！', '✅');
-        document.getElementById('syncStatus').textContent = `已對齊 GitHub SSOT (SHA: ${currentFileSha.slice(0,7)})`;
+        showToast('🎉 GitHub 私有庫已同步更新！', '✅');
+        document.getElementById('syncStatus').textContent = `已對齊雙週 SSOT (SHA: ${currentFileSha.slice(0,7)})`;
       } catch (err) {
         showToast(`寫入失敗: ${err.message}`, '❌');
-        // 失敗時重新獲取保證一致
         fetchPipeline();
       }
     }
