@@ -2117,21 +2117,30 @@
       };
     }
 
-    // 渲染前線作戰視圖 (今日 09/24 起算 ＋ P0 逾期隊列 ＋ 活躍日程完整呈現)
+    // 雙堆排序：未完成正序排列，已完成倒序排列 (工單全週原地保留，週日結算前絕不封存)
+    function sortTasksTwoPiles(tasks) {
+      if (!tasks || tasks.length <= 1) return tasks || [];
+      const pending = tasks.filter(t => !t.isDone); // 未完成：維持正序
+      const completed = tasks.filter(t => t.isDone).slice().reverse(); // 已完成：倒序排列
+      return [...pending, ...completed];
+    }
+
+    // 渲染前線作戰視圖 (全週作戰流水線完整展現 · 當週打勾 100% 原位保留 · 9/27-9/28 週度結算前絕不移走)
     function renderActiveView() {
       const overdueBox = document.getElementById('overdueBox');
       const overdueList = document.getElementById('overdueTasksList');
       const overdueCountEl = document.getElementById('overdueCount');
       const container = document.getElementById('pipelineContainer');
 
-      // 1. 渲染 P0 Overdue Queue
+      // 1. 渲染 P0 Overdue Queue (未完成正序，已完成倒序)
       if (overdueTasks.length > 0) {
         overdueBox.style.display = 'block';
         const pendingCount = overdueTasks.filter(t => !t.isDone).length;
         const doneCount = overdueTasks.length - pendingCount;
         overdueCountEl.textContent = `${pendingCount} 項待補${doneCount > 0 ? ` · ${doneCount} 項本次已補齊` : ''}`;
         let ovHtml = '';
-        overdueTasks.forEach(task => {
+        const sortedOverdue = sortTasksTwoPiles(overdueTasks);
+        sortedOverdue.forEach(task => {
           ovHtml += renderTaskItem(task, true);
         });
         overdueList.innerHTML = ovHtml;
@@ -2139,10 +2148,10 @@
         overdueBox.style.display = 'none';
       }
 
-      // 2. 渲染前線日程：
-      // 分流「過往早已全數結案之日程 (如 09/21)」與「當前活躍日程 (含 09/22, 09/23 含待辦者、09/24 今日、未來日程)」
-      let pastFullyDoneDays = [];
-      let activeDays = [];
+      // 2. 渲染全週前線日程：
+      // 全週所有日程 (含 09/21 已結案、09/22~23 含待辦、09/24 今日、未來日程) 100% 完整平鋪展開！
+      // 打勾工單留存於原處，直到該週正式過去 (9/27~9/28 Sunday Calibration) 才會整體封存！
+      let html = '';
 
       parsedDays.forEach(day => {
         const isPast = day.dayNum > 0 && day.dayNum < todayFullNum;
@@ -2154,52 +2163,25 @@
           ...(day.standaloneTasks || [])
         ];
         const hasTasks = allTasks.length > 0;
-        // 是否全部任務都已結案（排除本會話剛打勾的保護期，確保剛打勾絕不瞬間消失）
-        const allDone = hasTasks && allTasks.every(t => t.isDone && !recentlyCheckedIndices.has(t.lineIndex));
+        const allDone = hasTasks && allTasks.every(t => t.isDone);
 
-        // 唯有「該日已完全過去」且「所有任務此前早已全數結案」的日程，才收納入折疊專區
-        if (isPast && allDone) {
-          pastFullyDoneDays.push(day);
-        } else {
-          // 包含今日、未來日程，以及過去尚有未結案/剛結案工單之日程，一律在前線完整呈現！
-          activeDays.push({ day, isPast, isToday });
-        }
-      });
-
-      let html = '';
-
-      // 過去已完結日程折疊區 (若有 09/21 等已全數結案的日程)
-      if (pastFullyDoneDays.length > 0) {
-        const summaryText = pastFullyDoneDays.map(d => d.dateStr).join(', ');
-        html += `
-          <div class="past-toggle-pill" onclick="togglePastDays()" title="點擊切換過往已完結日程">
-            <span>📜 本週過往已結案日程 (${summaryText} · 共 ${pastFullyDoneDays.length} 天已全數結案)</span>
-            <span style="font-weight: 700; color: var(--c-blue);">${showPastCompletedDays ? '收合 ▲' : '點擊展開 ▼'}</span>
-          </div>
-        `;
-
-        if (showPastCompletedDays) {
-          pastFullyDoneDays.forEach(day => {
-            html += renderDaySectionHtml(day, true, false);
-          });
-        }
-      }
-
-      // 渲染活躍作戰日程 (含 09/22, 09/23, 09/24 今日, 09/25~09/27, W40)
-      activeDays.forEach(({ day, isPast, isToday }) => {
-        html += renderDaySectionHtml(day, isPast, isToday);
+        html += renderDaySectionHtml(day, isPast, isToday, allDone);
       });
 
       container.innerHTML = html || '<div class="empty-state"><p>前線日程皆已結案！請切換「歷史封存」檢視過往紀錄。</p></div>';
     }
 
-    function renderDaySectionHtml(day, isPast, isToday) {
+    function renderDaySectionHtml(day, isPast, isToday, allDone = false) {
       const isTodayClass = isToday ? 'today-active' : '';
       let badgeHtml = '';
       if (isToday) {
         badgeHtml = '<span class="today-badge">⚡ TODAY 今日</span>';
       } else if (isPast) {
-        badgeHtml = '<span class="badge-item badge-origin-date">⚠️ 含未結案工單</span>';
+        if (allDone) {
+          badgeHtml = '<span class="badge-item" style="background: rgba(52, 211, 153, 0.15); color: var(--c-green); border: 1px solid rgba(52, 211, 153, 0.3);">✅ 已全數結案</span>';
+        } else {
+          badgeHtml = '<span class="badge-item badge-origin-date">⚠️ 含未結案工單</span>';
+        }
       }
 
       let dayHtml = `
@@ -2220,6 +2202,7 @@
         `;
       }
 
+      // 車次任務渲染：未完成正序排列，已完成倒序排列
       if (day.trains && day.trains.length > 0) {
         day.trains.forEach(train => {
           dayHtml += `
@@ -2229,16 +2212,19 @@
               </div>
               <div class="train-tasks">
           `;
-          train.tasks.forEach(task => {
+          const sortedTrainTasks = sortTasksTwoPiles(train.tasks);
+          sortedTrainTasks.forEach(task => {
             dayHtml += renderTaskItem(task, false);
           });
           dayHtml += `</div></div>`;
         });
       }
 
+      // 獨立任務渲染：未完成正序排列，已完成倒序排列
       if (day.standaloneTasks && day.standaloneTasks.length > 0) {
         dayHtml += `<div class="train-card"><div class="train-tasks">`;
-        day.standaloneTasks.forEach(task => {
+        const sortedStandalone = sortTasksTwoPiles(day.standaloneTasks);
+        sortedStandalone.forEach(task => {
           dayHtml += renderTaskItem(task, false);
         });
         dayHtml += `</div></div>`;
@@ -2302,7 +2288,7 @@
         buildSubjectRegistry();
         renderSubjectsView();
       }
-      showToast(isDone ? '已取消勾選' : '✅ 打勾完成！(項目保持可見，該日過後才會封存)', isDone ? '↩️' : '⚡');
+      showToast(isDone ? '↩️ 已取消勾選' : '✅ 打勾完成！(全週原處保留，週日結算前絕不封存)', isDone ? '↩️' : '⚡');
 
       // 背景發送 API 回寫私有庫
       try {
