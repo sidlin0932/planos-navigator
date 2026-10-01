@@ -55,8 +55,8 @@
       --border: rgba(0, 0, 0, 0.08);
       --border-accent: #0284c7;
       --text-main: #0f172a;
-      --text-muted: #64748b;
-      --text-dim: #94a3b8;
+      --text-muted: #334155;
+      --text-dim: #475569;
       
       --c-blue: #0284c7;
       --c-green: #059669;
@@ -302,8 +302,113 @@
       box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
       color: #0f172a;
     }
-    body.light-theme .input-field { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+    body.light-theme .input-field { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; font-weight: 600; }
     body.light-theme .toast { background: #0f172a; color: #f8fafc; }
+    body.light-theme .modal-box label {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .modal-desc {
+      color: #334155 !important;
+    }
+    body.light-theme .modal-title {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .badge-item {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border: 1px solid #94a3b8 !important;
+      font-weight: 700 !important;
+    }
+    body.light-theme .badge-item:hover {
+      background: #e2e8f0 !important;
+      color: #0284c7 !important;
+      border-color: #0284c7 !important;
+    }
+    body.light-theme .milver-param-drawer {
+      background: #ffffff !important;
+      border: 1.5px solid #0284c7 !important;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.15) !important;
+    }
+    body.light-theme .milver-param-drawer label {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .milver-param-drawer span {
+      color: #0284c7 !important;
+    }
+    body.light-theme .milver-param-drawer .input-field {
+      background: #f8fafc !important;
+      color: #0f172a !important;
+      border: 1.5px solid #94a3b8 !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .milver-ticket-title {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    body.light-theme .milver-compact-stats {
+      color: #334155 !important;
+      font-weight: 700 !important;
+    }
+    body.light-theme .milver-compact-stats strong {
+      color: #0f172a !important;
+    }
+    body.light-theme .milver-ctrl-btn {
+      background: #ffffff !important;
+      border: 1px solid #94a3b8 !important;
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    body.light-theme .milver-ctrl-btn:hover {
+      background: #e2e8f0 !important;
+      border-color: #0284c7 !important;
+      color: #0284c7 !important;
+    }
+    body.light-theme .milver-compact-bar {
+      background: #cbd5e1 !important;
+      border-color: #94a3b8 !important;
+    }
+    body.light-theme .milver-compact-pct {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+      text-shadow: 0 0 2px #ffffff, 0 1px 2px #ffffff !important;
+    }
+    body.light-theme .milver-deliverable-badge.external {
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+      border: 1px solid #7dd3fc !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .milver-deliverable-badge.checkpoint {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      border: 1px solid #fde68a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .milver-deliverable-badge.dedicated {
+      background: #f3e8ff !important;
+      color: #7e22ce !important;
+      border: 1px solid #d8b4fe !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .milver-ticket-id {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .cockpit-title {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .cockpit-sub {
+      color: #334155 !important;
+      font-weight: 700 !important;
+    }
+    body.light-theme .cockpit-badge {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
 
     * {
       box-sizing: border-box;
@@ -1456,52 +1561,26 @@
     .milver-compact-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 10px;
+      border-radius: 8px;
+      padding: 6px 9px 8px 9px;
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
       position: relative;
+      overflow: hidden;
     }
     .milver-compact-card:hover {
       border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    }
-    .milver-compact-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-    .milver-header-left {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      flex: 1;
-    }
-    .milver-subject-tag {
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 4px;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.3px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     }
     .milver-ticket-id {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11.5px;
-      font-weight: 700;
-      color: var(--c-blue);
+      font-weight: 800;
     }
     .milver-deliverable-badge {
       font-size: 9px;
@@ -1532,70 +1611,19 @@
     .milver-ticket-title {
       font-size: 11px;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-main);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      margin-top: -2px;
-      margin-bottom: 1px;
-    }
-    .milver-version-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 700;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--c-blue);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 1px 6px;
-      border-radius: 5px;
-      white-space: nowrap;
-      letter-spacing: 0.3px;
-    }
-    .milver-compact-bar {
-      height: 15px;
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: 5px;
-      border: 1px solid var(--glass-border);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      padding: 1px;
-    }
-    .milver-compact-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
-      border-radius: 3px;
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
-    }
-    .milver-compact-pct {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
-      pointer-events: none;
-    }
-    .milver-compact-stats {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 9.5px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
-      gap: 4px;
     }
     .milver-ctrl-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text-main);
       border-radius: 4px;
-      padding: 1px 5px;
-      font-size: 9.5px;
+      padding: 0 4px;
+      font-size: 9px;
+      line-height: 14px;
       cursor: pointer;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
@@ -1790,7 +1818,10 @@
             <span>🚀 關聯 MilVer 計畫：</span>
             <span id="taskModalPlanName" style="color: var(--text-main); font-weight: 700;">Plan-1012: 會計循環與第一次期中考</span>
           </div>
-          <span id="taskModalCurrentMilVerBadge" class="milver-version-pill" style="font-size: 10.5px; padding: 2px 7px;">M0.3.4+12</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button type="button" class="milver-ctrl-btn" onclick="openMilVerSpecModalFromTaskModal()" style="font-size: 10px; padding: 2px 7px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.45); color: #10b981; font-weight: 800; border-radius: 4px;" title="在開工前完整設定此科 Minor 階段數與各階段題數">⚙️ 設定規格</button>
+            <span id="taskModalCurrentMilVerBadge" class="milver-version-pill" style="font-size: 10.5px; padding: 2px 7px;">M0.3.4+12</span>
+          </div>
         </div>
         <div style="font-size: 11.5px; font-family: 'JetBrains Mono', monospace; color: var(--text-normal); margin-bottom: 6px;">
           <span>完工預期進度：</span>
@@ -1893,7 +1924,7 @@
             </select>
           </div>
           <div>
-            <label style="display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: var(--text-dim);">交付物名稱 (Target Name)</label>
+            <label style="display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px; color: var(--text-main);">交付物名稱 (Target Name)</label>
             <input id="taskModalDeliverableTarget" class="input-field" type="text" value="10/12 期中考" placeholder="例: 10/12 期中考, M0.3 全真模考" oninput="updateTaskModalPreview()" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 12px;">
           </div>
         </div>
@@ -1957,6 +1988,90 @@
         <button class="btn-icon" onclick="closeTaskModal()" style="padding: 7px 14px;">取消</button>
         <button class="btn-icon" onclick="copyTaskModalSyntax()" style="padding: 7px 14px;">📋 複製語法</button>
         <button class="btn-cta" onclick="dispatchTaskModalCommit()" style="padding: 7px 18px; font-weight: 700;">🚀 立即派發 (Dispatch)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MilVer Plan Spec & Setup Modal -->
+  <div id="milverSpecModal" class="modal-overlay" style="display: none;" onclick="if(event.target === this) closeMilVerSpecModal()">
+    <div class="modal-box" style="max-width: 580px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">📐</span>
+          <div class="modal-title" style="margin-bottom: 0;">各科 MilVer 戰略立案與規格設定器</div>
+        </div>
+        <button class="btn-icon" onclick="closeMilVerSpecModal()" style="padding: 4px 8px; font-size: 13px;">✕</button>
+      </div>
+      <div class="modal-desc" style="margin-bottom: 14px;">
+        在開工前完整規劃每個作戰計畫的 <strong>Minor 階段數</strong>、<strong>各階段最大 Patch 題數</strong> 與 <strong>交付標的</strong>，杜絕前線臨時手忙腳亂。
+      </div>
+
+      <!-- Select Subject to Configure -->
+      <div style="background: rgba(2, 132, 199, 0.08); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label style="font-size: 12px; font-weight: 800; color: var(--c-blue);">📚 選擇欲立案/配置之作戰計畫：</label>
+          <select id="specModalSubjectSelect" class="input-field" onchange="onSpecModalSubjectChange()" style="padding: 4px 8px; font-size: 12px; font-weight: 700; border-radius: 6px;">
+          </select>
+        </div>
+      </div>
+
+      <!-- Form Grid -->
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+        <!-- Row 1: Plan Title & Ticket ID -->
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 800; margin-bottom: 4px;">🏷️ 工單編號 (Ticket ID)</label>
+            <input id="specModalTicketId" class="input-field" type="text" style="width: 100%; padding: 6px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 800;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 11.5px; font-weight: 800; margin-bottom: 4px;">📘 作戰計畫標題 (Plan Title)</label>
+            <input id="specModalPlanTitle" class="input-field" type="text" style="width: 100%; padding: 6px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;">
+          </div>
+        </div>
+
+        <!-- Row 2: Deliverable Binding -->
+        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; background: rgba(56, 189, 248, 0.05); padding: 8px 10px; border-radius: 8px; border: 1px dashed rgba(56, 189, 248, 0.35);">
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px; color: var(--c-blue);">🎯 交付標的屬性 (Deliverable Type)</label>
+            <select id="specModalDeliverableType" class="input-field" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">
+              <option value="EXTERNAL_TRUE">🏫 外部真交付 (老師的考試/作業)</option>
+              <option value="SYNTHETIC_CHECKPOINT">🎯 自擬假交付 (母計畫 Checkpoint 驗收關)</option>
+              <option value="SYNTHETIC_DEDICATED">⚔️ 自擬假交付 (獨立重型模考工單)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px;">交付物名稱 (Target Name)</label>
+            <input id="specModalDeliverableTarget" class="input-field" type="text" placeholder="例: 10/12 期中考" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">
+          </div>
+        </div>
+
+        <!-- Row 3: Max Minor Count -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #10b981;">🔢 宏觀 Minor 階段數 (到 M0.X)：</div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">M0.1 為規劃期(0%)，實體執行從 M0.2 起跑，總階段切片數</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input id="specModalMaxMinor" type="number" min="2" max="6" value="3" onchange="onSpecModalMaxMinorChange()" class="input-field" style="width: 60px; padding: 4px 6px; font-size: 14px; font-weight: 800; text-align: center; border-radius: 6px;">
+            <span style="font-size: 12px; font-weight: 700; font-family: 'JetBrains Mono', monospace;" id="specModalMaxMinorLabel">➔ 到 M0.3</span>
+          </div>
+        </div>
+
+        <!-- Row 4: Each Minor's Max Patch Inputs (Dynamic Matrix) -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="font-size: 11.5px; font-weight: 800;">⚡ 各 Minor 階段最大 Patch 題數 (微觀 DoD 裝填)：</label>
+            <span id="specModalTotalBuildSummary" style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--c-yellow); font-weight: 700;">總題數: 13 DoD</span>
+          </div>
+          <div id="specModalMinorGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; justify-content: flex-end; gap: 8px; border-top: 1px dashed var(--border); padding-top: 14px;">
+        <button class="btn-icon" onclick="closeMilVerSpecModal()" style="padding: 7px 14px;">取消</button>
+        <button class="btn-cta" onclick="saveMilVerSpecModal()" style="padding: 7px 20px; font-weight: 800; background: linear-gradient(135deg, #0284c7, #10b981);">💾 儲存並套用規格 (Save Spec)</button>
       </div>
     </div>
   </div>
@@ -3309,28 +3424,22 @@
       const wipLabel = isWipSafe ? `${currentWip} / ${milverCockpitMeta.maxWipLimit} WIP 綠燈安全` : `${currentWip} / ${milverCockpitMeta.maxWipLimit} WIP 🚨 超載警告`;
 
       let html = `
-        <div class="cockpit-header">
+        <div class="cockpit-header" style="margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed var(--border);">
           <div class="cockpit-title-row">
-            <div class="cockpit-title">
-              <span>📊 PlanOS 戰略作戰總控台 (COO & CPO Executive Cockpit)</span>
+            <div class="cockpit-title" style="font-size: 13px; font-weight: 800;">
+              <span>📊 PlanOS 戰略作戰總控台 (3×3 矩陣)</span>
             </div>
             <div class="cockpit-badge-group">
-              <div class="cockpit-badge backlog" title="待立案庫存量">
-                <span>💡 Backlog (M0.0.1): <strong>${milverCockpitMeta.backlogCount}</strong></span>
+              <button class="cockpit-badge" onclick="openMilVerSpecModal()" style="cursor: pointer; background: rgba(16, 185, 129, 0.15); border: 1.5px solid rgba(16, 185, 129, 0.45); color: #10b981; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px;" title="在開工前完整設定各科 Minor 階段數與各階段題數">
+                <span>📐 設定規格</span>
+              </button>
+              <div class="cockpit-badge ${wipClass}" style="padding: 2px 8px;" title="進行中重型工單總量管制 (WIP Limit)">
+                <span>🚀 ${currentWip}/${milverCockpitMeta.maxWipLimit} WIP</span>
               </div>
-              <div class="cockpit-badge planned" title="已就緒待命庫存量">
-                <span>📋 Planned (M0.1.0): <strong>${milverCockpitMeta.plannedCount}</strong></span>
-              </div>
-              <div class="cockpit-badge ${wipClass}" title="進行中重型工單總量管制 (WIP Limit)">
-                <span>🚀 Active Tickets: <strong>${wipLabel}</strong></span>
-              </div>
-              <div id="cockpitPushBadge" class="cockpit-badge" onclick="manualBatchSync()" style="cursor: pointer; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35);" title="點擊統一 Push 批次同步至 GitHub">
-                <span>🚀 統一 Push: <strong id="cockpitPushText">已對齊</strong></span>
+              <div id="cockpitPushBadge" class="cockpit-badge" onclick="manualBatchSync()" style="cursor: pointer; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); padding: 2px 8px;" title="點擊統一 Push 批次同步至 GitHub">
+                <span>🚀 Push: <strong id="cockpitPushText">已對齊</strong></span>
               </div>
             </div>
-          </div>
-          <div class="cockpit-sub">
-            ※ 3×3 極致作戰矩陣 ｜ 綁定交付標的 (真考試/作業 vs. 假模考/CP) ｜ 杜絕免洗負擔 ｜ 詳情 Obs SSOT
           </div>
         </div>
 
@@ -3338,23 +3447,31 @@
       `;
 
       milverActivePlans.forEach(plan => {
+        if (!plan.minorPatchesMap) {
+          plan.minorPatchesMap = {};
+          for (let m = 2; m <= (plan.maxMinor || 3); m++) {
+            plan.minorPatchesMap[String(m)] = plan.phasePatches || 6;
+          }
+        }
+        plan.phasePatches = parseInt(plan.minorPatchesMap[String(plan.currentMinor)], 10) || plan.phasePatches || 6;
+
         // 計算總題數 maxBuild = 各 Minor 最大 Patch 總合
         let computedMaxBuild = 0;
-        if (plan.minorPatchesMap) {
-          Object.values(plan.minorPatchesMap).forEach(p => { computedMaxBuild += (parseInt(p, 10) || 0); });
+        for (let m = 2; m <= plan.maxMinor; m++) {
+          computedMaxBuild += (parseInt(plan.minorPatchesMap[String(m)], 10) || 6);
         }
-        if (computedMaxBuild === 0) computedMaxBuild = plan.maxBuild || (plan.phasePatches * plan.maxMinor);
         plan.maxBuild = computedMaxBuild;
 
-        // 確定性純數學換算 (Zero-AI Invariant)
-        const completedMinors = Math.max(0, plan.currentMinor - 2);
-        const basePct = (completedMinors / plan.maxMinor) * 100;
-        const phaseWeight = 100 / plan.maxMinor;
-        const phasePct = (plan.currentPatch / plan.phasePatches) * phaseWeight;
-        const totalPct = Math.min(100, Math.max(0, +(basePct + phasePct).toFixed(1)));
-        const buildPct = plan.maxBuild > 0 ? ((plan.currentBuild / plan.maxBuild) * 100).toFixed(0) : 0;
-        const maxMinorVersionStr = `M0.${plan.currentMinor}.${plan.phasePatches}`;
-        const currentVersionStr = `M0.${plan.currentMinor}.${plan.currentPatch}+${plan.currentBuild}`;
+        // 計算已攻克 DoD (先前 Minor 全滿 + 當前 Minor currentPatch)
+        let completedDoD = 0;
+        for (let m = 2; m < plan.currentMinor; m++) {
+          completedDoD += (parseInt(plan.minorPatchesMap[String(m)], 10) || 6);
+        }
+        completedDoD += Math.min(plan.currentPatch, plan.phasePatches);
+        plan.currentBuild = completedDoD;
+
+        // 確定性進度百分比 (Zero-AI Invariant)
+        const totalPct = plan.maxBuild > 0 ? Math.min(100, Math.max(0, +((completedDoD / plan.maxBuild) * 100).toFixed(1))) : 0;
 
         const delType = plan.deliverableType || 'EXTERNAL_TRUE';
         const delTarget = plan.deliverableTarget || (plan.targetVersion ? `🏆 ${plan.targetVersion}` : '交付標的');
@@ -3371,63 +3488,97 @@
           delTitle = '內部自擬交付 (獨立重型作戰工單)';
         }
 
+        // 極簡標題提煉 (去括號冗餘，保留章節 Scope 與核心主題)
+        let shortScope = '';
+        if (plan.bracket) {
+          const m = plan.bracket.match(/【.*?-(?:EXE|LEC|HW|MOCK|QUIZ|REV)-?(.*?)】/);
+          if (m && m[1]) shortScope = `${m[1]} · `;
+        }
+        const displayTitle = `${shortScope}${plan.title}`;
+
+        // 動態生成各 Minor 題數調整輸入框
+        let minorPatchInputsHtml = '';
+        for (let m = 2; m <= plan.maxMinor; m++) {
+          const pVal = plan.minorPatchesMap[String(m)] || 6;
+          const isCurrent = m === plan.currentMinor;
+          const currentBadge = isCurrent ? '<span style="color: var(--c-blue); font-size: 9px; font-weight: 800;">(當前)</span>' : '';
+          minorPatchInputsHtml += `
+            <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--border); border-radius: 6px; padding: 4px 6px;">
+              <label style="font-size: 10px; font-weight: 800; display: block; margin-bottom: 2px;">M0.${m} 題數 ${currentBadge}:</label>
+              <input type="number" min="1" max="99" value="${pVal}" onchange="updateSpecificMinorPatch('${plan.id}', ${m}, this.value)" class="input-field" style="width: 100%; padding: 2px 4px; font-size: 11px; border-radius: 4px; font-weight: 800; text-align: center;">
+            </div>
+          `;
+        }
+
         html += `
           <div class="milver-compact-card">
-            <!-- Header Row: Subject Badge + Ticket ID + Deliverable Badge + Version -->
-            <div class="milver-compact-header">
-              <div class="milver-header-left">
-                <span class="milver-subject-tag" style="background: ${plan.bgAlpha}; color: ${plan.color}; border: 1px solid ${plan.color}44;">
-                  ${plan.icon} ${plan.subjectCode}
+            <!-- Row 1: Left [🔵 ACC-011] [🏫 10/12 期中考] --- Right [M0.3.4] [50%] -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 18px;">
+              <div style="display: flex; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap;">
+                <span class="milver-ticket-id" style="color: ${plan.color}; display: inline-flex; align-items: center; gap: 3px;">
+                  ${plan.icon} ${plan.ticketCode}
                 </span>
-                <span class="milver-ticket-id">${plan.ticketCode}</span>
                 <span class="milver-deliverable-badge ${delClass}" title="${delTitle}">
                   ${delIcon} ${delTarget}
                 </span>
               </div>
-              <div class="milver-version-pill" style="border-color: ${plan.color}55; color: ${plan.color};">
-                ${currentVersionStr}
+              <div style="display: flex; align-items: center; gap: 5px; white-space: nowrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); font-weight: 700;">
+                  M0.${plan.currentMinor}.${plan.currentPatch}
+                </span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 900; color: ${plan.color};">
+                  ${totalPct}%
+                </span>
               </div>
             </div>
 
-            <!-- Ticket Brief Title -->
-            <div class="milver-ticket-title" title="${plan.title}">
-              ${plan.bracket} ${plan.title}
-            </div>
-
-            <!-- Single Sleek Progress Bar (Height 15px) -->
-            <div class="milver-compact-bar">
-              <div class="milver-compact-fill" style="width: ${totalPct}%;"></div>
-              <div class="milver-compact-pct">${totalPct}% COMPLETED</div>
-            </div>
-
-            <!-- Footer Stats & Interactive Controls Row -->
-            <div class="milver-compact-stats">
-              <div>
-                <span>Phase: <strong>M0.${plan.currentMinor}</strong> (DoD: <strong style="color: ${plan.color};">${plan.currentPatch}/${plan.phasePatches}</strong>, +${plan.currentBuild}/${plan.maxBuild})</span>
+            <!-- Row 2: Left [Ch3 · 調整分錄與買賣業循環] --- Right [4/8 (+12/13)] [-] [+1] [⚙️] -->
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 18px;">
+              <div class="milver-ticket-title" style="flex: 1;" title="${displayTitle}">
+                ${displayTitle}
               </div>
-              <div style="display: flex; gap: 3px; align-items: center;">
-                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', -1)" title="回退 1 個 Patch">-</button>
-                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 1 個 Patch (DoD +1)">+1</button>
-                <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" title="即時配置 MilVer 戰略參數">⚙️</button>
+              <div style="display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; color: var(--text-dim); font-weight: 700;">
+                  <strong style="color: ${plan.color};">${plan.currentPatch}/${plan.phasePatches}</strong> <span style="opacity: 0.75;">(+${plan.currentBuild}/${plan.maxBuild})</span>
+                </span>
+                <div style="display: flex; gap: 2px; align-items: center;">
+                  <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', -1)" title="回退 1 題">-</button>
+                  <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 +1 題">+1</button>
+                  <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" title="微調規格">⚙️</button>
+                </div>
               </div>
             </div>
 
-            <!-- Collapsible MilVer Parameter Configuration Drawer -->
-            <div id="milverDrawer_${plan.id}" class="milver-param-drawer" style="display: none;">
+            <!-- Built-in 2.5px Bottom Progress Line -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px; background: rgba(0, 0, 0, 0.08);">
+              <div style="height: 100%; width: ${totalPct}%; background: linear-gradient(90deg, ${plan.color}, #10b981); transition: width 0.3s ease;"></div>
+            </div>
+
+            <!-- Collapsible Drawer -->
+            <div id="milverDrawer_${plan.id}" class="milver-param-drawer" style="display: none; margin-top: 6px; border-top: 1px dashed var(--border); padding-top: 6px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <span style="font-weight: 700; color: var(--c-blue); font-size: 11px;">⚙️ 即時調整 MilVer 參數 (動態重算)：</span>
+                <span style="font-weight: 800; color: var(--c-blue); font-size: 11px;">⚙️ ${plan.ticketCode} 規格微調：</span>
                 <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" style="padding: 1px 5px; font-size: 10px;">✕</button>
               </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px;">
                 <div>
-                  <label style="font-size: 10px; color: var(--text-dim); display: block; margin-bottom: 2px;">最大 Minor 數 (到 M0.X):</label>
-                  <input type="number" min="1" max="9" value="${plan.maxMinor}" onchange="updateTicketMaxMinor('${plan.id}', this.value)" class="input-field" style="width: 100%; padding: 3px 6px; font-size: 11px; border-radius: 4px;">
+                  <label style="font-size: 10.5px; font-weight: 800; display: block; margin-bottom: 2px;">最大 Minor 數 (到 M0.X):</label>
+                  <input type="number" min="2" max="6" value="${plan.maxMinor}" onchange="updateTicketMaxMinor('${plan.id}', this.value)" class="input-field" style="width: 100%; padding: 3px 6px; font-size: 11.5px; border-radius: 4px; font-weight: 800;">
                 </div>
                 <div>
-                  <label style="font-size: 10px; color: var(--text-dim); display: block; margin-bottom: 2px;">當前 Minor 最大 Patch:</label>
-                  <input type="number" min="1" max="99" value="${plan.phasePatches}" onchange="updateTicketPhasePatches('${plan.id}', this.value)" class="input-field" style="width: 100%; padding: 3px 6px; font-size: 11px; border-radius: 4px;">
+                  <label style="font-size: 10.5px; font-weight: 800; display: block; margin-bottom: 2px;">總題數 (maxBuild):</label>
+                  <div style="padding: 4px 6px; font-size: 12px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--c-yellow);">${plan.maxBuild} DoD</div>
                 </div>
               </div>
+              <div style="margin-bottom: 6px;">
+                <div style="font-size: 10.5px; font-weight: 800; margin-bottom: 4px;">各 Minor 階段題數配比：</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); gap: 6px;">
+                  ${minorPatchInputsHtml}
+                </div>
+              </div>
+              <button class="milver-ctrl-btn" onclick="openMilVerSpecModal('${plan.id}')" style="width: 100%; padding: 4px 8px; font-size: 11px; font-weight: 800; color: var(--c-blue); background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; cursor: pointer;">
+                📐 開啟完整戰略立案設定器 (Macro Setup)
+              </button>
             </div>
           </div>
         `;
@@ -3448,21 +3599,29 @@
       const plan = milverActivePlans.find(p => p.id === ticketId);
       if (!plan) return;
       const num = parseInt(val, 10);
-      if (num >= 1 && num <= 9) {
+      if (num >= 2 && num <= 6) {
         plan.maxMinor = num;
+        if (!plan.minorPatchesMap) plan.minorPatchesMap = {};
+        for (let m = 2; m <= num; m++) {
+          if (!plan.minorPatchesMap[String(m)]) plan.minorPatchesMap[String(m)] = 6;
+        }
+        if (plan.currentMinor > num) plan.currentMinor = num;
         saveMilVerTickets();
         renderMilVerExecutiveCockpit();
       }
     };
 
-    window.updateTicketPhasePatches = function(ticketId, val) {
+    window.updateSpecificMinorPatch = function(ticketId, minorNum, val) {
       const plan = milverActivePlans.find(p => p.id === ticketId);
       if (!plan) return;
       const num = parseInt(val, 10);
       if (num >= 1 && num <= 99) {
-        plan.phasePatches = num;
         if (!plan.minorPatchesMap) plan.minorPatchesMap = {};
-        plan.minorPatchesMap[String(plan.currentMinor)] = num;
+        plan.minorPatchesMap[String(minorNum)] = num;
+        if (plan.currentMinor === minorNum) {
+          plan.phasePatches = num;
+          if (plan.currentPatch > num) plan.currentPatch = num;
+        }
         saveMilVerTickets();
         renderMilVerExecutiveCockpit();
       }
@@ -3481,12 +3640,179 @@
       const plan = milverActivePlans.find(p => p.id === planId);
       if (!plan) return;
 
-      const newPatch = plan.currentPatch + delta;
-      if (newPatch >= 0 && newPatch <= plan.phasePatches) {
-        plan.currentPatch = newPatch;
-        plan.currentBuild = Math.max(0, Math.min(plan.maxBuild, plan.currentBuild + delta));
-        saveMilVerTickets();
-        renderMilVerExecutiveCockpit();
+      const curMinor = plan.currentMinor || 2;
+      const curMaxPatch = (plan.minorPatchesMap && parseInt(plan.minorPatchesMap[String(curMinor)], 10)) || plan.phasePatches || 6;
+
+      if (delta > 0) {
+        if (plan.currentPatch < curMaxPatch) {
+          plan.currentPatch += 1;
+        } else if (curMinor < plan.maxMinor) {
+          plan.currentMinor += 1;
+          plan.currentPatch = 1;
+          plan.phasePatches = (plan.minorPatchesMap && parseInt(plan.minorPatchesMap[String(plan.currentMinor)], 10)) || 6;
+          showToast(`🚀 ${plan.ticketCode} 晉升進入階段 M0.${plan.currentMinor}！`, '🚀');
+        } else {
+          showToast(`🎉 ${plan.ticketCode} 已達成 100% 完工交付！`, '🎉');
+          return;
+        }
+      } else if (delta < 0) {
+        if (plan.currentPatch > 0) {
+          plan.currentPatch -= 1;
+        } else if (curMinor > 2) {
+          plan.currentMinor -= 1;
+          plan.phasePatches = (plan.minorPatchesMap && parseInt(plan.minorPatchesMap[String(plan.currentMinor)], 10)) || 6;
+          plan.currentPatch = plan.phasePatches;
+          showToast(`↩️ ${plan.ticketCode} 回退至階段 M0.${plan.currentMinor}`, '↩️');
+        }
+      }
+
+      saveMilVerTickets();
+      renderMilVerExecutiveCockpit();
+    };
+
+    // ── MilVer Plan Spec & Setup Modal Handlers ──
+    window.openMilVerSpecModal = function(ticketIdOrSubject) {
+      const modal = document.getElementById('milverSpecModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      void modal.offsetWidth;
+      modal.classList.add('open');
+
+      const select = document.getElementById('specModalSubjectSelect');
+      select.innerHTML = '';
+      milverActivePlans.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.icon} ${p.ticketCode} · ${p.subjectName} (${p.title})`;
+        select.appendChild(opt);
+      });
+
+      let targetId = milverActivePlans[0]?.id;
+      if (ticketIdOrSubject) {
+        const match = milverActivePlans.find(p => p.id === ticketIdOrSubject || p.subjectCode === ticketIdOrSubject);
+        if (match) targetId = match.id;
+      }
+      select.value = targetId;
+      loadSpecModalData(targetId);
+    };
+
+    window.openMilVerSpecModalFromTaskModal = function() {
+      const subj = document.getElementById('taskModalSubject').value;
+      openMilVerSpecModal(subj);
+    };
+
+    window.closeMilVerSpecModal = function() {
+      const modal = document.getElementById('milverSpecModal');
+      if (!modal) return;
+      modal.classList.remove('open');
+      setTimeout(() => {
+        if (!modal.classList.contains('open')) {
+          modal.style.display = 'none';
+        }
+      }, 260);
+    };
+
+    window.onSpecModalSubjectChange = function() {
+      const id = document.getElementById('specModalSubjectSelect').value;
+      loadSpecModalData(id);
+    };
+
+    function loadSpecModalData(ticketId) {
+      const plan = milverActivePlans.find(p => p.id === ticketId);
+      if (!plan) return;
+
+      document.getElementById('specModalTicketId').value = plan.ticketCode || plan.id;
+      document.getElementById('specModalPlanTitle').value = plan.title || '';
+      document.getElementById('specModalDeliverableType').value = plan.deliverableType || 'EXTERNAL_TRUE';
+      document.getElementById('specModalDeliverableTarget').value = plan.deliverableTarget || '';
+      
+      const maxMinor = plan.maxMinor || 3;
+      document.getElementById('specModalMaxMinor').value = maxMinor;
+      document.getElementById('specModalMaxMinorLabel').textContent = `➔ 到 M0.${maxMinor}`;
+
+      renderSpecModalMinorGrid(plan);
+    }
+
+    window.onSpecModalMaxMinorChange = function() {
+      const maxMinor = parseInt(document.getElementById('specModalMaxMinor').value, 10) || 3;
+      document.getElementById('specModalMaxMinorLabel').textContent = `➔ 到 M0.${maxMinor}`;
+      
+      const ticketId = document.getElementById('specModalSubjectSelect').value;
+      const plan = milverActivePlans.find(p => p.id === ticketId);
+      renderSpecModalMinorGrid(plan, maxMinor);
+    };
+
+    function renderSpecModalMinorGrid(plan, forcedMaxMinor) {
+      const grid = document.getElementById('specModalMinorGrid');
+      if (!grid) return;
+      const maxMinor = forcedMaxMinor || plan?.maxMinor || 3;
+      
+      let gridHtml = '';
+      for (let m = 2; m <= maxMinor; m++) {
+        const existingVal = (plan?.minorPatchesMap && plan.minorPatchesMap[String(m)]) || 6;
+        gridHtml += `
+          <div style="background: rgba(0, 0, 0, 0.04); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 11px; font-weight: 800; color: var(--c-blue);">M0.${m} 階段題數</label>
+            <div style="font-size: 10px; color: var(--text-dim);">此章節題數 (DoD)</div>
+            <input type="number" min="1" max="99" id="specModalPatch_${m}" value="${existingVal}" oninput="calcSpecModalTotalBuild()" class="input-field" style="width: 100%; padding: 4px 6px; font-size: 13px; font-weight: 800; text-align: center; border-radius: 6px;">
+          </div>
+        `;
+      }
+      grid.innerHTML = gridHtml;
+      calcSpecModalTotalBuild();
+    }
+
+    window.calcSpecModalTotalBuild = function() {
+      const maxMinor = parseInt(document.getElementById('specModalMaxMinor').value, 10) || 3;
+      let sum = 0;
+      for (let m = 2; m <= maxMinor; m++) {
+        const input = document.getElementById(`specModalPatch_${m}`);
+        if (input) {
+          sum += (parseInt(input.value, 10) || 0);
+        }
+      }
+      const summaryEl = document.getElementById('specModalTotalBuildSummary');
+      if (summaryEl) {
+        summaryEl.textContent = `總題數: ${sum} DoD`;
+      }
+    };
+
+    window.saveMilVerSpecModal = function() {
+      const ticketId = document.getElementById('specModalSubjectSelect').value;
+      const plan = milverActivePlans.find(p => p.id === ticketId);
+      if (!plan) return;
+
+      const ticketCode = document.getElementById('specModalTicketId').value.trim();
+      const planTitle = document.getElementById('specModalPlanTitle').value.trim();
+      const delType = document.getElementById('specModalDeliverableType').value;
+      const delTarget = document.getElementById('specModalDeliverableTarget').value.trim();
+      const maxMinor = parseInt(document.getElementById('specModalMaxMinor').value, 10) || 3;
+
+      if (ticketCode) plan.ticketCode = ticketCode;
+      if (planTitle) plan.title = planTitle;
+      plan.deliverableType = delType;
+      plan.deliverableTarget = delTarget || '交付標的';
+      plan.maxMinor = maxMinor;
+
+      if (!plan.minorPatchesMap) plan.minorPatchesMap = {};
+      for (let m = 2; m <= maxMinor; m++) {
+        const input = document.getElementById(`specModalPatch_${m}`);
+        if (input) {
+          plan.minorPatchesMap[String(m)] = parseInt(input.value, 10) || 6;
+        }
+      }
+
+      if (plan.currentMinor > maxMinor) plan.currentMinor = maxMinor;
+      plan.phasePatches = plan.minorPatchesMap[String(plan.currentMinor)] || 6;
+
+      saveMilVerTickets();
+      renderMilVerExecutiveCockpit();
+      closeMilVerSpecModal();
+      showToast(`✅ 已更新並套用 ${plan.ticketCode} 戰略規格！`, '📐');
+
+      const taskModal = document.getElementById('taskModal');
+      if (taskModal && taskModal.classList.contains('open')) {
+        updateTaskModalMilVer();
       }
     };
 
