@@ -1364,179 +1364,208 @@
     }
 
     /* ==========================================================================
-       SYS-26-006: SemVer Milestone Release Train & Glowing Progress Bar
+       SYS-26-006: MilVer Executive Cockpit & Compact Multi-Subject Rails
        ========================================================================== */
-    .semver-card {
+    .cockpit-header {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
     }
-    .semver-card:hover {
-      border-color: rgba(56, 189, 248, 0.4);
-    }
-    .semver-header {
+    .cockpit-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 12px;
     }
-    .semver-title {
-      font-size: 1.25rem;
+    .cockpit-title {
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-    .semver-badge {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: var(--c-blue);
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
-    }
-    .macro-rail {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      margin: 24px 0 28px 0;
-      padding: 0 20px;
-    }
-    .macro-rail-line {
-      position: absolute;
-      top: 18px;
-      left: 36px;
-      right: 36px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      z-index: 1;
-    }
-    .macro-rail-line-fill {
-      position: absolute;
-      top: 18px;
-      left: 36px;
-      height: 4px;
-      background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
-      border-radius: 2px;
-      z-index: 2;
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 12px #38bdf8;
-    }
-    .macro-node {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       gap: 8px;
     }
-    .macro-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #090d16;
-      border: 2px solid var(--text-dim);
+    .cockpit-badge-group {
       display: flex;
       align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cockpit-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+    }
+    .cockpit-badge.backlog {
+      background: rgba(234, 179, 8, 0.12);
+      border: 1px solid rgba(234, 179, 8, 0.35);
+      color: #eab308;
+    }
+    .cockpit-badge.planned {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+    .cockpit-badge.progressing.safe {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #10b981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+    .cockpit-badge.progressing.warn {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      animation: pulse-node 1.5s infinite;
+    }
+    .cockpit-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .milver-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .milver-compact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--glass-shadow);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .milver-compact-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    .milver-compact-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .milver-subject-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .milver-plan-title {
       font-size: 13px;
       font-weight: 700;
-      transition: all 0.3s ease;
-      color: var(--text-muted);
+      color: var(--text-main);
+      line-height: 1.4;
+      margin-top: 4px;
     }
-    .macro-circle.done {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: #10b981;
-      color: #10b981;
-      box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
-    }
-    .macro-circle.active {
-      background: rgba(56, 189, 248, 0.25);
-      border-color: #38bdf8;
-      color: #38bdf8;
-      box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
-      animation: pulse-node 1.8s infinite;
-    }
-    @keyframes pulse-node {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-    }
-    .macro-label {
-      font-size: 11px;
+    .milver-version-pill {
       font-family: 'JetBrains Mono', monospace;
-      color: var(--text-muted);
-      font-weight: 500;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--c-blue);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 4px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      letter-spacing: 0.4px;
     }
-    .liquid-progress-container {
-      background: rgba(0, 0, 0, 0.45);
+    .milver-mini-rail {
+      display: flex;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .milver-compact-bar {
+      height: 28px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 10px;
       border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      height: 44px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
-      padding: 4px;
-      margin-bottom: 20px;
+      padding: 2px;
     }
-    .liquid-progress-fill {
+    .milver-compact-fill {
       height: 100%;
       background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
-      border-radius: 10px;
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+      border-radius: 8px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
     }
-    .liquid-progress-text {
+    .milver-compact-pct {
       position: absolute;
       width: 100%;
       text-align: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.05rem;
+      font-size: 12px;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
       pointer-events: none;
     }
-    .hud-stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 12px;
-      padding: 14px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      text-align: center;
-    }
-    .hud-stat-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .hud-stat-lbl {
+    .milver-compact-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      flex-wrap: wrap;
+      gap: 6px;
     }
-  </style>
+    .milver-ctrl-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.2s;
+    }
+    .milver-ctrl-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    </style>
 </head>
 <body>
 
@@ -2916,93 +2945,240 @@
     // 渲染前線作戰視圖 (今日起算至 D+14 · 過去未結案統一於 P0 逾期隊列 · 保持天然原位 · 打勾隨天消失)
     
     // ==========================================================================
-    // SYS-26-006: SemVer Milestone Release Train & Glowing Progress Bar
+    // SYS-26-006: MilVer Executive Cockpit & Generic Subject Rails
     // ==========================================================================
-    let semverMaxMinor = 3;
-    let semverCurrentMinor = 3;
-    let semverCurrentPatch = 4;
-    let semverTotalPhasePatches = 8;
-    let semverTotalBuild = 12;
+    const defaultMilVerPlans = [
+      {
+        id: "ACC-1012",
+        subjectCode: "ACC",
+        subjectName: "會計學甲一上",
+        icon: "🔵",
+        color: "#38bdf8",
+        bgAlpha: "rgba(56, 189, 248, 0.12)",
+        title: "Plan-1012: 會計循環與第一次期中考方案",
+        currentMinor: 3,
+        currentPatch: 4,
+        currentBuild: 12,
+        maxMinor: 3,
+        phasePatches: 8,
+        maxBuild: 24,
+        targetVersion: "M1.0.0"
+      },
+      {
+        id: "MATH-1020",
+        subjectCode: "MATH",
+        subjectName: "工程數學一",
+        icon: "🟡",
+        color: "#eab308",
+        bgAlpha: "rgba(234, 179, 8, 0.12)",
+        title: "Plan-1020: 常微分方程與第一次大考方案",
+        currentMinor: 2,
+        currentPatch: 3,
+        currentBuild: 5,
+        maxMinor: 3,
+        phasePatches: 6,
+        maxBuild: 18,
+        targetVersion: "M1.0.0"
+      },
+      {
+        id: "EE-0914",
+        subjectCode: "EE",
+        subjectName: "電工學與實習",
+        icon: "🟢",
+        color: "#10b981",
+        bgAlpha: "rgba(16, 185, 129, 0.12)",
+        title: "Plan-0914: Ch1交流電與基本電路攻堅",
+        currentMinor: 3,
+        currentPatch: 2,
+        currentBuild: 8,
+        maxMinor: 3,
+        phasePatches: 5,
+        maxBuild: 16,
+        targetVersion: "M1.0.0"
+      },
+      {
+        id: "TH-1104",
+        subjectCode: "TH",
+        subjectName: "熱力學一",
+        icon: "🟢",
+        color: "#34d399",
+        bgAlpha: "rgba(52, 211, 153, 0.12)",
+        title: "Plan-1104: 理想氣體與熱力第一定律方案",
+        currentMinor: 2,
+        currentPatch: 2,
+        currentBuild: 3,
+        maxMinor: 3,
+        phasePatches: 6,
+        maxBuild: 18,
+        targetVersion: "M1.0.0"
+      },
+      {
+        id: "STAT-1029",
+        subjectCode: "STAT",
+        subjectName: "機率與統計",
+        icon: "🟣",
+        color: "#a855f7",
+        bgAlpha: "rgba(168, 85, 247, 0.12)",
+        title: "Plan-1029: 隨機變數與機率分佈攻堅",
+        currentMinor: 2,
+        currentPatch: 3,
+        currentBuild: 4,
+        maxMinor: 2,
+        phasePatches: 5,
+        maxBuild: 12,
+        targetVersion: "M1.0.0"
+      },
+      {
+        id: "DYN-1023",
+        subjectCode: "DYN",
+        subjectName: "應用力學下",
+        icon: "🟠",
+        color: "#fb923c",
+        bgAlpha: "rgba(251, 146, 60, 0.12)",
+        title: "Plan-1023: 質點運動學與動能定理方案",
+        currentMinor: 2,
+        currentPatch: 4,
+        currentBuild: 6,
+        maxMinor: 3,
+        phasePatches: 7,
+        maxBuild: 20,
+        targetVersion: "M1.0.0"
+      }
+    ];
 
-    function renderSemVerMilestoneCard() {
+    let milverActivePlans = [];
+    try {
+      const stored = localStorage.getItem('planos_milver_active_plans');
+      if (stored) {
+        milverActivePlans = JSON.parse(stored);
+      } else {
+        milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerPlans));
+      }
+    } catch(e) {
+      milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerPlans));
+    }
+
+    const milverCockpitMeta = {
+      backlogCount: 18,
+      plannedCount: 7,
+      maxWipLimit: 8
+    };
+
+    function renderMilVerExecutiveCockpit() {
       const container = document.getElementById('semverMilestoneContainer');
       if (!container) return;
 
-      // 確定性純數學換算 (Zero-AI Invariant)
-      // 依據 CEO 數學模型: M0.1 為 Planning 不佔份額，實體 Minor (M0.2 起) 與最後交付剛好切分 max_minor 個份額
-      // 當 Minor = 3 (M0.3) 時，已通過 1 個實體 Minor (M0.2)，基礎分為 (3 - 2) / 3 = 33.3%
-      const completedMinors = Math.max(0, semverCurrentMinor - 2);
-      const basePct = (completedMinors / semverMaxMinor) * 100;
-      const phaseWeight = 100 / semverMaxMinor;
-      const phasePct = (semverCurrentPatch / semverTotalPhasePatches) * phaseWeight;
-      const totalPct = (basePct + phasePct).toFixed(1);
+      const currentWip = milverActivePlans.length;
+      const isWipSafe = currentWip <= milverCockpitMeta.maxWipLimit;
+      const wipClass = isWipSafe ? 'progressing safe' : 'progressing warn';
+      const wipLabel = isWipSafe ? `${currentWip} / ${milverCockpitMeta.maxWipLimit} WIP 綠燈安全` : `${currentWip} / ${milverCockpitMeta.maxWipLimit} WIP 🚨 超載警告`;
 
-      container.innerHTML = `
-        <div class="semver-card">
-          <div class="semver-header">
-            <div>
-              <div class="semver-title">
-                <span>🎓 [115-1] 演算法期末專案 (Algorithm Final Project)</span>
+      let html = `
+        <div class="cockpit-header">
+          <div class="cockpit-title-row">
+            <div class="cockpit-title">
+              <span>📊 PlanOS 戰略作戰總控台 (COO & CPO Executive Cockpit)</span>
+            </div>
+            <div class="cockpit-badge-group">
+              <div class="cockpit-badge backlog" title="待立案庫存量">
+                <span>💡 Backlog (M0.0.1): <strong>${milverCockpitMeta.backlogCount}</strong></span>
               </div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-                核心演算法建置與實證跑測 ｜ 負責人：@CEO
+              <div class="cockpit-badge planned" title="已就緒待命庫存量">
+                <span>📋 Planned (M0.1.0): <strong>${milverCockpitMeta.plannedCount}</strong></span>
+              </div>
+              <div class="cockpit-badge ${wipClass}" title="進行中工單總量管制 (WIP Limit)">
+                <span>🚀 Progressing: <strong>${wipLabel}</strong></span>
               </div>
             </div>
-            <div class="semver-badge" id="semverBadge">
-              M0.${semverCurrentMinor}.${semverCurrentPatch}+${semverTotalBuild} ➔ 🏆 M1.0.0
-            </div>
           </div>
-
-          <div class="macro-rail">
-            <div class="macro-rail-line"></div>
-            <div class="macro-rail-line-fill" style="width: ${totalPct}%;"></div>
-            <div class="macro-node">
-              <div class="macro-circle done">✓</div>
-              <span class="macro-label">M0.0.1</span>
-            </div>
-            <div class="macro-node">
-              <div class="macro-circle done">✓</div>
-              <span class="macro-label">M0.1.0</span>
-            </div>
-            <div class="macro-node">
-              <div class="macro-circle done">✓</div>
-              <span class="macro-label">M0.2.0</span>
-            </div>
-            <div class="macro-node">
-              <div class="macro-circle active">●</div>
-              <span class="macro-label" style="color: var(--c-blue); font-weight:700;">M0.3.0</span>
-            </div>
-            <div class="macro-node">
-              <div class="macro-circle">🏆</div>
-              <span class="macro-label">M1.0.0</span>
-            </div>
-          </div>
-
-          <div class="liquid-progress-container">
-            <div class="liquid-progress-fill" style="width: ${totalPct}%;"></div>
-            <div class="liquid-progress-text">${totalPct}% COMPLETED</div>
-          </div>
-
-          <div class="hud-stats-row">
-            <div>
-              <div class="hud-stat-val" style="color: var(--c-blue);">${totalPct}%</div>
-              <div class="hud-stat-lbl">Total Progress</div>
-            </div>
-            <div>
-              <div class="hud-stat-val" style="color: var(--c-green);">${semverCurrentPatch} / ${semverTotalPhasePatches}</div>
-              <div class="hud-stat-lbl">Phase Patches</div>
-            </div>
-            <div>
-              <div class="hud-stat-val" style="color: var(--c-yellow);">+${semverTotalBuild} DoD</div>
-              <div class="hud-stat-lbl">Cumulative Solved</div>
-            </div>
+          <div class="cockpit-sub">
+            ※ 待立案 (M0.0.1) 與就緒庫 (M0.1.0) 詳情請於 Obsidian 查閱 ｜ 前線各科嚴守單線攻堅 (WIP ≤ 2) 總量管制
           </div>
         </div>
+
+        <div class="milver-grid">
       `;
+
+      milverActivePlans.forEach(plan => {
+        // 確定性純數學換算 (Zero-AI Invariant)
+        const completedMinors = Math.max(0, plan.currentMinor - 2);
+        const basePct = (completedMinors / plan.maxMinor) * 100;
+        const phaseWeight = 100 / plan.maxMinor;
+        const phasePct = (plan.currentPatch / plan.phasePatches) * phaseWeight;
+        const totalPct = Math.min(100, Math.max(0, +(basePct + phasePct).toFixed(1)));
+        const buildPct = plan.maxBuild > 0 ? ((plan.currentBuild / plan.maxBuild) * 100).toFixed(0) : 0;
+        const maxMinorVersionStr = `M0.${plan.currentMinor}.${plan.phasePatches}`;
+        const currentVersionStr = `M0.${plan.currentMinor}.${plan.currentPatch}+${plan.currentBuild}`;
+
+        html += `
+          <div class="milver-compact-card">
+            <div class="milver-compact-header">
+              <div>
+                <span class="milver-subject-tag" style="background: ${plan.bgAlpha}; color: ${plan.color}; border: 1px solid ${plan.color}44;">
+                  ${plan.icon} ${plan.subjectName} (${plan.subjectCode})
+                </span>
+                <div class="milver-plan-title">${plan.title}</div>
+              </div>
+              <div class="milver-version-pill" style="border-color: ${plan.color}55; color: ${plan.color};">
+                ${currentVersionStr}
+              </div>
+            </div>
+
+            <div class="milver-mini-rail">
+              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">Phase:</span>
+              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-main); font-weight: 700; margin-left: 4px;">M0.${plan.currentMinor} (Max: ${maxMinorVersionStr})</span>
+              <span style="color: var(--text-dim); margin: 0 6px;">➔</span>
+              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #10b981; font-weight: 700;">🏆 ${plan.targetVersion}</span>
+            </div>
+
+            <div class="milver-compact-bar">
+              <div class="milver-compact-fill" style="width: ${totalPct}%;"></div>
+              <div class="milver-compact-pct">${totalPct}% COMPLETED</div>
+            </div>
+
+            <div class="milver-compact-stats">
+              <div>
+                <span style="color: var(--text-dim);">階段:</span>
+                <strong style="color: ${plan.color};">${plan.currentPatch} / ${plan.phasePatches}</strong>
+                <span style="margin: 0 4px; color: var(--text-dim);">|</span>
+                <span style="color: var(--text-dim);">DoD:</span>
+                <strong style="color: var(--c-yellow);">+${plan.currentBuild} / ${plan.maxBuild} (${buildPct}%)</strong>
+              </div>
+              <div style="display: flex; gap: 4px; align-items: center;">
+                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', -1)" title="回退 1 個 Patch">-</button>
+                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 1 個 Patch (DoD +1)">+1 DoD</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
     }
 
+    window.stepMilVerPatch = function(planId, delta) {
+      const plan = milverActivePlans.find(p => p.id === planId);
+      if (!plan) return;
+
+      const newPatch = plan.currentPatch + delta;
+      if (newPatch >= 0 && newPatch <= plan.phasePatches) {
+        plan.currentPatch = newPatch;
+        plan.currentBuild = Math.max(0, Math.min(plan.maxBuild, plan.currentBuild + delta));
+        
+        try {
+          localStorage.setItem('planos_milver_active_plans', JSON.stringify(milverActivePlans));
+        } catch(e) {}
+
+        // 登錄 Scheme A 批次緩衝
+        pendingBatchChanges += 1;
+        updateBatchSyncButton();
+        renderMilVerExecutiveCockpit();
+      }
+    };
+
     function renderActiveView() {
-      renderSemVerMilestoneCard();
+      renderMilVerExecutiveCockpit();
       const overdueBox = document.getElementById('overdueBox');
       const overdueList = document.getElementById('overdueTasksList');
       const overdueCountEl = document.getElementById('overdueCount');
