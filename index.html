@@ -4238,51 +4238,13 @@
         buildSubjectRegistry();
         renderSubjectsView();
       }
-      showToast(isDone ? '↩️ 已取消勾選' : '✅ 打勾完成！(全週原處保留，週日結算前絕不封存)', isDone ? '↩️' : '⚡');
+      showToast(isDone ? '↩️ 已取消勾選 (待統一 Push)' : '✅ 打勾完成！(已排入待傳隊列，請點擊「🚀 統一 Push」)', isDone ? '↩️' : '⚡');
 
-      // 背景發送 API 回寫私有庫
-      try {
-        const utf8Bytes = new TextEncoder().encode(newContent);
-        let binaryStr = '';
-        for (let i = 0; i < utf8Bytes.length; i++) {
-          binaryStr += String.fromCharCode(utf8Bytes[i]);
-        }
-        const base64Content = btoa(binaryStr);
-
-        const taskCleanName = targetLine.replace(/.*-\s*\[[ xX]\]\s*/, '').slice(0, 30);
-        const commitMsg = `${isDone ? 'uncheck' : 'check'}(task): ${taskCleanName} via PlanOS Web`;
-
-        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${PIPELINE_PATH}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: commitMsg,
-            content: base64Content,
-            sha: currentFileSha
-          })
-        });
-
-        if (!res.ok) {
-          if (res.status === 409) {
-            showToast('偵測到遠端新版本，正在自動合併...', '🔄');
-            await fetchPipeline();
-            return;
-          }
-          throw new Error(`回寫失敗 (${res.status})`);
-        }
-
-        const resData = await res.json();
-        currentFileSha = resData.content.sha;
-        showToast('🎉 GitHub 私有庫已同步更新！', '✅');
-        document.getElementById('syncStatus').textContent = `已對齊前線 SSOT (SHA: ${currentFileSha.slice(0,7)})`;
-      } catch (err) {
-        showToast(`寫入失敗: ${err.message}`, '❌');
-        fetchPipeline();
-      }
+      // 記錄至暫存隊列 (Deferred Batch Queue，由「🚀 統一 Push」批次推送至 GitHub)
+      pendingChangesCount += 1;
+      localStorage.setItem('planos_pending_count', String(pendingChangesCount));
+      localStorage.setItem('planos_cached_pipeline', newContent);
+      updateBatchSyncButton();
     }
 
     // ==========================================
