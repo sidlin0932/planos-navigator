@@ -1439,22 +1439,32 @@
 
     .milver-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 10px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 1100px) {
+      .milver-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 700px) {
+      .milver-grid {
+        grid-template-columns: 1fr;
+      }
     }
     .milver-compact-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 10px;
+      padding: 7px 10px;
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
       transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       position: relative;
     }
     .milver-compact-card:hover {
@@ -1465,99 +1475,127 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .milver-header-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      flex: 1;
     }
     .milver-subject-tag {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       font-family: 'JetBrains Mono', monospace;
       letter-spacing: 0.3px;
     }
     .milver-ticket-id {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: var(--c-blue);
     }
+    .milver-deliverable-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .milver-deliverable-badge.external {
+      background: rgba(14, 165, 233, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .milver-deliverable-badge.checkpoint {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .milver-deliverable-badge.dedicated {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
     .milver-ticket-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--text-muted);
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      margin-top: -2px;
+      margin-bottom: 1px;
     }
     .milver-version-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       background: rgba(56, 189, 248, 0.12);
       color: var(--c-blue);
       border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 2px 7px;
-      border-radius: 6px;
+      padding: 1px 6px;
+      border-radius: 5px;
       white-space: nowrap;
       letter-spacing: 0.3px;
     }
     .milver-compact-bar {
-      height: 20px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 6px;
+      height: 15px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 5px;
       border: 1px solid var(--glass-border);
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
-      padding: 2px;
+      padding: 1px;
     }
     .milver-compact-fill {
       height: 100%;
       background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
-      border-radius: 4px;
+      border-radius: 3px;
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
     }
     .milver-compact-pct {
       position: absolute;
       width: 100%;
       text-align: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
       pointer-events: none;
     }
     .milver-compact-stats {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 10.5px;
+      font-size: 9.5px;
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted);
-      flex-wrap: wrap;
       gap: 4px;
     }
     .milver-ctrl-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text-main);
-      border-radius: 5px;
-      padding: 2px 7px;
-      font-size: 10.5px;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 9.5px;
       cursor: pointer;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
@@ -1827,6 +1865,22 @@
               <span class="badge-item" onclick="setTaskModalScope('Ch3~4')" style="cursor: pointer; font-size: 9.5px;">Ch3~4</span>
               <span class="badge-item" onclick="setTaskModalScope('W03')" style="cursor: pointer; font-size: 9.5px;">W03</span>
             </div>
+          </div>
+        </div>
+
+        <!-- Row 2.5: Deliverable Anchor (真/假交付物綁定與拓撲) -->
+        <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; background: rgba(56, 189, 248, 0.05); padding: 8px 10px; border-radius: 8px; border: 1px dashed rgba(56, 189, 248, 0.35);">
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: var(--c-blue);">🎯 交付標的屬性 (Deliverable Anchor)</label>
+            <select id="taskModalDeliverableType" class="input-field" onchange="onTaskModalDeliverableChange()" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 12px;">
+              <option value="EXTERNAL_TRUE">🏫 外部真交付 (老師的考試/作業)</option>
+              <option value="SYNTHETIC_CHECKPOINT">🎯 自擬假交付 (母計畫 Checkpoint 驗收關)</option>
+              <option value="SYNTHETIC_DEDICATED">⚔️ 自擬假交付 (獨立重型模考工單)</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: var(--text-dim);">交付物名稱 (Target Name)</label>
+            <input id="taskModalDeliverableTarget" class="input-field" type="text" value="10/12 期中考" placeholder="例: 10/12 期中考, M0.3 全真模考" oninput="updateTaskModalPreview()" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 12px;">
           </div>
         </div>
 
@@ -2587,6 +2641,15 @@
       document.getElementById('taskModalPlanName').textContent = plan.title;
       document.getElementById('taskModalCurrentMilVerBadge').textContent = `M0.${plan.currentMinor}.${plan.currentPatch}+${plan.currentBuild}`;
 
+      if (plan.deliverableType) {
+        const delTypeSelect = document.getElementById('taskModalDeliverableType');
+        if (delTypeSelect) delTypeSelect.value = plan.deliverableType;
+      }
+      if (plan.deliverableTarget) {
+        const delTargetInput = document.getElementById('taskModalDeliverableTarget');
+        if (delTargetInput) delTargetInput.value = plan.deliverableTarget;
+      }
+
       // 當前百分比
       const completedMinors = Math.max(0, plan.currentMinor - 2);
       const basePct = (completedMinors / plan.maxMinor) * 100;
@@ -2605,6 +2668,10 @@
       document.getElementById('taskModalProjectedMilVer').textContent = `M0.${plan.currentMinor}.${nextPatch}+${nextBuild} (+1 DoD)`;
       document.getElementById('taskModalTargetResult').textContent = '';
     }
+
+    window.onTaskModalDeliverableChange = function() {
+      updateTaskModalPreview();
+    };
 
     window.calcMilVerTargetProjection = function(targetPct) {
       const subj = document.getElementById('taskModalSubject').value;
@@ -2649,9 +2716,18 @@
         displayColor = '🔴';
       }
 
+      const delType = document.getElementById('taskModalDeliverableType') ? document.getElementById('taskModalDeliverableType').value : 'EXTERNAL_TRUE';
+      const delTarget = document.getElementById('taskModalDeliverableTarget') ? document.getElementById('taskModalDeliverableTarget').value.trim() : '';
+      let delTag = '';
+      if (delTarget) {
+        if (delType === 'SYNTHETIC_CHECKPOINT') delTag = ` (🎯 CP:${delTarget})`;
+        else if (delType === 'SYNTHETIC_DEDICATED') delTag = ` (⚔️ MOCK:${delTarget})`;
+        else delTag = ` (🎯 ${delTarget})`;
+      }
+
       const milverTag = currentTaskModalProjectedMilVer ? ` 🏷️ ${currentTaskModalProjectedMilVer}` : '';
 
-      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}${milverTag}`;
+      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}${delTag}${milverTag}`;
     }
 
     function updateTaskModalPreview() {
@@ -3070,6 +3146,8 @@
         bgAlpha: "rgba(56, 189, 248, 0.12)",
         bracket: "【會計-EXE-Ch3】",
         title: "調整分錄與買賣業循環攻堅",
+        deliverableType: "EXTERNAL_TRUE",
+        deliverableTarget: "10/12 期中考",
         currentMinor: 3,
         currentPatch: 4,
         currentBuild: 12,
@@ -3088,6 +3166,8 @@
         bgAlpha: "rgba(234, 179, 8, 0.12)",
         bracket: "【工數-EXE-ODE】",
         title: "常微分方程一階與高階特徵根盲推",
+        deliverableType: "EXTERNAL_TRUE",
+        deliverableTarget: "10/20 期中考",
         currentMinor: 2,
         currentPatch: 3,
         currentBuild: 5,
@@ -3106,6 +3186,8 @@
         bgAlpha: "rgba(16, 185, 129, 0.12)",
         bracket: "【電工-EXE-AC】",
         title: "Ch1交流穩態相量與戴維寧等效推導",
+        deliverableType: "SYNTHETIC_CHECKPOINT",
+        deliverableTarget: "M0.3 模考(CP)",
         currentMinor: 3,
         currentPatch: 2,
         currentBuild: 8,
@@ -3124,6 +3206,8 @@
         bgAlpha: "rgba(52, 211, 153, 0.12)",
         bracket: "【熱力-EXE-Ch3】",
         title: "純物質狀態圖蒸氣表內插與邊界功",
+        deliverableType: "EXTERNAL_TRUE",
+        deliverableTarget: "11/04 期中考",
         currentMinor: 2,
         currentPatch: 2,
         currentBuild: 3,
@@ -3142,6 +3226,8 @@
         bgAlpha: "rgba(168, 85, 247, 0.12)",
         bracket: "【機統-EXE-RV】",
         title: "離散與連續隨機變數貝氏定理演算",
+        deliverableType: "EXTERNAL_TRUE",
+        deliverableTarget: "10/29 期中考",
         currentMinor: 2,
         currentPatch: 3,
         currentBuild: 4,
@@ -3160,6 +3246,8 @@
         bgAlpha: "rgba(251, 146, 60, 0.12)",
         bracket: "【應力-EXE-Ch12】",
         title: "質點運動學向量微積分與法切座標",
+        deliverableType: "SYNTHETIC_DEDICATED",
+        deliverableTarget: "質點模考卷(獨立)",
         currentMinor: 2,
         currentPatch: 4,
         currentBuild: 6,
@@ -3174,7 +3262,15 @@
     try {
       const stored = localStorage.getItem('planos_milver_active_tickets');
       if (stored) {
-        milverActivePlans = JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        milverActivePlans = parsed.map(item => {
+          const def = defaultMilVerTickets.find(d => d.id === item.id);
+          return {
+            ...item,
+            deliverableType: item.deliverableType || (def ? def.deliverableType : 'EXTERNAL_TRUE'),
+            deliverableTarget: item.deliverableTarget || (def ? def.deliverableTarget : '交付標的')
+          };
+        });
       } else {
         milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerTickets));
       }
@@ -3216,7 +3312,7 @@
             </div>
           </div>
           <div class="cockpit-sub">
-            ※ 前線綁定重型長效 Ticket (WIP ≤ 2) ｜ 杜絕免洗工單換檔負擔 ｜ 詳情請於 Obsidian 查閱
+            ※ 3×3 極致作戰矩陣 ｜ 綁定交付標的 (真考試/作業 vs. 假模考/CP) ｜ 杜絕免洗負擔 ｜ 詳情 Obs SSOT
           </div>
         </div>
 
@@ -3242,23 +3338,45 @@
         const maxMinorVersionStr = `M0.${plan.currentMinor}.${plan.phasePatches}`;
         const currentVersionStr = `M0.${plan.currentMinor}.${plan.currentPatch}+${plan.currentBuild}`;
 
+        const delType = plan.deliverableType || 'EXTERNAL_TRUE';
+        const delTarget = plan.deliverableTarget || (plan.targetVersion ? `🏆 ${plan.targetVersion}` : '交付標的');
+        let delClass = 'external';
+        let delIcon = '🏫';
+        let delTitle = '外部真實交付 (老師的考試/作業)';
+        if (delType === 'SYNTHETIC_CHECKPOINT') {
+          delClass = 'checkpoint';
+          delIcon = '🎯';
+          delTitle = '內部自擬交付 (母計畫防禦檢查點 Checkpoint)';
+        } else if (delType === 'SYNTHETIC_DEDICATED') {
+          delClass = 'dedicated';
+          delIcon = '⚔️';
+          delTitle = '內部自擬交付 (獨立重型作戰工單)';
+        }
+
         html += `
           <div class="milver-compact-card">
-            <!-- Header Row: Subject Badge + Ticket ID + Title + Version -->
+            <!-- Header Row: Subject Badge + Ticket ID + Deliverable Badge + Version -->
             <div class="milver-compact-header">
               <div class="milver-header-left">
                 <span class="milver-subject-tag" style="background: ${plan.bgAlpha}; color: ${plan.color}; border: 1px solid ${plan.color}44;">
                   ${plan.icon} ${plan.subjectCode}
                 </span>
                 <span class="milver-ticket-id">${plan.ticketCode}</span>
-                <span class="milver-ticket-title" title="${plan.title}">${plan.bracket} ${plan.title}</span>
+                <span class="milver-deliverable-badge ${delClass}" title="${delTitle}">
+                  ${delIcon} ${delTarget}
+                </span>
               </div>
               <div class="milver-version-pill" style="border-color: ${plan.color}55; color: ${plan.color};">
                 ${currentVersionStr}
               </div>
             </div>
 
-            <!-- Single Sleek Progress Bar (Height 20px) -->
+            <!-- Ticket Brief Title -->
+            <div class="milver-ticket-title" title="${plan.title}">
+              ${plan.bracket} ${plan.title}
+            </div>
+
+            <!-- Single Sleek Progress Bar (Height 15px) -->
             <div class="milver-compact-bar">
               <div class="milver-compact-fill" style="width: ${totalPct}%;"></div>
               <div class="milver-compact-pct">${totalPct}% COMPLETED</div>
@@ -3267,13 +3385,11 @@
             <!-- Footer Stats & Interactive Controls Row -->
             <div class="milver-compact-stats">
               <div>
-                <span>Phase: <strong>M0.${plan.currentMinor}</strong> (Max: ${maxMinorVersionStr}) ➔ 🏆 ${plan.targetVersion}</span>
-                <span style="margin: 0 4px; color: var(--text-dim);">|</span>
-                <span>DoD: <strong style="color: ${plan.color};">${plan.currentPatch}/${plan.phasePatches}</strong> (+${plan.currentBuild}/${plan.maxBuild})</span>
+                <span>Phase: <strong>M0.${plan.currentMinor}</strong> (DoD: <strong style="color: ${plan.color};">${plan.currentPatch}/${plan.phasePatches}</strong>, +${plan.currentBuild}/${plan.maxBuild})</span>
               </div>
-              <div style="display: flex; gap: 4px; align-items: center;">
+              <div style="display: flex; gap: 3px; align-items: center;">
                 <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', -1)" title="回退 1 個 Patch">-</button>
-                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 1 個 Patch (DoD +1)">+1 DoD</button>
+                <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 1 個 Patch (DoD +1)">+1</button>
                 <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" title="即時配置 MilVer 戰略參數">⚙️</button>
               </div>
             </div>
