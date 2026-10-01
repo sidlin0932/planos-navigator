@@ -1357,10 +1357,172 @@
         padding: 1px 5px;
         font-size: 12px;
       }
-      .candidate-badge {
-        font-size: 9px;
-        padding: 0 3px;
-      }
+    /* ==========================================================================
+       SYS-26-006: SemVer Milestone Release Train & Glowing Progress Bar
+       ========================================================================== */
+    .semver-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .semver-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+    .semver-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .semver-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .semver-badge {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--c-blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+    .macro-rail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      margin: 20px 0 24px 0;
+      padding: 0 16px;
+    }
+    .macro-rail-line {
+      position: absolute;
+      top: 14px;
+      left: 24px;
+      right: 24px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 1;
+    }
+    .macro-rail-line-fill {
+      position: absolute;
+      top: 14px;
+      left: 24px;
+      height: 3px;
+      background: linear-gradient(90deg, #0284c7, #10b981);
+      z-index: 2;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px #0284c7;
+    }
+    .macro-node {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .macro-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-base);
+      border: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .macro-circle.done {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #10b981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+    .macro-circle.active {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #38bdf8;
+      color: #38bdf8;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.6);
+      animation: pulse-node 1.8s infinite;
+    }
+    @keyframes pulse-node {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .macro-label {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+    .liquid-progress-container {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      height: 38px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 3px;
+      margin-bottom: 16px;
+    }
+    .liquid-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
+      border-radius: 9px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.5);
+    }
+    .liquid-progress-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+      pointer-events: none;
+    }
+    .hud-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+    .hud-stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .hud-stat-lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
@@ -1402,9 +1564,14 @@
 
   <!-- Status Bar -->
   <div class="status-bar-row">
-    <div class="status-pill">
-      <span class="status-dot"></span>
-      <span id="syncStatus">正在連線至 GitHub 倉庫...</span>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span id="syncStatus">正在連線至 GitHub 倉庫...</span>
+      </div>
+      <button id="btnBatchSync" class="btn-icon" style="display:none; background: linear-gradient(135deg, #0284c7, #10b981); color: #fff; font-weight: 700; border: none; padding: 5px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);" onclick="manualBatchSync()">
+        <span id="batchSyncText">💾 1 個變更待同步</span>
+      </button>
     </div>
     <span id="todayIndicator" style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);"></span>
   </div>
@@ -1413,6 +1580,9 @@
   <div class="views-viewport" id="viewsViewport">
     <!-- View 1: Active Pipeline Container -->
     <div id="activeViewContainer" class="tab-view-container">
+      <!-- SemVer Milestone Release Train (SYS-26-006) -->
+      <div id="semverMilestoneContainer"></div>
+
       <!-- P0 Overdue Section -->
       <div id="overdueBox" class="overdue-container" style="display: none;">
         <div class="overdue-header">
@@ -2732,7 +2902,92 @@
     }
 
     // 渲染前線作戰視圖 (今日起算至 D+14 · 過去未結案統一於 P0 逾期隊列 · 保持天然原位 · 打勾隨天消失)
+    
+    // ==========================================================================
+    // SYS-26-006: SemVer Milestone Release Train & Glowing Progress Bar
+    // ==========================================================================
+    let semverMaxMinor = 3;
+    let semverCurrentMinor = 3;
+    let semverCurrentPatch = 4;
+    let semverTotalPhasePatches = 8;
+    let semverTotalBuild = 12;
+
+    function renderSemVerMilestoneCard() {
+      const container = document.getElementById('semverMilestoneContainer');
+      if (!container) return;
+
+      // 確定性純數學換算 (Zero-AI Invariant)
+      const basePct = ((semverCurrentMinor - 1) / semverMaxMinor) * 100;
+      const phaseWeight = 100 / semverMaxMinor;
+      const phasePct = (semverCurrentPatch / semverTotalPhasePatches) * phaseWeight;
+      const totalPct = (basePct + phasePct).toFixed(1);
+
+      container.innerHTML = `
+        <div class="semver-card">
+          <div class="semver-header">
+            <div>
+              <div class="semver-title">
+                <span>🎓 [115-1] 演算法期末專案 (Algorithm Final Project)</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                核心演算法建置與實證跑測 ｜ 負責人：@CEO
+              </div>
+            </div>
+            <div class="semver-badge" id="semverBadge">
+              M0.${semverCurrentMinor}.${semverCurrentPatch}+${semverTotalBuild} ➔ 🏆 M1.0.0
+            </div>
+          </div>
+
+          <div class="macro-rail">
+            <div class="macro-rail-line"></div>
+            <div class="macro-rail-line-fill" style="width: ${totalPct}%;"></div>
+            <div class="macro-node">
+              <div class="macro-circle done">✓</div>
+              <span class="macro-label">M0.0.1</span>
+            </div>
+            <div class="macro-node">
+              <div class="macro-circle done">✓</div>
+              <span class="macro-label">M0.1.0</span>
+            </div>
+            <div class="macro-node">
+              <div class="macro-circle done">✓</div>
+              <span class="macro-label">M0.2.0</span>
+            </div>
+            <div class="macro-node">
+              <div class="macro-circle active">●</div>
+              <span class="macro-label" style="color: var(--c-blue); font-weight:700;">M0.3.0</span>
+            </div>
+            <div class="macro-node">
+              <div class="macro-circle">🏆</div>
+              <span class="macro-label">M1.0.0</span>
+            </div>
+          </div>
+
+          <div class="liquid-progress-container">
+            <div class="liquid-progress-fill" style="width: ${totalPct}%;"></div>
+            <div class="liquid-progress-text">${totalPct}% COMPLETED</div>
+          </div>
+
+          <div class="hud-stats-row">
+            <div>
+              <div class="hud-stat-val" style="color: var(--c-blue);">${totalPct}%</div>
+              <div class="hud-stat-lbl">Total Progress</div>
+            </div>
+            <div>
+              <div class="hud-stat-val" style="color: var(--c-green);">${semverCurrentPatch} / ${semverTotalPhasePatches}</div>
+              <div class="hud-stat-lbl">Phase Patches</div>
+            </div>
+            <div>
+              <div class="hud-stat-val" style="color: var(--c-yellow);">+${semverTotalBuild} DoD</div>
+              <div class="hud-stat-lbl">Cumulative Solved</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderActiveView() {
+      renderSemVerMilestoneCard();
       const overdueBox = document.getElementById('overdueBox');
       const overdueList = document.getElementById('overdueTasksList');
       const overdueCountEl = document.getElementById('overdueCount');
@@ -2859,6 +3114,85 @@
     }
 
     // 即時打勾並回寫 GitHub
+    
+    // ==========================================================================
+    // Scheme A: Local Staging Buffer & Batch Commit to GitHub (SYS-26-006)
+    // ==========================================================================
+    let pendingChangesCount = parseInt(localStorage.getItem('planos_pending_count') || '0', 10);
+
+    function updateBatchSyncButton() {
+      const btnBatchSync = document.getElementById('btnBatchSync');
+      const batchSyncText = document.getElementById('batchSyncText');
+      if (btnBatchSync && batchSyncText) {
+        if (pendingChangesCount > 0) {
+          btnBatchSync.style.display = 'inline-flex';
+          batchSyncText.textContent = `💾 ${pendingChangesCount} 個變更待同步`;
+        } else {
+          btnBatchSync.style.display = 'none';
+        }
+      }
+    }
+
+    async function manualBatchSync() {
+      const token = localStorage.getItem(STORAGE_KEY_TOKEN);
+      const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
+      if (!token) {
+        openTokenModal();
+        return;
+      }
+      if (!rawPipelineMarkdown || pendingChangesCount === 0) {
+        showToast('目前無任何待同步變更', 'ℹ️');
+        return;
+      }
+
+      showToast(`正在批次同步 ${pendingChangesCount} 項變更至 GitHub...`, '⏳');
+      try {
+        const utf8Bytes = new TextEncoder().encode(rawPipelineMarkdown);
+        let binaryStr = '';
+        for (let i = 0; i < utf8Bytes.length; i++) {
+          binaryStr += String.fromCharCode(utf8Bytes[i]);
+        }
+        const base64Content = btoa(binaryStr);
+        const commitMsg = `feat(pipeline): batch sync ${pendingChangesCount} tasks via PlanOS Navigator`;
+
+        const res = await fetch(`https://api.github.com/repos/${repo}/contents/${PIPELINE_PATH}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: commitMsg,
+            content: base64Content,
+            sha: currentFileSha
+          })
+        });
+
+        if (!res.ok) {
+          if (res.status === 409) {
+            showToast('偵測到遠端新版本，正在自動拉取...', '⚠️');
+            await fetchPipeline();
+            return;
+          }
+          throw new Error(`寫入失敗 (${res.status})`);
+        }
+
+        const resData = await res.json();
+        currentFileSha = resData.content.sha;
+        const syncedCount = pendingChangesCount;
+        pendingChangesCount = 0;
+        localStorage.removeItem('planos_pending_count');
+        updateBatchSyncButton();
+
+        showToast(`🎉 成功將 ${syncedCount} 項變更批次同步至 GitHub！`, '✅');
+        const syncStatusEl = document.getElementById('syncStatus');
+        if (syncStatusEl) syncStatusEl.textContent = `已對齊遠端 SSOT (SHA: ${currentFileSha.slice(0,7)})`;
+      } catch (err) {
+        showToast(`同步失敗: ${err.message}`, '❌');
+      }
+    }
+
     async function toggleTask(lineIndex, clickedEl) {
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
       const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
