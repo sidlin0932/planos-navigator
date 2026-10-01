@@ -1364,14 +1364,14 @@
     }
 
     /* ==========================================================================
-       SYS-26-006: MilVer Executive Cockpit & Compact Multi-Subject Rails
+       SYS-26-006: MilVer Heavy Ticket Cockpit & Ultra-Compact Rails
        ========================================================================== */
     .cockpit-header {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
@@ -1381,10 +1381,10 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
     .cockpit-title {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
@@ -1395,17 +1395,17 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
     .cockpit-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      padding: 5px 12px;
-      border-radius: 8px;
+      font-size: 11.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       letter-spacing: 0.3px;
     }
     .cockpit-badge.backlog {
@@ -1422,7 +1422,7 @@
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(16, 185, 129, 0.35);
       color: #10b981;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
     }
     .cockpit-badge.progressing.warn {
       background: rgba(239, 68, 68, 0.15);
@@ -1431,85 +1431,91 @@
       animation: pulse-node 1.5s infinite;
     }
     .cockpit-sub {
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
-      margin-top: 8px;
+      margin-top: 6px;
       font-family: 'JetBrains Mono', monospace;
     }
 
     .milver-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
     .milver-compact-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 18px;
+      border-radius: 12px;
+      padding: 10px 14px;
       backdrop-filter: blur(var(--glass-blur));
       -webkit-backdrop-filter: blur(var(--glass-blur));
       box-shadow: var(--glass-shadow);
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 6px;
       position: relative;
     }
     .milver-compact-card:hover {
       border-color: rgba(56, 189, 248, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     }
     .milver-compact-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
+    }
+    .milver-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .milver-subject-tag {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 2px 6px;
+      border-radius: 4px;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
     }
-    .milver-plan-title {
-      font-size: 13px;
+    .milver-ticket-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
       font-weight: 700;
+      color: var(--c-blue);
+    }
+    .milver-ticket-title {
+      font-size: 12px;
+      font-weight: 600;
       color: var(--text-main);
-      line-height: 1.4;
-      margin-top: 4px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .milver-version-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       background: rgba(56, 189, 248, 0.12);
       color: var(--c-blue);
       border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 4px 10px;
-      border-radius: 8px;
-      white-space: nowrap;
-      letter-spacing: 0.4px;
-    }
-    .milver-mini-rail {
-      display: flex;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.2);
+      padding: 2px 7px;
       border-radius: 6px;
-      padding: 4px 10px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      white-space: nowrap;
+      letter-spacing: 0.3px;
     }
     .milver-compact-bar {
-      height: 28px;
+      height: 20px;
       background: rgba(0, 0, 0, 0.4);
-      border-radius: 10px;
+      border-radius: 6px;
       border: 1px solid var(--glass-border);
       position: relative;
       overflow: hidden;
@@ -1520,49 +1526,55 @@
     .milver-compact-fill {
       height: 100%;
       background: linear-gradient(90deg, #0284c7, #38bdf8, #10b981);
-      border-radius: 8px;
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+      border-radius: 4px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
     }
     .milver-compact-pct {
       position: absolute;
       width: 100%;
       text-align: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #fff;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
       pointer-events: none;
     }
     .milver-compact-stats {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11px;
+      font-size: 10.5px;
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted);
-      padding-top: 6px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
     }
     .milver-ctrl-btn {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: var(--text-main);
-      border-radius: 6px;
-      padding: 2px 8px;
-      font-size: 11px;
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-size: 10.5px;
       cursor: pointer;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
     .milver-ctrl-btn:hover {
       background: rgba(56, 189, 248, 0.2);
       border-color: #38bdf8;
       color: #38bdf8;
+    }
+    .milver-param-drawer {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     </style>
@@ -3045,117 +3057,129 @@
     // 渲染前線作戰視圖 (今日起算至 D+14 · 過去未結案統一於 P0 逾期隊列 · 保持天然原位 · 打勾隨天消失)
     
     // ==========================================================================
-    // SYS-26-006: MilVer Executive Cockpit & Generic Subject Rails
+    // SYS-26-006: MilVer Heavy Durable Ticket Cockpit
     // ==========================================================================
-    const defaultMilVerPlans = [
+    const defaultMilVerTickets = [
       {
-        id: "ACC-1012",
+        id: "ACC-011",
+        ticketCode: "ACC-011",
         subjectCode: "ACC",
         subjectName: "會計學甲一上",
         icon: "🔵",
         color: "#38bdf8",
         bgAlpha: "rgba(56, 189, 248, 0.12)",
-        title: "Plan-1012: 會計循環與第一次期中考方案",
+        bracket: "【會計-EXE-Ch3】",
+        title: "調整分錄與買賣業循環攻堅",
         currentMinor: 3,
         currentPatch: 4,
         currentBuild: 12,
         maxMinor: 3,
         phasePatches: 8,
-        maxBuild: 24,
+        minorPatchesMap: { "2": 5, "3": 8 },
         targetVersion: "M1.0.0"
       },
       {
-        id: "MATH-1020",
+        id: "MATH-008",
+        ticketCode: "MATH-008",
         subjectCode: "MATH",
         subjectName: "工程數學一",
         icon: "🟡",
         color: "#eab308",
         bgAlpha: "rgba(234, 179, 8, 0.12)",
-        title: "Plan-1020: 常微分方程與第一次大考方案",
+        bracket: "【工數-EXE-ODE】",
+        title: "常微分方程一階與高階特徵根盲推",
         currentMinor: 2,
         currentPatch: 3,
         currentBuild: 5,
         maxMinor: 3,
         phasePatches: 6,
-        maxBuild: 18,
+        minorPatchesMap: { "2": 6, "3": 6 },
         targetVersion: "M1.0.0"
       },
       {
-        id: "EE-0914",
+        id: "EE-005",
+        ticketCode: "EE-005",
         subjectCode: "EE",
         subjectName: "電工學與實習",
         icon: "🟢",
         color: "#10b981",
         bgAlpha: "rgba(16, 185, 129, 0.12)",
-        title: "Plan-0914: Ch1交流電與基本電路攻堅",
+        bracket: "【電工-EXE-AC】",
+        title: "Ch1交流穩態相量與戴維寧等效推導",
         currentMinor: 3,
         currentPatch: 2,
         currentBuild: 8,
         maxMinor: 3,
         phasePatches: 5,
-        maxBuild: 16,
+        minorPatchesMap: { "2": 5, "3": 5 },
         targetVersion: "M1.0.0"
       },
       {
-        id: "TH-1104",
+        id: "TH-006",
+        ticketCode: "TH-006",
         subjectCode: "TH",
         subjectName: "熱力學一",
         icon: "🟢",
         color: "#34d399",
         bgAlpha: "rgba(52, 211, 153, 0.12)",
-        title: "Plan-1104: 理想氣體與熱力第一定律方案",
+        bracket: "【熱力-EXE-Ch3】",
+        title: "純物質狀態圖蒸氣表內插與邊界功",
         currentMinor: 2,
         currentPatch: 2,
         currentBuild: 3,
         maxMinor: 3,
         phasePatches: 6,
-        maxBuild: 18,
+        minorPatchesMap: { "2": 6, "3": 6 },
         targetVersion: "M1.0.0"
       },
       {
-        id: "STAT-1029",
+        id: "STAT-004",
+        ticketCode: "STAT-004",
         subjectCode: "STAT",
         subjectName: "機率與統計",
         icon: "🟣",
         color: "#a855f7",
         bgAlpha: "rgba(168, 85, 247, 0.12)",
-        title: "Plan-1029: 隨機變數與機率分佈攻堅",
+        bracket: "【機統-EXE-RV】",
+        title: "離散與連續隨機變數貝氏定理演算",
         currentMinor: 2,
         currentPatch: 3,
         currentBuild: 4,
         maxMinor: 2,
         phasePatches: 5,
-        maxBuild: 12,
+        minorPatchesMap: { "2": 5 },
         targetVersion: "M1.0.0"
       },
       {
-        id: "DYN-1023",
+        id: "DYN-007",
+        ticketCode: "DYN-007",
         subjectCode: "DYN",
         subjectName: "應用力學下",
         icon: "🟠",
         color: "#fb923c",
         bgAlpha: "rgba(251, 146, 60, 0.12)",
-        title: "Plan-1023: 質點運動學與動能定理方案",
+        bracket: "【應力-EXE-Ch12】",
+        title: "質點運動學向量微積分與法切座標",
         currentMinor: 2,
         currentPatch: 4,
         currentBuild: 6,
         maxMinor: 3,
         phasePatches: 7,
-        maxBuild: 20,
+        minorPatchesMap: { "2": 7, "3": 7 },
         targetVersion: "M1.0.0"
       }
     ];
 
     let milverActivePlans = [];
     try {
-      const stored = localStorage.getItem('planos_milver_active_plans');
+      const stored = localStorage.getItem('planos_milver_active_tickets');
       if (stored) {
         milverActivePlans = JSON.parse(stored);
       } else {
-        milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerPlans));
+        milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerTickets));
       }
     } catch(e) {
-      milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerPlans));
+      milverActivePlans = JSON.parse(JSON.stringify(defaultMilVerTickets));
     }
 
     const milverCockpitMeta = {
@@ -3186,13 +3210,13 @@
               <div class="cockpit-badge planned" title="已就緒待命庫存量">
                 <span>📋 Planned (M0.1.0): <strong>${milverCockpitMeta.plannedCount}</strong></span>
               </div>
-              <div class="cockpit-badge ${wipClass}" title="進行中工單總量管制 (WIP Limit)">
-                <span>🚀 Progressing: <strong>${wipLabel}</strong></span>
+              <div class="cockpit-badge ${wipClass}" title="進行中重型工單總量管制 (WIP Limit)">
+                <span>🚀 Active Tickets: <strong>${wipLabel}</strong></span>
               </div>
             </div>
           </div>
           <div class="cockpit-sub">
-            ※ 待立案 (M0.0.1) 與就緒庫 (M0.1.0) 詳情請於 Obsidian 查閱 ｜ 前線各科嚴守單線攻堅 (WIP ≤ 2) 總量管制
+            ※ 前線綁定重型長效 Ticket (WIP ≤ 2) ｜ 杜絕免洗工單換檔負擔 ｜ 詳情請於 Obsidian 查閱
           </div>
         </div>
 
@@ -3200,6 +3224,14 @@
       `;
 
       milverActivePlans.forEach(plan => {
+        // 計算總題數 maxBuild = 各 Minor 最大 Patch 總合
+        let computedMaxBuild = 0;
+        if (plan.minorPatchesMap) {
+          Object.values(plan.minorPatchesMap).forEach(p => { computedMaxBuild += (parseInt(p, 10) || 0); });
+        }
+        if (computedMaxBuild === 0) computedMaxBuild = plan.maxBuild || (plan.phasePatches * plan.maxMinor);
+        plan.maxBuild = computedMaxBuild;
+
         // 確定性純數學換算 (Zero-AI Invariant)
         const completedMinors = Math.max(0, plan.currentMinor - 2);
         const basePct = (completedMinors / plan.maxMinor) * 100;
@@ -3212,41 +3244,55 @@
 
         html += `
           <div class="milver-compact-card">
+            <!-- Header Row: Subject Badge + Ticket ID + Title + Version -->
             <div class="milver-compact-header">
-              <div>
+              <div class="milver-header-left">
                 <span class="milver-subject-tag" style="background: ${plan.bgAlpha}; color: ${plan.color}; border: 1px solid ${plan.color}44;">
-                  ${plan.icon} ${plan.subjectName} (${plan.subjectCode})
+                  ${plan.icon} ${plan.subjectCode}
                 </span>
-                <div class="milver-plan-title">${plan.title}</div>
+                <span class="milver-ticket-id">${plan.ticketCode}</span>
+                <span class="milver-ticket-title" title="${plan.title}">${plan.bracket} ${plan.title}</span>
               </div>
               <div class="milver-version-pill" style="border-color: ${plan.color}55; color: ${plan.color};">
                 ${currentVersionStr}
               </div>
             </div>
 
-            <div class="milver-mini-rail">
-              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim);">Phase:</span>
-              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-main); font-weight: 700; margin-left: 4px;">M0.${plan.currentMinor} (Max: ${maxMinorVersionStr})</span>
-              <span style="color: var(--text-dim); margin: 0 6px;">➔</span>
-              <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #10b981; font-weight: 700;">🏆 ${plan.targetVersion}</span>
-            </div>
-
+            <!-- Single Sleek Progress Bar (Height 20px) -->
             <div class="milver-compact-bar">
               <div class="milver-compact-fill" style="width: ${totalPct}%;"></div>
               <div class="milver-compact-pct">${totalPct}% COMPLETED</div>
             </div>
 
+            <!-- Footer Stats & Interactive Controls Row -->
             <div class="milver-compact-stats">
               <div>
-                <span style="color: var(--text-dim);">階段:</span>
-                <strong style="color: ${plan.color};">${plan.currentPatch} / ${plan.phasePatches}</strong>
+                <span>Phase: <strong>M0.${plan.currentMinor}</strong> (Max: ${maxMinorVersionStr}) ➔ 🏆 ${plan.targetVersion}</span>
                 <span style="margin: 0 4px; color: var(--text-dim);">|</span>
-                <span style="color: var(--text-dim);">DoD:</span>
-                <strong style="color: var(--c-yellow);">+${plan.currentBuild} / ${plan.maxBuild} (${buildPct}%)</strong>
+                <span>DoD: <strong style="color: ${plan.color};">${plan.currentPatch}/${plan.phasePatches}</strong> (+${plan.currentBuild}/${plan.maxBuild})</span>
               </div>
               <div style="display: flex; gap: 4px; align-items: center;">
                 <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', -1)" title="回退 1 個 Patch">-</button>
                 <button class="milver-ctrl-btn" onclick="stepMilVerPatch('${plan.id}', 1)" title="攻克 1 個 Patch (DoD +1)">+1 DoD</button>
+                <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" title="即時配置 MilVer 戰略參數">⚙️</button>
+              </div>
+            </div>
+
+            <!-- Collapsible MilVer Parameter Configuration Drawer -->
+            <div id="milverDrawer_${plan.id}" class="milver-param-drawer" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-weight: 700; color: var(--c-blue); font-size: 11px;">⚙️ 即時調整 MilVer 參數 (動態重算)：</span>
+                <button class="milver-ctrl-btn" onclick="toggleMilVerParamDrawer('${plan.id}')" style="padding: 1px 5px; font-size: 10px;">✕</button>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div>
+                  <label style="font-size: 10px; color: var(--text-dim); display: block; margin-bottom: 2px;">最大 Minor 數 (到 M0.X):</label>
+                  <input type="number" min="1" max="9" value="${plan.maxMinor}" onchange="updateTicketMaxMinor('${plan.id}', this.value)" class="input-field" style="width: 100%; padding: 3px 6px; font-size: 11px; border-radius: 4px;">
+                </div>
+                <div>
+                  <label style="font-size: 10px; color: var(--text-dim); display: block; margin-bottom: 2px;">當前 Minor 最大 Patch:</label>
+                  <input type="number" min="1" max="99" value="${plan.phasePatches}" onchange="updateTicketPhasePatches('${plan.id}', this.value)" class="input-field" style="width: 100%; padding: 3px 6px; font-size: 11px; border-radius: 4px;">
+                </div>
               </div>
             </div>
           </div>
@@ -3257,6 +3303,45 @@
       container.innerHTML = html;
     }
 
+    window.toggleMilVerParamDrawer = function(ticketId) {
+      const drawer = document.getElementById(`milverDrawer_${ticketId}`);
+      if (drawer) {
+        drawer.style.display = drawer.style.display === 'none' ? 'block' : 'none';
+      }
+    };
+
+    window.updateTicketMaxMinor = function(ticketId, val) {
+      const plan = milverActivePlans.find(p => p.id === ticketId);
+      if (!plan) return;
+      const num = parseInt(val, 10);
+      if (num >= 1 && num <= 9) {
+        plan.maxMinor = num;
+        saveMilVerTickets();
+        renderMilVerExecutiveCockpit();
+      }
+    };
+
+    window.updateTicketPhasePatches = function(ticketId, val) {
+      const plan = milverActivePlans.find(p => p.id === ticketId);
+      if (!plan) return;
+      const num = parseInt(val, 10);
+      if (num >= 1 && num <= 99) {
+        plan.phasePatches = num;
+        if (!plan.minorPatchesMap) plan.minorPatchesMap = {};
+        plan.minorPatchesMap[String(plan.currentMinor)] = num;
+        saveMilVerTickets();
+        renderMilVerExecutiveCockpit();
+      }
+    };
+
+    function saveMilVerTickets() {
+      try {
+        localStorage.setItem('planos_milver_active_tickets', JSON.stringify(milverActivePlans));
+      } catch(e) {}
+      pendingBatchChanges += 1;
+      updateBatchSyncButton();
+    }
+
     window.stepMilVerPatch = function(planId, delta) {
       const plan = milverActivePlans.find(p => p.id === planId);
       if (!plan) return;
@@ -3265,14 +3350,7 @@
       if (newPatch >= 0 && newPatch <= plan.phasePatches) {
         plan.currentPatch = newPatch;
         plan.currentBuild = Math.max(0, Math.min(plan.maxBuild, plan.currentBuild + delta));
-        
-        try {
-          localStorage.setItem('planos_milver_active_plans', JSON.stringify(milverActivePlans));
-        } catch(e) {}
-
-        // 登錄 Scheme A 批次緩衝
-        pendingBatchChanges += 1;
-        updateBatchSyncButton();
+        saveMilVerTickets();
         renderMilVerExecutiveCockpit();
       }
     };
