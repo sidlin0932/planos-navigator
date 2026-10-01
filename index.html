@@ -1872,14 +1872,17 @@
         </div>
         <div class="chip-group" id="subjectChipGroup">
           <button class="chip-item active" onclick="filterSubjectWorkOrders('ALL', this)">全部 (<span id="countAll">0</span>)</button>
-          <button class="chip-item" onclick="filterSubjectWorkOrders('MATH', this)">🟡 工數 MATH</button>
           <button class="chip-item" onclick="filterSubjectWorkOrders('EE', this)">🟢 電工 EE</button>
-          <button class="chip-item" onclick="filterSubjectWorkOrders('ACC', this)">🔵 會計 ACC</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('MATH', this)">🟡 工數 MATH</button>
           <button class="chip-item" onclick="filterSubjectWorkOrders('TH', this)">🟢 熱力 TH</button>
           <button class="chip-item" onclick="filterSubjectWorkOrders('DYN', this)">🟢 應力 DYN</button>
-          <button class="chip-item" onclick="filterSubjectWorkOrders('STAT', this)">🟣 統計 STAT</button>
-          <button class="chip-item" onclick="filterSubjectWorkOrders('CAL', this)">🛠️ 系統 CAL</button>
-          <button class="chip-item" onclick="filterSubjectWorkOrders('OTHER', this)">⚪ 彈性/複習</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('PROB', this)">🟣 機統 PROB</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('ACC', this)">🔵 會計 ACC</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('PSY', this)">🟠 普心 PSY</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('LOGIC', this)">🔵 邏輯 LOGIC</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('STAT', this)">🟣 跨領域 STAT</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('PE', this)">🟢 桌球 PE</button>
+          <button class="chip-item" onclick="filterSubjectWorkOrders('PJ', this)">🛠️ 專案 PJ</button>
         </div>
         <div class="glass-search-wrapper">
           <input type="text" id="subjectSearchInput" class="search-input" placeholder="搜尋工單 ID 或內容 (例如: MATH-004, Quiz, 電工三, RC)..." oninput="filterSubjectSearch()" />
@@ -1977,13 +1980,16 @@
           <div>
             <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📚 1. 作戰科目</label>
             <select id="taskModalSubject" class="input-field" onchange="onTaskModalSubjectChange()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
-              <option value="ACC" data-color="🔵" data-name="會計">🔵 ACC · 會計學</option>
-              <option value="EE" data-color="🟢" data-name="電工">🟢 EE · 電工學</option>
+              <option value="EE" data-color="🟢" data-name="電工" selected>🟢 EE · 電工學</option>
               <option value="MATH" data-color="🟡" data-name="工數">🟡 MATH · 工程數學</option>
               <option value="TH" data-color="🟢" data-name="熱力">🟢 TH · 熱力學</option>
               <option value="DYN" data-color="🟢" data-name="應力">🟢 DYN · 應用力學</option>
-              <option value="STAT" data-color="🟣" data-name="機統">🟣 STAT · 跨領域統計</option>
+              <option value="PROB" data-color="🟣" data-name="機統">🟣 PROB · 機率與統計</option>
+              <option value="ACC" data-color="🔵" data-name="會計">🔵 ACC · 會計學</option>
+              <option value="PSY" data-color="🟠" data-name="普心">🟠 PSY · 普通心理學</option>
               <option value="LOGIC" data-color="🔵" data-name="邏輯">🔵 LOGIC · 邏輯與通識</option>
+              <option value="STAT" data-color="🟣" data-name="跨領域">🟣 STAT · 跨領域統計</option>
+              <option value="PE" data-color="🟢" data-name="桌球">🟢 PE · 桌球初級</option>
               <option value="PJ" data-color="🛠️" data-name="專案">🛠️ PJ · 專案工程</option>
               <option value="REV" data-color="⚪" data-name="全科">⚪ REV · 綜合複習</option>
               <option value="FLEX" data-color="⚪" data-name="彈性">⚪ FLEX · 彈性機動</option>
@@ -2844,7 +2850,7 @@
       const subjSelect = document.getElementById('taskModalSubject');
       const subj = subjSelect.value;
       let maxNum = 0;
-      const regex = new RegExp(`${subj}-(\\d{3})`, 'g');
+      const regex = new RegExp(`(?:\\[\\[|\\b)${subj}-(\\d{3})`, 'g');
 
       if (rawPipelineMarkdown) {
         let m;
@@ -2854,8 +2860,8 @@
         }
       }
 
-      if (typeof allSubjectTasks !== 'undefined' && allSubjectTasks && allSubjectTasks.length > 0) {
-        allSubjectTasks.forEach(t => {
+      if (typeof subjectRegistryTasks !== 'undefined' && subjectRegistryTasks && subjectRegistryTasks.length > 0) {
+        subjectRegistryTasks.forEach(t => {
           if (t.id && t.id.startsWith(subj + '-')) {
             const m = t.id.match(new RegExp(`${subj}-(\\d{3})`));
             if (m) {
@@ -2957,6 +2963,22 @@
       document.getElementById('taskModalTargetResult').textContent = resText;
     };
 
+    const SUBJECT_MAP = {
+      EE: { name: '電工學', color: '🟢', folder: '01_115-1/03_Subjects/LN-26-011_電工學與實習' },
+      MATH: { name: '工程數學', color: '🟡', folder: '01_115-1/03_Subjects/LN-26-021_工程數學一' },
+      TH: { name: '熱力學', color: '🟢', folder: '01_115-1/03_Subjects/LN-26-032_熱力學一' },
+      DYN: { name: '應用力學', color: '🟢', folder: '01_115-1/03_Subjects/LN-26-051_應用力學下' },
+      PROB: { name: '機率與統計', color: '🟣', folder: '01_115-1/03_Subjects/LN-26-041_機率與統計' },
+      ACC: { name: '會計學', color: '🔵', folder: '01_115-1/03_Subjects/LN-26-014_會計學甲一上' },
+      PSY: { name: '普通心理學', color: '🟠', folder: '01_115-1/03_Subjects/LN-26-052_普通心理學' },
+      LOGIC: { name: '邏輯', color: '🔵', folder: '01_115-1/03_Subjects/LN-26-012_邏輯' },
+      STAT: { name: '跨領域統計', color: '🟣', folder: '01_115-1/03_Subjects/LN-26-022_跨領域統計數據分析入門' },
+      PE: { name: '桌球初級', color: '🟢', folder: '01_115-1/03_Subjects/LN-26-013_桌球初級' },
+      PJ: { name: '專案工程', color: '🛠️', folder: '03_Projects/01_Todo' },
+      REV: { name: '全科複習', color: '⚪', folder: '01_115-1/03_Subjects' },
+      FLEX: { name: '彈性機動', color: '⚪', folder: '01_115-1/03_Subjects' }
+    };
+
     function buildTaskModalMarkdown() {
       const subjSelect = document.getElementById('taskModalSubject');
       const selectedOption = subjSelect.options[subjSelect.selectedIndex];
@@ -2967,9 +2989,14 @@
       const scope = document.getElementById('taskModalScope').value.trim();
       const scopeStr = scope ? `-${scope}` : '';
       const bracket = `【${subjName}-${type}${scopeStr}】`;
-      const desc = document.getElementById('taskModalDesc').value.trim() || '待補充任務內容';
-      const size = document.getElementById('taskModalSize').value;
-      const loc = document.getElementById('taskModalLoc').value;
+      const descInput = document.getElementById('taskModalDesc').value.trim() || '待補充任務內容';
+      const size = document.getElementById('taskModalSize').value.split(' ')[0];
+      const loc = document.getElementById('taskModalLoc').value.split(' ')[0];
+
+      let desc = descInput;
+      if (scope && desc.startsWith(`${scope} `)) {
+        desc = desc.substring(scope.length + 1).trim();
+      }
 
       let displayColor = color;
       if (type === 'QUIZ' || type === 'EXAM') {
@@ -2987,7 +3014,7 @@
 
       const milverTag = currentTaskModalProjectedMilVer ? ` 🏷️ ${currentTaskModalProjectedMilVer}` : '';
 
-      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}${delTag}${milverTag}`;
+      return `- [ ] ${displayColor} [[${id}]] ${bracket} ${desc} ${size} ${loc}${delTag}${milverTag}`;
     }
 
     function updateTaskModalPreview() {
@@ -3005,12 +3032,31 @@
       showToast(`📋 已複製工單語法：${line}`, '📋');
     }
 
-
     async function dispatchTaskModalCommit() {
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
       const repo = localStorage.getItem(STORAGE_KEY_REPO) || 'sidlin0932/PlanOS_v2';
       const targetDayTitle = document.getElementById('taskModalDay').value;
       const taskLine = buildTaskModalMarkdown();
+
+      const subjSelect = document.getElementById('taskModalSubject');
+      const subj = subjSelect.value;
+      const selectedOption = subjSelect.options[subjSelect.selectedIndex];
+      const subjName = selectedOption.getAttribute('data-name') || subj;
+      const id = document.getElementById('taskModalId').value.trim() || `${subj}-001`;
+      const type = document.getElementById('taskModalType').value;
+      const scope = document.getElementById('taskModalScope').value.trim();
+      const scopeStr = scope ? `-${scope}` : '';
+      const bracket = `【${subjName}-${type}${scopeStr}】`;
+      const descInput = document.getElementById('taskModalDesc').value.trim() || '章節推進演練';
+      const size = document.getElementById('taskModalSize').value.split(' ')[0];
+      const loc = document.getElementById('taskModalLoc').value.split(' ')[0];
+      const delType = document.getElementById('taskModalDeliverableType') ? document.getElementById('taskModalDeliverableType').value : 'EXTERNAL_TRUE';
+      const delTarget = document.getElementById('taskModalDeliverableTarget') ? document.getElementById('taskModalDeliverableTarget').value.trim() : '';
+
+      let desc = descInput;
+      if (scope && desc.startsWith(`${scope} `)) {
+        desc = desc.substring(scope.length + 1).trim();
+      }
 
       if (!token) {
         copyTaskModalSyntax();
@@ -3019,8 +3065,130 @@
         return;
       }
 
-      showToast('🚀 正在派發工單並回寫 GitHub...', '⏳');
+      showToast(`🚀 正在雙軌派發 [[${id}]] 並建立實體筆記...`, '⏳');
 
+      // ========================================================
+      // 軌道 A：建立實體 Markdown 工單筆記 ([ID].md) 並繼承 000 母本
+      // ========================================================
+      const subjFolder = SUBJECT_MAP[subj]?.folder || '01_115-1/03_Subjects';
+      const ticketFilePath = `${subjFolder}/${id}.md`;
+      const template000Path = `${subjFolder}/${subj}-000.md`;
+
+      let templateBody = '';
+      try {
+        const tplRes = await fetch(`https://api.github.com/repos/${repo}/contents/${template000Path}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (tplRes.ok) {
+          const tplData = await tplRes.json();
+          const rawTpl = decodeURIComponent(escape(atob(tplData.content.replace(/\s/g, ''))));
+          const parts = rawTpl.split(/^---$/m);
+          if (parts.length >= 3) {
+            let body = parts.slice(2).join('---').trim();
+            body = body.replace(/^#\s+🎫\s+\[.*?\].*?\n+/m, '');
+            body = body.replace(/^>\s+💡\s+\*\*母本定義\*\*.*?\n+/m, '');
+            body = body.replace(/^>\s+實際作戰工單.*?\n+/m, '');
+            body = body.replace(/^---\s*\n+/m, '');
+            templateBody = body.trim();
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch specimen 000:', err);
+      }
+
+      const nowStr = new Date().toISOString().split('T')[0];
+      let fileContent = `---
+id: ${id}
+title: "${bracket} ${desc}"
+type: Task
+subject: ${subj}
+parent_plan: ""
+deliverable_type: ${delType || 'EXTERNAL_TRUE'}
+deliverable_target: "${delTarget || '10/12 期中考'}"
+size: "${size}"
+location: "${loc}"
+status: PLANNING
+ceo_approval: false
+ceo_rejection: false
+ceo_approval_date: ""
+created_at: "${nowStr}"
+---
+
+# 🎫 ${id}: ${bracket} ${desc}
+
+> 🎯 **交付標的**：${delTarget || '未定'} ｜ ⏱️ **容量預算**：\`${size}\` ｜ 📍 **執行錨點**：\`${loc}\` ｜ 🏷️ **交付字第**：\`${delType || 'EXTERNAL_TRUE'}\`
+
+---
+
+`;
+
+      if (templateBody) {
+        fileContent += templateBody + '\n';
+      } else {
+        fileContent += `## 🎯 驗收及格線 (Definition of Done - DoD)
+- [ ] 核心演算/正課研讀完畢，概念無阻礙
+- [ ] 錯題/盲點歸因記錄於筆記或錯題本
+- [ ] 交付標的演練通過
+
+---
+
+## 📝 實體演算與作戰筆記 (Scratchpad & Notes)
+
+`;
+      }
+
+      const utf8FileBytes = new TextEncoder().encode(fileContent);
+      let binFileStr = '';
+      for (let i = 0; i < utf8FileBytes.length; i++) {
+        binFileStr += String.fromCharCode(utf8FileBytes[i]);
+      }
+      const b64File = btoa(binFileStr);
+
+      let createdNoteSuccessfully = false;
+      try {
+        let existingSha = null;
+        try {
+          const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${ticketFilePath}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          if (checkRes.ok) {
+            const checkData = await checkRes.json();
+            existingSha = checkData.sha;
+          }
+        } catch(e) {}
+
+        const putPayload = {
+          message: `feat(dispatch): instantiate physical ticket ${id}.md via Navigator`,
+          content: b64File
+        };
+        if (existingSha) putPayload.sha = existingSha;
+
+        const putNoteRes = await fetch(`https://api.github.com/repos/${repo}/contents/${ticketFilePath}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(putPayload)
+        });
+
+        if (putNoteRes.ok) {
+          createdNoteSuccessfully = true;
+        }
+      } catch (err) {
+        console.error('Track A physical note error:', err);
+      }
+
+      // ========================================================
+      // 軌道 B：寫入 PIPELINE.md 流水線管線
+      // ========================================================
       const lines = rawPipelineMarkdown.split('\n');
       let targetIndex = -1;
 
@@ -3069,7 +3237,7 @@
       const newContent = lines.join('\n');
       rawPipelineMarkdown = newContent;
 
-      // Optimistic update UI
+      // 樂觀更新 UI
       parsePipeline(newContent);
       renderActiveView();
       if (currentActiveView === 'subjects') {
@@ -3079,7 +3247,10 @@
 
       try {
         const getRes = await fetch(`https://api.github.com/repos/${repo}/contents/PIPELINE.md`, {
-          headers: { 'Authorization': `token ${token}` }
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
         });
         if (!getRes.ok) throw new Error('Failed to fetch SHA');
         const data = await getRes.json();
@@ -3095,18 +3266,24 @@
         const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/PIPELINE.md`, {
           method: 'PUT',
           headers: {
-            'Authorization': `token ${token}`,
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: `feat(dispatch): add task ${document.getElementById('taskModalId').value.trim()}`,
+            message: `feat(dispatch): add task [[${id}]] to PIPELINE.md via Navigator`,
             content: b64,
             sha: sha
           })
         });
 
         if (putRes.ok) {
-          showToast('✅ 工單已成功派發並寫入 PIPELINE.md！', '🚀');
+          currentFileSha = (await putRes.json()).content?.sha || sha;
+          if (createdNoteSuccessfully) {
+            showToast(`🎉 雙軌開案成功！已建立 ${id}.md 實體筆記並登錄 PIPELINE！`, '🚀');
+          } else {
+            showToast(`✅ 工單 [[${id}]] 已派發至 PIPELINE.md！`, '🚀');
+          }
         } else {
           showToast('⚠️ GitHub 回寫逾時，本地已完成更新', '⚠️');
         }
@@ -4254,102 +4431,45 @@
     }
 
     // ==========================================
-    // 學科工單全覽庫 (Subject Registry: 從 001 到最後)
+    // 學科工單全覽庫 (Subject Registry: 動態彙整真實工單)
     // ==========================================
     let currentSubjectFilter = 'ALL';
     let subjectRegistryTasks = [];
 
-    const baseSubjectCatalogue = [
-      // 🟡 工數 (MATH)
-      { id: 'MATH-001', subject: 'MATH', title: '【工數一】HW2 題目開工 (進度 33%)', week: 'W39 09/22', isDone: true, isCandidate: false, originDate: '09/22' },
-      { id: 'MATH-002', subject: 'MATH', title: '【工數一】HW2 題目推進 (進度 66%)', week: 'W39 09/23', isDone: true, isCandidate: false, originDate: '09/23' },
-      { id: 'MATH-003', subject: 'MATH', title: '【工數一】Ch2.2 二階常係數 ODE 題型精熟演練', week: 'W39 09/23', isDone: true, isCandidate: false, originDate: '09/23' },
-      { id: 'MATH-004', subject: 'MATH', title: '【工數-HW-2】二階常係數 ODE 題目演算與謄寫封箱 [4C]', week: 'W39 09/27', isDone: false, isCandidate: false, originDate: '09/27' },
-      { id: 'MATH-HW', subject: 'MATH', title: '【工數-HW-2】(09/29 08:45 🏁) 課前繳交 @生機101', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
-      { id: 'MATH-005-rc', subject: 'MATH', title: '【工數】看工數全部（迎戰 09/29 小考1）[4C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
-      { id: 'MATH-005', subject: 'MATH', title: '【工數-Quiz-1】(09/29 09:10 🏁) 課堂應試 @生機101', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
-      { id: 'MATH-006', subject: 'MATH', title: '【工數-Ch-2】高階常微分方程進度 [3C]', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
-
-      // 🟢 電工 (EE)
-      { id: 'EE-001', subject: 'EE', title: '【電工學】隨堂考1：複習 Ch2~3', week: 'W37 09/08', isDone: true, isCandidate: false, originDate: '09/08' },
-      { id: 'EE-002', subject: 'EE', title: '【電工學】2.3 節點電壓法 (KCL) 矩陣演練', week: 'W37 09/09', isDone: true, isCandidate: false, originDate: '09/09' },
-      { id: 'EE-003', subject: 'EE', title: '【電工學】節點/網目分析矩陣解題演練', week: 'W37 09/10', isDone: true, isCandidate: false, originDate: '09/10' },
-      { id: 'EE-004', subject: 'EE', title: '【電工學】Ch4 一階 RC/RL 電路時間常數與三要素公式', week: 'W38 09/15', isDone: true, isCandidate: false, originDate: '09/15' },
-      { id: 'EE-005', subject: 'EE', title: '【電工學】Ch4 一階與二階暫態 6 題精熟', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
-      { id: 'EE-006', subject: 'EE', title: '【電工學】Ch4 單元電路衝刺', week: 'W38 09/17', isDone: true, isCandidate: false, originDate: '09/17' },
-      { id: 'EE-007', subject: 'EE', title: '【電工學】整理 A4 暫態電路速查卡', week: 'W38 09/18', isDone: true, isCandidate: false, originDate: '09/18' },
-      { id: 'EE-008', subject: 'EE', title: '【電工-隨堂考-2】(09/21 09:10 🏁) @知207', week: 'W39 09/21', isDone: true, isCandidate: false, originDate: '09/21' },
-      { id: 'EE-009-rc', subject: 'EE', title: '【電工學】看完電工三 [3C]', week: 'W39 09/24', isDone: false, isCandidate: true, originDate: '09/24' },
-      { id: 'EE-010', subject: 'EE', title: '【電工-隨堂考-3】(09/28 09:10 🏁) 課堂應試 @知207', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
-      { id: 'EE-011', subject: 'EE', title: '【電工-Ch-5】交流電阻抗與相量分析 / 相量電路母題推導 [3C]', week: 'W40 09/29', isDone: false, isCandidate: false, originDate: '09/29' },
-      { id: 'EE-012', subject: 'EE', title: '【電工-隨堂考-4】D-2 暫態電路全題庫閉卷刷題 [4C]', week: 'W40 10/04', isDone: false, isCandidate: false, originDate: '10/04' },
-
-      // 🔵 會計 (ACC)
-      { id: 'ACC-001', subject: 'ACC', title: '【會計學】Ch2 借貸與分錄母題演練', week: 'W37 09/08', isDone: true, isCandidate: false, originDate: '09/08' },
-      { id: 'ACC-002', subject: 'ACC', title: '【會計學】A4 會計調整與借貸平衡速查卡', week: 'W37 09/09', isDone: true, isCandidate: false, originDate: '09/09' },
-      { id: 'ACC-003', subject: 'ACC', title: '【會計學】12:20 助教實習小考 1 @共同205', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
-      { id: 'ACC-004', subject: 'ACC', title: '【會計-Quiz-1】(09/23 12:20 🏁) 課堂應試 @共同205', week: 'W39 09/23', isDone: false, isCandidate: false, originDate: '09/23' },
-      { id: 'ACC-005', subject: 'ACC', title: '【會計-Ch-3】§3.1~3.3 調整分錄母題手算 [3C]', week: 'W39 09/24', isDone: false, isCandidate: false, originDate: '09/24' },
-      { id: 'ACC-006-rc', subject: 'ACC', title: '【會計學】線上正課影片消化 ＋ 小考題庫演練 [3C]', week: 'W39 09/24', isDone: false, isCandidate: true, originDate: '09/24' },
-      { id: 'ACC-006', subject: 'ACC', title: '【會計-Ch-4】會計循環總結與小考2衝刺 / 【會計-Quiz-2】(09/30 12:20 🏁)', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
-      { id: 'ACC-MID-preview', subject: 'ACC', title: '【會計-Midterm-1】D-7 全卷閉卷盲推通關結案 [4C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' },
-
-      // 🟢 熱力 (TH)
-      { id: 'TH-001', subject: 'TH', title: '【熱力學】Ch2 狀態與理想氣體例題', week: 'W38 09/16', isDone: true, isCandidate: false, originDate: '09/16' },
-      { id: 'TH-002', subject: 'TH', title: '【熱力-Ch-2】封閉系統功與熱計算 (100% 盲推結案)', week: 'W39 09/22', isDone: false, isCandidate: false, originDate: '09/22' },
-      { id: 'TH-003', subject: 'TH', title: '【熱力-Ch-3】控制體積與質量守恆例題 / 穩定流動能量方程式 (SFEE) [3C]', week: 'W40 09/28', isDone: false, isCandidate: false, originDate: '09/28' },
-
-      // 🟢 應力 (DYN)
-      { id: 'DYN-001', subject: 'DYN', title: '【應用力學】Ch12 質點運動學直角與極座標速度加速度', week: 'W38 09/17', isDone: true, isCandidate: false, originDate: '09/17' },
-      { id: 'DYN-002', subject: 'DYN', title: '【應力-Ch-12】質點衝量動量定理推導', week: 'W39 09/23', isDone: false, isCandidate: false, originDate: '09/23' },
-      { id: 'DYN-003', subject: 'DYN', title: '【應力-Ch-13】牛頓第二定律與運動方程式 [3C]', week: 'W40 09/30', isDone: false, isCandidate: false, originDate: '09/30' },
-
-      // 🟣 統計 (STAT)
-      { id: 'STAT-001', subject: 'STAT', title: '【機率與統計】數據分析與資料處理 Python 開發作業', week: 'W38 09/18', isDone: true, isCandidate: false, originDate: '09/18' },
-      { id: 'STAT-002', subject: 'STAT', title: '【機率與統計】機率分佈與貝氏定理題型推導', week: 'W38 09/19', isDone: true, isCandidate: false, originDate: '09/19' },
-      { id: 'PROB-003', subject: 'STAT', title: '【機統-Ch-3】二維隨機變數與聯合分配 [3C]', week: 'W40 10/01', isDone: false, isCandidate: false, originDate: '10/01' },
-
-      // 🛠️ 系統/行事曆 (CAL)
-      { id: 'CAL-001', subject: 'CAL', title: '【週度大會】Sunday Calibration：結算當週戰略、裝填次週列車 [1C]', week: '每週日 673次', isDone: false, isCandidate: false, originDate: '每週日' },
-
-      // ⚪ 彈性/複習 (OTHER)
-      { id: 'REV-001-preview', subject: 'OTHER', title: '【全科複習】下週小考衝刺、錯題收斂與彈性裝填 [5C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
-      { id: 'FLEX-001-preview', subject: 'OTHER', title: '【未定/彈性】視精力裝填：統計/應力/熱力 [2C]', week: 'W39 09/27', isDone: false, isCandidate: true, originDate: '09/27' },
-      { id: 'REV-002-preview', subject: 'OTHER', title: '【全科總複習】迎戰 10/05 電工考4 錯題收斂 [5C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' },
-      { id: 'FLEX-002-preview', subject: 'OTHER', title: '【未定/彈性】視精力裝填 [2C]', week: 'W40 10/04', isDone: false, isCandidate: true, originDate: '10/04' }
-    ];
+    const baseSubjectCatalogue = [];
 
     function buildSubjectRegistry() {
-      const pipelineTaskMap = {};
+      const pipelineTasks = [];
+      const seenIds = new Set();
+
       parsedDays.forEach(day => {
         const checkItem = t => {
-          const idMatch = t.cleanTitle.match(/([A-Z]{2,5}-[A-Z0-9]+(?:-rc|-preview)?)/);
+          const idMatch = t.cleanTitle.match(/(?:\[\[)?([A-Z]{2,5}-\d{3}(?:-rc|-preview)?)(?:\]\])?/);
           if (idMatch) {
-            pipelineTaskMap[idMatch[1]] = { isDone: t.isDone, lineIndex: t.lineIndex, dateStr: day.dateStr, dayNum: day.dayNum };
+            const id = idMatch[1];
+            if (!seenIds.has(id)) {
+              seenIds.add(id);
+              const subjCode = id.split('-')[0];
+              const isToday = day.dayNum === todayFullNum;
+              pipelineTasks.push({
+                id: id,
+                subject: subjCode,
+                title: t.cleanTitle,
+                week: day.dateStr,
+                isDone: t.isDone,
+                lineIndex: t.lineIndex,
+                isToday: isToday,
+                inPipeline: true,
+                originDate: day.dateStr
+              });
+            }
           }
         };
         day.trains.forEach(tr => tr.tasks.forEach(checkItem));
         day.standaloneTasks.forEach(checkItem);
       });
 
-      subjectRegistryTasks = baseSubjectCatalogue.map(task => {
-        const live = pipelineTaskMap[task.id];
-        if (live) {
-          const isToday = live.dayNum === todayFullNum;
-          return {
-            ...task,
-            isDone: live.isDone,
-            lineIndex: live.lineIndex,
-            isToday: isToday,
-            inPipeline: true
-          };
-        }
-        return {
-          ...task,
-          inPipeline: false,
-          isToday: false
-        };
-      });
+      subjectRegistryTasks = pipelineTasks;
 
       const countAllEl = document.getElementById('countAll');
       if (countAllEl) countAllEl.textContent = subjectRegistryTasks.length;
@@ -4368,16 +4488,20 @@
       if (!container) return;
 
       const subjects = [
-        { code: 'ACC', name: '會計學', prefix: '會計', color: '🔵', currentProgress: '§3.1~3.3 調整分錄手算 (Ch3~4 正課消化)', nextDeadline: '【會計-Quiz-2】 (09/28 12:20)', dDay: 'D-3', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' },
         { code: 'EE', name: '電工學', prefix: '電工', color: '🟢', currentProgress: 'W03 非同步影片研讀 (Ch4 暫態分析)', nextDeadline: '【電工-隨堂考-3】 (09/28 09:10)', dDay: 'D-3', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' },
-        { code: 'MATH', name: '工程數學', prefix: '工數', color: '🟡', currentProgress: 'HW2 二階 ODE 題目演算 (進度 33% ➔ 66%)', nextDeadline: '【工數-Quiz-1】 (09/27 09:10)', dDay: 'D-2', status: '🟡 緊迫攻堅 (D-2 警戒)', statusColor: 'var(--c-yellow)' },
-        { code: 'TH', name: '熱力學', prefix: '熱力', color: '🟢', currentProgress: 'Ch2 狀態方程盲推通關 (已結案)', nextDeadline: '【熱力-Ch-3】 (09/26 23:00)', dDay: 'D-1', status: '⚡ 戰略超前 (Ch2盲推結案)', statusColor: 'var(--c-cyan)' },
+        { code: 'MATH', name: '工程數學', prefix: '工數', color: '🟡', currentProgress: 'HW2 二階 ODE 題目演算 (進度 33% ➔ 66%)', nextDeadline: '【工數-Quiz-1】 (09/27 09:10)', dDay: 'D-2', status: '🟡 緊迫攻堅', statusColor: 'var(--c-yellow)' },
+        { code: 'TH', name: '熱力學', prefix: '熱力', color: '🟢', currentProgress: 'Ch2 狀態方程盲推通關 (已結案)', nextDeadline: '【熱力-Ch-3】 (09/26 23:00)', dDay: 'D-1', status: '⚡ 戰略超前', statusColor: 'var(--c-cyan)' },
         { code: 'DYN', name: '應用力學', prefix: '應力', color: '🟢', currentProgress: 'Ch12 質點運動學公式推導 (進度 50%)', nextDeadline: '【應力-Ch-13】 (09/30 23:00)', dDay: 'D-5', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
-        { code: 'STAT', name: '跨領域統計', prefix: '統', color: '🟣', currentProgress: 'Project 1 Python 數據清洗實作', nextDeadline: '【機統-Quiz-1】 (10/06 13:20)', dDay: 'D-11', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
-        { code: 'LOGIC', name: '邏輯通識', prefix: '邏輯', color: '🔵', currentProgress: 'HW1 題目演練與作業撰寫', nextDeadline: '【邏輯-HW-2】 (10/08 13:20)', dDay: 'D-13', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' }
+        { code: 'PROB', name: '機率與統計', prefix: '機統', color: '🟣', currentProgress: '隨機變數與機率分佈母題演算', nextDeadline: '【機統-Quiz-1】 (10/06 13:20)', dDay: 'D-11', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'ACC', name: '會計學', prefix: '會計', color: '🔵', currentProgress: '§3.1~3.3 調整分錄手算 (Ch3~4 正課消化)', nextDeadline: '【會計-Quiz-2】 (09/28 12:20)', dDay: 'D-3', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' },
+        { code: 'PSY', name: '普通心理學', prefix: '普心', color: '🟠', currentProgress: '正課研讀與觀念筆記提煉', nextDeadline: '【普心-Quiz-1】', dDay: 'D-14', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'LOGIC', name: '邏輯通識', prefix: '邏輯', color: '🔵', currentProgress: 'HW1 題目演練與作業撰寫', nextDeadline: '【邏輯-HW-2】 (10/08 13:20)', dDay: 'D-13', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'STAT', name: '跨領域統計', prefix: '統', color: '🟣', currentProgress: 'Project 1 Python 數據清洗實作', nextDeadline: '【統計-HW-1】', dDay: 'D-10', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'PE', name: '桌球初級', prefix: '桌球', color: '🟢', currentProgress: '基本步法與正反手擊球演練', nextDeadline: '【桌球-期中測驗】', dDay: 'D-20', status: '🟢 戰略充裕', statusColor: 'var(--c-green)' },
+        { code: 'PJ', name: '專案工程', prefix: '專案', color: '🛠️', currentProgress: 'PlanOS 系統工程演進', nextDeadline: '【Sunday Calibration】', dDay: 'D-2', status: '🟢 戰略就緒', statusColor: 'var(--c-green)' }
       ];
 
-      const maxMap = { ACC: 0, EE: 0, MATH: 0, TH: 0, DYN: 0, STAT: 0, LOGIC: 0 };
+      const maxMap = { EE: 0, MATH: 0, TH: 0, DYN: 0, PROB: 0, ACC: 0, PSY: 0, LOGIC: 0, STAT: 0, PE: 0, PJ: 0 };
       const regexScan = /([A-Z]+)-(\d{3})/g;
       if (rawPipelineMarkdown) {
         let m;
