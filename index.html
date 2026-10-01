@@ -1714,9 +1714,35 @@
       </div>
 
       <!-- Live Syntax Preview -->
-      <div style="background: rgba(2, 132, 199, 0.06); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 16px;">
+      <div style="background: rgba(2, 132, 199, 0.06); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;">
         <div style="font-size: 11px; font-weight: 700; color: var(--c-blue); margin-bottom: 4px;">⚡ 即時語法預覽 (Live Preview)：</div>
         <div id="taskModalPreviewCode" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: var(--text-normal); word-break: break-all; background: var(--bg-card); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);"></div>
+      </div>
+
+      <!-- MilVer Strategic Progress Projection Box -->
+      <div id="taskModalMilVerBox" style="background: rgba(16, 185, 129, 0.06); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 10px; padding: 10px 12px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--c-green); display: flex; align-items: center; gap: 5px;">
+            <span>🚀 關聯 MilVer 計畫：</span>
+            <span id="taskModalPlanName" style="color: var(--text-main); font-weight: 700;">Plan-1012: 會計循環與第一次期中考</span>
+          </div>
+          <span id="taskModalCurrentMilVerBadge" class="milver-version-pill" style="font-size: 10.5px; padding: 2px 7px;">M0.3.4+12</span>
+        </div>
+        <div style="font-size: 11.5px; font-family: 'JetBrains Mono', monospace; color: var(--text-normal); margin-bottom: 6px;">
+          <span>完工預期進度：</span>
+          <span id="taskModalProjectedPct" style="font-weight: 700; color: #10b981;">50.0% ➔ 54.2%</span>
+          <span style="color: var(--text-muted); margin: 0 4px;">|</span>
+          <span>預期版號：</span>
+          <span id="taskModalProjectedMilVer" style="font-weight: 700; color: var(--c-blue);">M0.3.5+13 (+1 DoD)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <span style="font-size: 10.5px; color: var(--text-muted); font-weight: 600;">🎯 目標推演試算：</span>
+          <button type="button" class="milver-ctrl-btn" onclick="calcMilVerTargetProjection(25)" style="font-size: 10px; padding: 1px 6px;">25% 破冰</button>
+          <button type="button" class="milver-ctrl-btn" onclick="calcMilVerTargetProjection(50)" style="font-size: 10px; padding: 1px 6px;">50% 攻堅</button>
+          <button type="button" class="milver-ctrl-btn" onclick="calcMilVerTargetProjection(75)" style="font-size: 10px; padding: 1px 6px;">75% 衝刺</button>
+          <button type="button" class="milver-ctrl-btn" onclick="calcMilVerTargetProjection(100)" style="font-size: 10px; padding: 1px 6px;">100% 交付</button>
+          <span id="taskModalTargetResult" style="font-size: 10.5px; font-family: 'JetBrains Mono', monospace; color: var(--c-yellow); margin-left: 4px;"></span>
+        </div>
       </div>
 
       <!-- Form Grid -->
@@ -1780,7 +1806,7 @@
           </div>
           <div>
             <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">📖 4. 章節/編號 (Scope)</label>
-            <input id="taskModalScope" class="input-field" type="text" value="Ch3" placeholder="例: Ch3, Ch3~4, Ch2, W03, 1" oninput="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
+            <input id="taskModalScope" class="input-field" type="text" value="Ch3" placeholder="例: Ch3, Ch3~4, Ch2, W03" oninput="updateTaskModalPreview()" style="width: 100%; padding: 6px 8px; border-radius: 8px; font-size: 13px;">
             <div style="display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap;">
               <span class="badge-item" onclick="setTaskModalScope('Ch1')" style="cursor: pointer; font-size: 9.5px;">Ch1</span>
               <span class="badge-item" onclick="setTaskModalScope('Ch2')" style="cursor: pointer; font-size: 9.5px;">Ch2</span>
@@ -1788,15 +1814,24 @@
               <span class="badge-item" onclick="setTaskModalScope('Ch4')" style="cursor: pointer; font-size: 9.5px;">Ch4</span>
               <span class="badge-item" onclick="setTaskModalScope('Ch3~4')" style="cursor: pointer; font-size: 9.5px;">Ch3~4</span>
               <span class="badge-item" onclick="setTaskModalScope('W03')" style="cursor: pointer; font-size: 9.5px;">W03</span>
-              <span class="badge-item" onclick="setTaskModalScope('1')" style="cursor: pointer; font-size: 9.5px;">1</span>
             </div>
           </div>
         </div>
 
-        <!-- Row 3: Task Description -->
+        <!-- Row 3: Task Description with Smart Presets -->
         <div>
-          <label style="display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px;">✍️ 5. 具體任務描述</label>
-          <input id="taskModalDesc" class="input-field" type="text" placeholder="例: §3.1~3.3 調整分錄母題手算 / 線上影片消化" oninput="updateTaskModalPreview()" style="width: 100%; padding: 7px 10px; border-radius: 8px; font-size: 13px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 11.5px; font-weight: 700;">✍️ 5. 具體任務描述 (請點選語意膠囊或輸入具體內容)</label>
+          </div>
+          <div style="display: flex; gap: 4px; margin-bottom: 6px; flex-wrap: wrap;">
+            <span class="badge-item" onclick="setTaskModalDescPreset('母題手算演算')" style="cursor: pointer; font-size: 10px; background: rgba(56, 189, 248, 0.12); color: var(--c-blue); border: 1px solid rgba(56, 189, 248, 0.3);">📝 母題手算</span>
+            <span class="badge-item" onclick="setTaskModalDescPreset('課後習題盲推')" style="cursor: pointer; font-size: 10px; background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">⚡ 習題盲推</span>
+            <span class="badge-item" onclick="setTaskModalDescPreset('錯題全卷二刷除錯')" style="cursor: pointer; font-size: 10px; background: rgba(234, 179, 8, 0.12); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.3);">🔄 錯題二刷</span>
+            <span class="badge-item" onclick="setTaskModalDescPreset('歷屆試題閉卷模考')" style="cursor: pointer; font-size: 10px; background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3);">🏁 閉卷模考</span>
+            <span class="badge-item" onclick="setTaskModalDescPreset('正課研讀與觀念筆記')" style="cursor: pointer; font-size: 10px; background: rgba(168, 85, 247, 0.12); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3);">📖 正課觀念</span>
+            <span class="badge-item" onclick="setTaskModalDescPreset('費曼白紙閉卷錄音教學')" style="cursor: pointer; font-size: 10px; background: rgba(251, 146, 60, 0.12); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.3);">🎙️ 費曼教學</span>
+          </div>
+          <input id="taskModalDesc" class="input-field" type="text" placeholder="例: §3.1~3.3 調整分錄母題手算" oninput="updateTaskModalPreview()" style="width: 100%; padding: 7px 10px; border-radius: 8px; font-size: 13px;">
         </div>
 
         <!-- Row 4: Size & Location -->
@@ -2439,6 +2474,8 @@
     }
 
     // === Task Modal Dispatcher System ===
+    let currentTaskModalProjectedMilVer = '';
+
     function openTaskModal() {
       const modal = document.getElementById('taskModal');
       modal.style.display = 'flex';
@@ -2447,6 +2484,7 @@
 
       populateTaskModalDays();
       updateTaskModalAutoId();
+      updateTaskModalMilVer();
       updateTaskModalPreview();
     }
 
@@ -2464,7 +2502,7 @@
       const daySelect = document.getElementById('taskModalDay');
       daySelect.innerHTML = '';
       if (!pipelineDays || pipelineDays.length === 0) {
-        daySelect.innerHTML = '<option value="">(無可用章節)</option>';
+        daySelect.innerHTML = '<option value="">(無可用作戰日)</option>';
         return;
       }
       pipelineDays.forEach((d) => {
@@ -2509,6 +2547,7 @@
 
     function onTaskModalSubjectChange() {
       updateTaskModalAutoId();
+      updateTaskModalMilVer();
       updateTaskModalPreview();
     }
 
@@ -2520,6 +2559,64 @@
       document.getElementById('taskModalScope').value = scope;
       updateTaskModalPreview();
     }
+
+    function setTaskModalDescPreset(preset) {
+      const scope = document.getElementById('taskModalScope').value.trim();
+      const prefix = scope ? `${scope} ` : '';
+      document.getElementById('taskModalDesc').value = `${prefix}${preset}`;
+      updateTaskModalPreview();
+    }
+
+    function updateTaskModalMilVer() {
+      const subj = document.getElementById('taskModalSubject').value;
+      const plan = milverActivePlans.find(p => p.subjectCode === subj) || milverActivePlans[0];
+      if (!plan) return;
+
+      document.getElementById('taskModalPlanName').textContent = plan.title;
+      document.getElementById('taskModalCurrentMilVerBadge').textContent = `M0.${plan.currentMinor}.${plan.currentPatch}+${plan.currentBuild}`;
+
+      // 當前百分比
+      const completedMinors = Math.max(0, plan.currentMinor - 2);
+      const basePct = (completedMinors / plan.maxMinor) * 100;
+      const phaseWeight = 100 / plan.maxMinor;
+      const curPhasePct = (plan.currentPatch / plan.phasePatches) * phaseWeight;
+      const curTotalPct = Math.min(100, Math.max(0, +(basePct + curPhasePct).toFixed(1)));
+
+      // 完工預期 (+1 DoD)
+      const nextPatch = Math.min(plan.phasePatches, plan.currentPatch + 1);
+      const nextBuild = plan.currentBuild + 1;
+      const nextPhasePct = (nextPatch / plan.phasePatches) * phaseWeight;
+      const nextTotalPct = Math.min(100, Math.max(0, +(basePct + nextPhasePct).toFixed(1)));
+      currentTaskModalProjectedMilVer = `M0.${plan.currentMinor}.${nextPatch}`;
+
+      document.getElementById('taskModalProjectedPct').textContent = `${curTotalPct}% ➔ ${nextTotalPct}%`;
+      document.getElementById('taskModalProjectedMilVer').textContent = `M0.${plan.currentMinor}.${nextPatch}+${nextBuild} (+1 DoD)`;
+      document.getElementById('taskModalTargetResult').textContent = '';
+    }
+
+    window.calcMilVerTargetProjection = function(targetPct) {
+      const subj = document.getElementById('taskModalSubject').value;
+      const plan = milverActivePlans.find(p => p.subjectCode === subj) || milverActivePlans[0];
+      if (!plan) return;
+
+      // 算出需要多少等分權重
+      const phaseWeight = 100 / plan.maxMinor;
+      const completedMinors = Math.max(0, plan.currentMinor - 2);
+      const basePct = (completedMinors / plan.maxMinor) * 100;
+
+      let neededPatch = Math.ceil(((targetPct - basePct) / phaseWeight) * plan.phasePatches);
+      let resText = '';
+      if (neededPatch <= plan.currentPatch) {
+        resText = `已達標！目前已攻克第 ${plan.currentPatch} 題 (${plan.currentPatch}/${plan.phasePatches})`;
+      } else if (neededPatch > plan.phasePatches) {
+        const remainingDoD = plan.maxBuild - plan.currentBuild;
+        resText = `跨階段大考！直達 ${plan.targetVersion} (需再攻克 ${remainingDoD} 題 DoD)`;
+      } else {
+        const diff = neededPatch - plan.currentPatch;
+        resText = `需推進至 M0.${plan.currentMinor}.${neededPatch} (還需再攻克 ${diff} 題)`;
+      }
+      document.getElementById('taskModalTargetResult').textContent = resText;
+    };
 
     function buildTaskModalMarkdown() {
       const subjSelect = document.getElementById('taskModalSubject');
@@ -2540,7 +2637,9 @@
         displayColor = '🔴';
       }
 
-      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}`;
+      const milverTag = currentTaskModalProjectedMilVer ? ` 🏷️ ${currentTaskModalProjectedMilVer}` : '';
+
+      return `- [ ] ${displayColor} \`${id}\` ${bracket} ${desc} ${size} ${loc}${milverTag}`;
     }
 
     function updateTaskModalPreview() {
@@ -2557,6 +2656,7 @@
       }
       showToast(`📋 已複製工單語法：${line}`, '📋');
     }
+
 
     async function dispatchTaskModalCommit() {
       const token = localStorage.getItem(STORAGE_KEY_TOKEN);
