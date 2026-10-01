@@ -295,36 +295,165 @@
     body.light-theme .search-glass-icon {
       color: #64748b;
     }
-    body.light-theme .modal-box {
-      background: var(--glass-surface);
-      border-color: var(--glass-border);
-      border-top-color: var(--glass-border-highlight);
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.15);
-      color: #0f172a;
+    body.light-theme .modal-overlay {
+      background: rgba(15, 23, 42, 0.6) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
     }
-    body.light-theme .input-field { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; font-weight: 600; }
-    body.light-theme .toast { background: #0f172a; color: #f8fafc; }
+    body.light-theme .modal-box {
+      background: #ffffff !important;
+      border: 2px solid #94a3b8 !important;
+      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.08) !important;
+      color: #0f172a !important;
+    }
     body.light-theme .modal-box label {
       color: #0f172a !important;
       font-weight: 800 !important;
+      font-size: 12px !important;
     }
     body.light-theme .modal-desc {
       color: #334155 !important;
+      font-weight: 600 !important;
+    }
+    body.light-theme .modal-desc code {
+      background: #f1f5f9 !important;
+      color: #0284c7 !important;
+      border: 1px solid #cbd5e1 !important;
+      font-weight: 800 !important;
+      padding: 1px 4px !important;
+      border-radius: 4px !important;
     }
     body.light-theme .modal-title {
       color: #0f172a !important;
+      font-weight: 900 !important;
+      font-size: 18px !important;
+    }
+    body.light-theme .input-field {
+      background: #ffffff !important;
+      border: 1.5px solid #64748b !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+    }
+    body.light-theme .input-field:focus {
+      border-color: #0284c7 !important;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25) !important;
+    }
+    body.light-theme .input-field::placeholder {
+      color: #64748b !important;
+      opacity: 1 !important;
+      font-weight: 600 !important;
+    }
+    body.light-theme .toast { background: #0f172a; color: #f8fafc; }
+
+    /* Live Syntax Preview Box High Contrast */
+    body.light-theme #taskModalLivePreviewBox {
+      background: #f0f9ff !important;
+      border: 1.5px solid #0284c7 !important;
+    }
+    body.light-theme #taskModalPreviewCode {
+      background: #ffffff !important;
+      border: 1.5px solid #64748b !important;
+      color: #0f172a !important;
       font-weight: 800 !important;
     }
-    body.light-theme .badge-item {
-      background: #f1f5f9 !important;
-      color: #0f172a !important;
-      border: 1px solid #94a3b8 !important;
+
+    /* Task Modal MilVer Strategic Box High Contrast */
+    body.light-theme #taskModalMilVerBox {
+      background: #f0fdf4 !important;
+      border: 1.5px solid #059669 !important;
+    }
+    body.light-theme #taskModalMilVerBox span {
+      color: #065f46 !important;
       font-weight: 700 !important;
     }
-    body.light-theme .badge-item:hover {
-      background: #e2e8f0 !important;
+    body.light-theme #taskModalPlanName {
+      color: #0f172a !important;
+      font-weight: 900 !important;
+    }
+    body.light-theme #taskModalCurrentMilVerBadge {
+      background: #dcfce7 !important;
+      color: #166534 !important;
+      border: 1.5px solid #86efac !important;
+      font-weight: 900 !important;
+    }
+    body.light-theme #taskModalProjectedPct {
+      color: #047857 !important;
+      font-weight: 900 !important;
+    }
+    body.light-theme #taskModalProjectedMilVer {
       color: #0284c7 !important;
+      font-weight: 900 !important;
+    }
+    body.light-theme #taskModalMilVerBox .milver-ctrl-btn {
+      background: #ffffff !important;
+      border: 1.5px solid #059669 !important;
+      color: #065f46 !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme #taskModalMilVerBox .milver-ctrl-btn:hover {
+      background: #dcfce7 !important;
+    }
+    body.light-theme #taskModalTargetResult {
+      color: #b45309 !important;
+      font-weight: 900 !important;
+    }
+
+    /* Deliverable Anchor Container */
+    body.light-theme #taskModalDeliverableBox {
+      background: #f8fafc !important;
+      border: 1.5px dashed #0284c7 !important;
+    }
+
+    /* Badge Items (Chips & Presets) in Modals */
+    body.light-theme .modal-box .badge-item {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border: 1.5px solid #64748b !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .modal-box .badge-item:hover {
+      background: #e2e8f0 !important;
       border-color: #0284c7 !important;
+      color: #0284c7 !important;
+    }
+
+    /* Modal Action Buttons */
+    body.light-theme .modal-box .btn-icon {
+      background: #ffffff !important;
+      border: 1.5px solid #64748b !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    body.light-theme .modal-box .btn-icon:hover {
+      background: #f1f5f9 !important;
+      border-color: #0284c7 !important;
+      color: #0284c7 !important;
+    }
+    body.light-theme .modal-box .btn-cta {
+      background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+      border: 1.5px solid #0284c7 !important;
+      color: #ffffff !important;
+      font-weight: 900 !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+    }
+
+    /* MilVer Spec Modal Light Theme Overrides */
+    body.light-theme #specModalSubjectBox {
+      background: #f0f9ff !important;
+      border: 1.5px solid #0284c7 !important;
+    }
+    body.light-theme #specModalDeliverableBox {
+      background: #f8fafc !important;
+      border: 1.5px dashed #0284c7 !important;
+    }
+    body.light-theme #specModalMaxMinorBox {
+      background: #f0fdf4 !important;
+      border: 1.5px solid #10b981 !important;
+    }
+    body.light-theme #specModalMinorGrid > div {
+      background: #f8fafc !important;
+      border: 1.5px solid #cbd5e1 !important;
     }
     body.light-theme .milver-param-drawer {
       background: #ffffff !important;
@@ -1177,12 +1306,13 @@
       pointer-events: auto;
     }
     .modal-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: #0f172a;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
       border-radius: 16px;
       padding: 24px;
       width: 100%;
       max-width: 480px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
       transform-origin: center center;
       transform: scale(0.82) translateY(-20px);
       transition: transform 0.38s cubic-bezier(0.16, 1.25, 0.3, 1);
@@ -1806,9 +1936,9 @@
       </div>
 
       <!-- Live Syntax Preview -->
-      <div style="background: rgba(2, 132, 199, 0.06); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;">
-        <div style="font-size: 11px; font-weight: 700; color: var(--c-blue); margin-bottom: 4px;">⚡ 即時語法預覽 (Live Preview)：</div>
-        <div id="taskModalPreviewCode" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: var(--text-normal); word-break: break-all; background: var(--bg-card); padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border);"></div>
+      <div id="taskModalLivePreviewBox" style="border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;">
+        <div style="font-size: 11px; font-weight: 800; color: var(--c-blue); margin-bottom: 4px;">⚡ 即時語法預覽 (Live Preview)：</div>
+        <div id="taskModalPreviewCode" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 600; color: var(--text-normal); word-break: break-all; padding: 6px 8px; border-radius: 6px;"></div>
       </div>
 
       <!-- MilVer Strategic Progress Projection Box -->
@@ -1914,7 +2044,7 @@
         </div>
 
         <!-- Row 2.5: Deliverable Anchor (真/假交付物綁定與拓撲) -->
-        <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; background: rgba(56, 189, 248, 0.05); padding: 8px 10px; border-radius: 8px; border: 1px dashed rgba(56, 189, 248, 0.35);">
+        <div id="taskModalDeliverableBox" style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; padding: 8px 10px; border-radius: 8px; border: 1.5px dashed rgba(56, 189, 248, 0.4);">
           <div>
             <label style="display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: var(--c-blue);">🎯 交付標的屬性 (Deliverable Anchor)</label>
             <select id="taskModalDeliverableType" class="input-field" onchange="onTaskModalDeliverableChange()" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 12px;">
@@ -2007,7 +2137,7 @@
       </div>
 
       <!-- Select Subject to Configure -->
-      <div style="background: rgba(2, 132, 199, 0.08); border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;">
+      <div id="specModalSubjectBox" style="border: 1.5px solid rgba(2, 132, 199, 0.4); border-radius: 10px; padding: 10px 12px; margin-bottom: 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <label style="font-size: 12px; font-weight: 800; color: var(--c-blue);">📚 選擇欲立案/配置之作戰計畫：</label>
           <select id="specModalSubjectSelect" class="input-field" onchange="onSpecModalSubjectChange()" style="padding: 4px 8px; font-size: 12px; font-weight: 700; border-radius: 6px;">
@@ -2030,7 +2160,7 @@
         </div>
 
         <!-- Row 2: Deliverable Binding -->
-        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; background: rgba(56, 189, 248, 0.05); padding: 8px 10px; border-radius: 8px; border: 1px dashed rgba(56, 189, 248, 0.35);">
+        <div id="specModalDeliverableBox" style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; padding: 8px 10px; border-radius: 8px; border: 1.5px dashed rgba(56, 189, 248, 0.4);">
           <div>
             <label style="display: block; font-size: 11px; font-weight: 800; margin-bottom: 4px; color: var(--c-blue);">🎯 交付標的屬性 (Deliverable Type)</label>
             <select id="specModalDeliverableType" class="input-field" style="width: 100%; padding: 5px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700;">
@@ -2046,7 +2176,7 @@
         </div>
 
         <!-- Row 3: Max Minor Count -->
-        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
+        <div id="specModalMaxMinorBox" style="display: flex; justify-content: space-between; align-items: center; border: 1.5px solid rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 8px 12px;">
           <div>
             <div style="font-size: 12px; font-weight: 800; color: #10b981;">🔢 宏觀 Minor 階段數 (到 M0.X)：</div>
             <div style="font-size: 10.5px; color: var(--text-muted);">M0.1 為規劃期(0%)，實體執行從 M0.2 起跑，總階段切片數</div>
