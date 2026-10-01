@@ -1614,6 +1614,14 @@
       margin-top: 4px;
       font-family: 'JetBrains Mono', monospace;
     }
+    @keyframes pulseGlowAmber {
+      0% { transform: scale(1); box-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+      50% { transform: scale(1.04); box-shadow: 0 0 16px rgba(239, 68, 68, 0.85); }
+      100% { transform: scale(1); box-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+    }
+    .pulse-glow-amber {
+      animation: pulseGlowAmber 1.6s infinite ease-in-out !important;
+    }
 
     </style>
 </head>
@@ -1637,6 +1645,12 @@
       </div>
     </div>
     <div class="top-actions">
+      <!-- 🚀 Permanent Unified Push Button -->
+      <button id="btnUnifiedPush" class="btn-icon" onclick="manualBatchSync()" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; border-radius: 9999px; padding: 5px 13px; font-size: 12px; cursor: pointer; transition: all 0.25s ease;" title="Scheme A 批次提交：將所有待同步的工單勾選與 MilVer 參數推進一次性統一 Push 至 GitHub 倉庫">
+        <span id="unifiedPushIcon">☁️</span>
+        <span id="unifiedPushText">雲端已同步</span>
+      </button>
+
       <button class="btn-icon" onclick="openTaskModal()" style="border-color: rgba(2, 132, 199, 0.4); color: var(--c-blue); font-weight: 700;">🎫 開工單</button>
       <button class="btn-icon" onclick="toggleTheme()" id="themeBtn">☀️ 亮色</button>
       <button class="btn-icon" onclick="cycleGlassPreset()" id="glassBtn" title="切換玻璃質感 (水漾高透 / 標準液態 / 重度磨砂)">🌊 液態</button>
@@ -2065,6 +2079,7 @@
       } else {
         openTokenModal();
       }
+      updateBatchSyncButton();
     });
 
     function initTheme() {
@@ -3309,6 +3324,9 @@
               <div class="cockpit-badge ${wipClass}" title="進行中重型工單總量管制 (WIP Limit)">
                 <span>🚀 Active Tickets: <strong>${wipLabel}</strong></span>
               </div>
+              <div id="cockpitPushBadge" class="cockpit-badge" onclick="manualBatchSync()" style="cursor: pointer; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35);" title="點擊統一 Push 批次同步至 GitHub">
+                <span>🚀 統一 Push: <strong id="cockpitPushText">已對齊</strong></span>
+              </div>
             </div>
           </div>
           <div class="cockpit-sub">
@@ -3454,7 +3472,8 @@
       try {
         localStorage.setItem('planos_milver_active_tickets', JSON.stringify(milverActivePlans));
       } catch(e) {}
-      pendingBatchChanges += 1;
+      pendingChangesCount += 1;
+      localStorage.setItem('planos_pending_count', String(pendingChangesCount));
       updateBatchSyncButton();
     }
 
@@ -3606,13 +3625,51 @@
     let pendingChangesCount = parseInt(localStorage.getItem('planos_pending_count') || '0', 10);
 
     function updateBatchSyncButton() {
+      const btnUnified = document.getElementById('btnUnifiedPush');
+      const pushText = document.getElementById('unifiedPushText');
+      const pushIcon = document.getElementById('unifiedPushIcon');
+
+      const cockpitPushBadge = document.getElementById('cockpitPushBadge');
+      const cockpitPushText = document.getElementById('cockpitPushText');
+
       const btnBatchSync = document.getElementById('btnBatchSync');
       const batchSyncText = document.getElementById('batchSyncText');
-      if (btnBatchSync && batchSyncText) {
-        if (pendingChangesCount > 0) {
+
+      if (pendingChangesCount > 0) {
+        if (pushText) pushText.textContent = `統一 Push (${pendingChangesCount} 筆待傳)`;
+        if (pushIcon) pushIcon.textContent = `🚀`;
+        if (btnUnified) {
+          btnUnified.style.background = 'linear-gradient(135deg, #f59e0b, #ef4444)';
+          btnUnified.style.color = '#fff';
+          btnUnified.style.border = 'none';
+          btnUnified.classList.add('pulse-glow-amber');
+        }
+        if (cockpitPushBadge) {
+          cockpitPushBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+          cockpitPushBadge.style.borderColor = 'rgba(239, 68, 68, 0.6)';
+        }
+        if (cockpitPushText) cockpitPushText.textContent = `🚨 ${pendingChangesCount} 筆待傳`;
+
+        if (btnBatchSync && batchSyncText) {
           btnBatchSync.style.display = 'inline-flex';
-          batchSyncText.textContent = `💾 ${pendingChangesCount} 個變更待同步`;
-        } else {
+          batchSyncText.textContent = `🚀 ${pendingChangesCount} 個變更待同步`;
+        }
+      } else {
+        if (pushText) pushText.textContent = `雲端已同步`;
+        if (pushIcon) pushIcon.textContent = `☁️`;
+        if (btnUnified) {
+          btnUnified.style.background = 'rgba(255, 255, 255, 0.08)';
+          btnUnified.style.color = 'var(--text-main)';
+          btnUnified.style.border = '1px solid rgba(255, 255, 255, 0.18)';
+          btnUnified.classList.remove('pulse-glow-amber');
+        }
+        if (cockpitPushBadge) {
+          cockpitPushBadge.style.background = 'rgba(56, 189, 248, 0.12)';
+          cockpitPushBadge.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+        }
+        if (cockpitPushText) cockpitPushText.textContent = `已對齊`;
+
+        if (btnBatchSync) {
           btnBatchSync.style.display = 'none';
         }
       }
@@ -3625,8 +3682,8 @@
         openTokenModal();
         return;
       }
-      if (!rawPipelineMarkdown || pendingChangesCount === 0) {
-        showToast('目前無任何待同步變更', 'ℹ️');
+      if (pendingChangesCount === 0) {
+        showToast('☁️ 目前無待同步變更，本地已與雲端對齊！若需強制重新整理請按「🔄 刷新」', 'ℹ️');
         return;
       }
 
