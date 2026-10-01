@@ -3335,6 +3335,12 @@
         return `<code class="md-code-pill ${isCand ? 'is-candidate' : ''}" title="${isCand ? '待 CEO 簽核生效候選工單' : 'PlanOS 標準工單'}">${p1}${isCand ? '<span class="candidate-badge">RC</span>' : ''}</code>`;
       });
 
+      // 2.1 支援 Obsidian 雙向鏈結 [[ID]] 或 [[path/ID|ID]] 轉換為灰底等寬藥丸
+      escaped = escaped.replace(/\[\[(?:[^\]|]+\/)?([A-Z]{2,5}-[A-Z0-9]+(?:-rc|-preview)?)(?:\|[^\]]+)?\]\]/g, (match, p1) => {
+        const isCand = p1.includes('-rc') || p1.includes('-preview');
+        return `<code class="md-code-pill ${isCand ? 'is-candidate' : ''}" title="${isCand ? '待 CEO 簽核生效候選工單' : 'PlanOS 標準工單'}">${p1}${isCand ? '<span class="candidate-badge">RC</span>' : ''}</code>`;
+      });
+
       // 3. 容錯：若文本中含有未包裹反引號的標準工單 ID (如 MATH-005, EE-011, MATH-HW, ACC-004, EE-009-rc)
       escaped = escaped.replace(/(^|[\s🔴🔵🟢🟡🟣⚪🟠])([A-Z]{2,5}-[A-Z0-9]+(?:-rc|-preview)?)(?=[\s【]|$)/g, (match, p1, p2) => {
         const isCand = p2.includes('-rc') || p2.includes('-preview');
